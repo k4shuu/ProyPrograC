@@ -13,5 +13,20 @@ public class Main {
             // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
             System.out.println("i = " + i);
         }
+        
+        Tripulante capitan1=new Capitan("Juan",7);
+        Tripulante vulcano1=new Vulcano(capitan1);
+        Tripulante consejero2=new Consejero("Lucia",20);
+        Tripulante marciano2=new Marciano(consejero2);
+        Tripulante alferez3= new Alferez("Paula",1);
+        Tripulante terricola3= new Terricola(alferez3);
+        Tripulante teniente4=new Teniente("Pablo",3);
+        Tripulante vulcano4=new Vulcano(teniente4);
+        
+        System.out.println(vulcano1.getConceptoSueldo());
+        System.out.println(marciano2.getConceptoSueldo());
+        System.out.println(terricola3.getConceptoSueldo());
+        System.out.println(vulcano4.getConceptoSueldo());
+        
     }
 }
