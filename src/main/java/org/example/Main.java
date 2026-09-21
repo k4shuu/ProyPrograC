@@ -27,6 +27,12 @@ public class Main {
         System.out.println(marciano2.getConceptoSueldo());
         System.out.println(terricola3.getConceptoSueldo());
         System.out.println(vulcano4.getConceptoSueldo());
-        
+
+        Nave nave1=NaveFactory.crearNave("carguero","nave01",100,60,0);
+        Nave nave2=NaveFactory.crearNave("exploradora","nave45",60,80,0);
+        Nave nave3=NaveFactory.crearNave("Combate","nave939",80,100,0);
+        System.out.println(nave1.toString());
+        System.out.println(nave2.toString());
+        System.out.println(nave3.toString());
     }
 }
