@@ -1,4 +1,5 @@
 public class NaveFactory {
+
     public static Nave crearNave(String tipo,String identidad,int combustible,int energia, int desgaste){
         switch (tipo.toUpperCase()){
             case "EXPLORADORA": return new NaveExploradora(identidad,combustible,energia,desgaste);

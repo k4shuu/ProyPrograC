@@ -9,7 +9,9 @@ public abstract class Tripulante {
     public Tripulante(){//constructor para el decorator
         
     }
+
     public abstract double getSueldo();
+
     public abstract String getConceptoSueldo();
     
 }

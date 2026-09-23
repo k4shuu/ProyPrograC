@@ -9,6 +9,7 @@ public abstract class Nave {
         this.combustible = combustible;
         this.energia = energia;
         this.desgaste = desgaste;
+
     }
     @Override
     public String toString(){

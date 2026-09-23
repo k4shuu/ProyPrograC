@@ -1,6 +1,4 @@
 public abstract class DecoratorOrigen extends Tripulante{
-    public DecoratorOrigen(){
-        super();
-    }
-    
+
+    public DecoratorOrigen(){ super(); }
 }
