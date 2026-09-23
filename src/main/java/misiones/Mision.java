@@ -3,23 +3,32 @@ import naves.Nave;
 import bitacora.Bitacora;
 
 public abstract class Mision {
-    private final String cod;
-    private final Nave nave;
-    private final Bitacora bitacora;
+    protected final String cod;
+    protected final Nave nave;
+    protected final Bitacora bitacora;
 
-    private int combConsumido;
-    private int energConsumida;
-    private int desgaste;
+    protected int combConsumido;
+    protected int energConsumida;
+    protected int desgaste;
 
-    private InformeMision informe;
-    private Estado estado;
-    private Resultado result = null;
+    protected InformeMision informe;
+    protected Estado estado;
+    protected Resultado result = null;
 
-    public Mision(String cod, Nave nav,Bitacora bit){
+    public Mision(Nave nav,String cod){
         this.cod = cod;
         this.nave = nav;
-        this.bitacora = bit;
+        this.bitacora = nav.getBit();
         this.estado = Estado.CREADA;
+    }
+
+    public static Mision crearMision(String cod,Nave nave){
+        return switch (cod.toUpperCase()) {
+            case "M01" -> new MisionIntercep(nave);
+            case "M02" -> new MisionRecolec(nave);
+            case "M03" -> new MisionRetorno(nave);
+            default -> throw new IllegalArgumentException("Tipo de mision desconocido");
+        };
     }
 
     //Template Method
