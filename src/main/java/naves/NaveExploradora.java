@@ -8,6 +8,6 @@ public class NaveExploradora extends Nave {
 
     @Override
     public String toString(){
-        return "Nave.Nave Exploradora" + super.toString();
+        return "Nave Exploradora" + super.toString();
     }
 }

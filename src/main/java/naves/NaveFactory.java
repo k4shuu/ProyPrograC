@@ -7,7 +7,7 @@ public class NaveFactory {
             case "EXPLORADORA": return new NaveExploradora(identidad,combustible,energia,desgaste);
             case "CARGUERO": return new NaveCarguero(identidad,combustible,energia,desgaste);
             case "COMBATE": return new NaveCombate(identidad,combustible,energia,desgaste);
-            default: throw  new IllegalArgumentException("Nave.Nave desconocida: "+tipo);
+            default: throw  new IllegalArgumentException("Nave desconocida: "+tipo);
         }
     }
 }

@@ -8,6 +8,6 @@ public class NaveCombate extends Nave{
 
     @Override
     public String toString(){
-        return "Nave.Nave Combate" + super.toString();
+        return "Nave Combate" + super.toString();
     }
 }
