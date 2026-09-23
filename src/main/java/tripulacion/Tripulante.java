@@ -1,3 +1,5 @@
+package tripulacion;
+
 public abstract class Tripulante {
     protected String identidad;
     protected int antiguedad;
@@ -9,7 +11,9 @@ public abstract class Tripulante {
     public Tripulante(){//constructor para el decorator
         
     }
+
     public abstract double getSueldo();
+
     public abstract String getConceptoSueldo();
     
 }

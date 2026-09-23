@@ -1,3 +1,8 @@
+import naves.Nave;
+import tripulacion.*;
+import naves.*;
+import warp.*;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -26,9 +31,9 @@ public class Main {
         System.out.println(terricola3.getConceptoSueldo());
         System.out.println(vulcano4.getConceptoSueldo());
 
-        Nave nave1=NaveFactory.crearNave("carguero","nave01",100,60,0);
-        Nave nave2=NaveFactory.crearNave("exploradora","nave45",60,80,0);
-        Nave nave3=NaveFactory.crearNave("Combate","nave939",80,100,0);
+        Nave nave1= NaveFactory.crearNave("carguero","nave01",100,60,0);
+        Nave nave2= NaveFactory.crearNave("exploradora","nave45",60,80,0);
+        Nave nave3= NaveFactory.crearNave("Combate","nave939",80,100,0);
         System.out.println(nave1.toString());
         System.out.println(nave2.toString());
         System.out.println(nave3.toString());
