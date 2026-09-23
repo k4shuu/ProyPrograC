@@ -1,5 +1,3 @@
-package org.example;
-
 public class NaveFactory {
     public static Nave crearNave(String tipo,String identidad,int combustible,int energia, int desgaste){
         switch (tipo.toUpperCase()){

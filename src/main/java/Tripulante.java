@@ -1,5 +1,3 @@
-package org.example;
-
 public abstract class Tripulante {
     protected String identidad;
     protected int antiguedad;

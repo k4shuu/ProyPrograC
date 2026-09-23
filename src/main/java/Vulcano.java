@@ -1,5 +1,3 @@
-package org.example;
-
 public class Vulcano extends DecoratorOrigen {
     private Tripulante tripulante;
     public Vulcano(Tripulante tripulante) {

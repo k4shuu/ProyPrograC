@@ -1,5 +1,3 @@
-package org.example;
-
 public class Terricola extends DecoratorOrigen {
     private Tripulante tripulante;
     

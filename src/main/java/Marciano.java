@@ -1,5 +1,3 @@
-package org.example;
-
 public class Marciano extends DecoratorOrigen{
     private Tripulante tripulante;
     public Marciano(Tripulante tripulante) {

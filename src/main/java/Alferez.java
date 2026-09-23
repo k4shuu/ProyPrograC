@@ -1,5 +1,3 @@
-package org.example;
-
 public class Alferez extends Cargo{
     public Alferez(String identidad,int antiguedad) {
         super(identidad,antiguedad);

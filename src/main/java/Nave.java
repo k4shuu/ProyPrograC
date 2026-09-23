@@ -1,5 +1,3 @@
-package org.example;
-
 public abstract class Nave {
     protected String identidad;
     protected int combustible;
