@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Marciano extends DecoratorOrigen{
     private Tripulante tripulante;
 

@@ -1,3 +1,5 @@
+package tripulacion;
+
 public abstract class Tripulante {
     protected String identidad;
     protected int antiguedad;

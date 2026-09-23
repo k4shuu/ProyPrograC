@@ -1,3 +1,5 @@
+package naves;
+
 public class NaveCarguero extends Nave{
 
     public NaveCarguero(String identidad,int combustible, int energia, int desgaste){
@@ -6,6 +8,6 @@ public class NaveCarguero extends Nave{
 
     @Override
     public String toString(){
-       return "Nave Carguero" + super.toString();
+       return "Nave.Nave Carguero" + super.toString();
     }
 }

@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Terricola extends DecoratorOrigen {
     private Tripulante tripulante;
     

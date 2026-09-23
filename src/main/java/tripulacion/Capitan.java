@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Capitan extends Cargo {
 
     public Capitan(String identidad,int antiguedad) {

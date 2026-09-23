@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Alferez extends Cargo{
 
     public Alferez(String identidad,int antiguedad) {

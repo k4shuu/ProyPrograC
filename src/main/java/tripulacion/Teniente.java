@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Teniente extends Cargo {
     public Teniente(String identidad,int antiguedad) {
         super(identidad,antiguedad);

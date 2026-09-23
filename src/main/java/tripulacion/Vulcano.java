@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Vulcano extends DecoratorOrigen {
     private Tripulante tripulante;
 

@@ -1,3 +1,5 @@
+package tripulacion;
+
 public class Consejero extends Cargo {
 
     public Consejero(String identidad,int antiguedad) {
