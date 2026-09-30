@@ -5,17 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
-    private final List<EntradaBitacora> entradas;
+    private final List<Entrada> entradas;
 
     public Bitacora() {
         this.entradas = new ArrayList<>();
     }
 
     public void registrar(String origen, String mensaje) {
-        this.entradas.add(new EntradaBitacora(origen, mensaje));
+        this.entradas.add(new Entrada(origen, mensaje));
     }
-
-    public List<EntradaBitacora> getEntradas() {
+    public void registrar(Entrada entrada){this.entradas.add(entrada);}
+    public List<Entrada> getEntradas() {
         return Collections.unmodifiableList(entradas); //NO MODIFICAREMOS, SOLO CARGAREMOS
     }
 

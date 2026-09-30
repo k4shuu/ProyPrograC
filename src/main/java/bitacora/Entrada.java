@@ -3,12 +3,12 @@ package bitacora;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class EntradaBitacora { //CADA EVENTO REGISTRABLE
+public class Entrada { //CADA EVENTO REGISTRABLE
     private final LocalDateTime fechaHora;
     private final String mensaje;
     private final String origen; //DE DONDE VIENE EL NUEVO EVENTO REGISTRADO
 
-    public EntradaBitacora(String origen, String mensaje) {
+    public Entrada(String origen, String mensaje) {
         this.fechaHora = LocalDateTime.now(); //EL INSTANTE EN EL QUE SE REGISTRA EL EVENTO
         this.origen = origen;
         this.mensaje = mensaje;

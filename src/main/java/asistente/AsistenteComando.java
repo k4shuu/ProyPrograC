@@ -1,16 +1,30 @@
 package asistente;
 
 import bitacora.Bitacora;
+import misiones.Mision;
 import naves.Nave;
 
 public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Bitacora bitacora;
+    private final Nave nave;
 
-    public AsistenteComando(Bitacora bitacora) {
+    public AsistenteComando(Bitacora bitacora,Nave nave) {
         this.bitacora = bitacora;
+        this.nave=nave;
+    }
+    //BITACORA
+    public void escribirBitacora( String origen,String mensaje){
+        this.bitacora.registrar(origen,mensaje);
     }
 
     //ÓRDENES PARA EL MOTOR WARP
+
+    public void ejecutarMision(Mision mision){
+        this.bitacora.registrar(mision.comenzar(nave));//devuelve informe mision
+
+    }
+
+
     public void solicitarPreparacionSalto(Nave nave) {
         try {
             nave.getMotorWarp().prepararSalto();

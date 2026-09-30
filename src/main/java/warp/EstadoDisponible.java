@@ -21,6 +21,7 @@ public class EstadoDisponible implements EstadoWarp {
         throw new IllegalStateException("ERROR [DISPONIBLE]: El motor no está en enfriamiento.");
     }
 
+
     @Override
     public String getNombreEstado() {
         return "Disponible";

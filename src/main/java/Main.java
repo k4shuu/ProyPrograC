@@ -1,6 +1,6 @@
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
-import bitacora.EntradaBitacora;
+import bitacora.Entrada;
 import naves.Nave;
 import tripulacion.*;
 import naves.*;
@@ -19,19 +19,16 @@ public class Main {
 
         //BITÁCORA Y ASISTENTE PRINCIPAL
         Bitacora bitacora = new Bitacora();
-        AsistenteComando asistente = new AsistenteComando(bitacora);
-        
+
         System.out.println(vulcano1.getConceptoSueldo());
         System.out.println(marciano2.getConceptoSueldo());
         System.out.println(terricola3.getConceptoSueldo());
         System.out.println(vulcano4.getConceptoSueldo());
 
-        Nave nave1= NaveFactory.crearNave("carguero","nave01",100,60,0, bitacora);
-        Nave nave2= NaveFactory.crearNave("exploradora","nave45",60,80,0, bitacora);
-        Nave nave3= NaveFactory.crearNave("Combate","nave939",80,100,0, bitacora);
+        Nave nave1= NaveFactory.crearNave("carguero","nave01",100,60,0);
+        AsistenteComando asistente = new AsistenteComando(bitacora,nave1);
 
         System.out.println(nave1.toString());
-        System.out.println(nave2.toString());
-        System.out.println(nave3.toString());
+
     }
 }

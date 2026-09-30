@@ -5,8 +5,8 @@ import warp.MotorWarp;
 
 public class NaveExploradora extends Nave {
 
-    public NaveExploradora(String identidad, int combustible, int energia, int desgaste, Bitacora bitacora){
-        super(identidad, combustible, energia, desgaste, bitacora);
+    public NaveExploradora(String identidad, int combustible, int energia, int desgaste){
+        super(identidad, combustible, energia, desgaste);
     }
 
     @Override
