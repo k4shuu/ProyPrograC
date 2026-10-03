@@ -18,7 +18,7 @@ public class EstadoDisponible implements EstadoWarp {
 
     @Override
     public void finalizarEnfriamiento(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [DISPONIBLE]: El motor no está en enfriamiento.");
+        //ACCIÓN ACTUAL
     }
 
 

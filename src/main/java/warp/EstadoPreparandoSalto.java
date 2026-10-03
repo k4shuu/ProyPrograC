@@ -3,7 +3,7 @@ package warp;
 public class EstadoPreparandoSalto implements EstadoWarp {
     @Override
     public void prepararSalto(MotorWarp motor) {
-        throw new IllegalStateException("Error [PREPARANDO SALTO]: El motor ya se encuentra preparando el salto.");
+        //ACCIÓN ACTUAL
     }
 
     @Override
@@ -12,8 +12,8 @@ public class EstadoPreparandoSalto implements EstadoWarp {
     }
 
     @Override
-    public void enfriar(MotorWarp motor) {  //TRANSICIÓN VÁLIDA
-        motor.setEstado(new EstadoDisponible());
+    public void enfriar(MotorWarp motor) {
+        throw new IllegalStateException("Error [PREPARANDO SALTO]: El motor está preparando el salto.");
     }
 
     @Override
