@@ -12,6 +12,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.bitacora = bitacora;
         this.nave=nave;
     }
+    public Nave getNave(){
+        return nave;
+    }
     //BITACORA
     public void escribirBitacora( String origen,String mensaje){
         this.bitacora.registrar(origen,mensaje);
@@ -19,10 +22,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     //ÓRDENES PARA EL MOTOR WARP
 
-    public void ejecutarMision(Mision mision){
-        this.bitacora.registrar(mision.comenzar(nave));//devuelve informe mision
-
-    }
 
 
     public void solicitarPreparacionSalto(Nave nave) {
@@ -45,7 +44,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     public void solicitarDesactivarWarp(Nave nave) {
         try {
-            nave.getMotorWarp().desactivarWarp();
+            nave.getMotorWarp().enfriar();
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
         } catch (IllegalStateException e) {
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
@@ -60,4 +59,5 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
+
 }

@@ -12,7 +12,7 @@ public class EstadoDisponible implements EstadoWarp {
     }
 
     @Override
-    public void desactivarWarp(MotorWarp motor) {
+    public void enfriar(MotorWarp motor) {
         throw new IllegalStateException("ERROR [DISPONIBLE]: El motor no se encuentra en Warp.");
     }
 
