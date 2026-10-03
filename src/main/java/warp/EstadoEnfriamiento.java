@@ -1,14 +1,16 @@
 package warp;
 
+import excepciones.TransicionMotorInvalidaException;
+
 public class EstadoEnfriamiento implements EstadoWarp {
     @Override
-    public void prepararSalto(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [ENFRIAMIENTO]: El motor está en enfriamiento.");
+    public void prepararSalto(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [ENFRIAMIENTO]: El motor está en enfriamiento, no puede preparar salto.","Enfriamiento","PreparandoSalto");
     }
 
     @Override
-    public void ejecutarSalto(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [ENFRIAMIENTO]: El motor está en enfriamiento.");
+    public void ejecutarSalto(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [ENFRIAMIENTO]: El motor está en enfriamiento, no puede ejecutar un salto.","Enfriamiento","EnWarp");
     }
 
     @Override

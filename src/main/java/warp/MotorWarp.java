@@ -1,6 +1,7 @@
 package warp;
 
 import bitacora.Bitacora;
+import excepciones.TransicionMotorInvalidaException;
 
 public class MotorWarp {
     private EstadoWarp estadoActual;
@@ -17,19 +18,19 @@ public class MotorWarp {
     }
 
     //DELEGAMOS CADA ACCIÓNAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
-    public void prepararSalto() {
+    public void prepararSalto() throws TransicionMotorInvalidaException {
         estadoActual.prepararSalto(this);
     }
 
-    public void ejecutarSalto() {
+    public void ejecutarSalto() throws TransicionMotorInvalidaException {
         estadoActual.ejecutarSalto(this);
     }
 
-    public void enfriar() {
+    public void enfriar() throws TransicionMotorInvalidaException {
         estadoActual.enfriar(this);
     }
 
-    public void finalizarEnfriamiento() {
+    public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
         estadoActual.finalizarEnfriamiento(this);
     }
 

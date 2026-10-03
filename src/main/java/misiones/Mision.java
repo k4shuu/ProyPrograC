@@ -1,5 +1,7 @@
 package misiones;
 import asistente.AsistenteComando;
+import excepciones.ExcesoDesgasteException;
+import excepciones.FaltaCombustibleException;
 import naves.Nave;
 import bitacora.Bitacora;
 
@@ -29,16 +31,16 @@ public abstract class Mision {
     }
 
     //Template Method
-    public final InformeMision comenzar(){
+    public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException {
         preparar();
         ejecutar();
         evaluar();
         return cerrar();
     }
 
-    public abstract void preparar();
+    public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException;
 
-    public abstract void ejecutar();
+    public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException;
 
     public abstract void evaluar();
 

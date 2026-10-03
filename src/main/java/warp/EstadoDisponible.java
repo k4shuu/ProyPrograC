@@ -1,5 +1,7 @@
 package warp;
 
+import excepciones.TransicionMotorInvalidaException;
+
 public class EstadoDisponible implements EstadoWarp {
     @Override
     public void prepararSalto(MotorWarp motor) { //TRANSICIÓN VÁLIDA
@@ -7,13 +9,13 @@ public class EstadoDisponible implements EstadoWarp {
     }
 
     @Override
-    public void ejecutarSalto(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [DISPONIBLE]: Debe preparar el salto primero.");
+    public void ejecutarSalto(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [DISPONIBLE]: Debe preparar el salto antes de ejecutarlo.","Disponible","EnWarp");
     }
 
     @Override
-    public void enfriar(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [DISPONIBLE]: El motor no se encuentra en Warp.");
+    public void enfriar(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [DISPONIBLE]: El motor no se encuentra en Warp.","Disponible","Enfriamiento");
     }
 
     @Override

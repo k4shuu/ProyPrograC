@@ -1,6 +1,7 @@
 package asistente;
 
 import bitacora.Bitacora;
+import excepciones.TransicionMotorInvalidaException;
 import misiones.Mision;
 import naves.Nave;
 
@@ -28,8 +29,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             nave.getMotorWarp().prepararSalto();
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
-        } catch (IllegalStateException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
+        } catch (TransicionMotorInvalidaException e) {
+            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -37,8 +38,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             nave.getMotorWarp().ejecutarSalto();
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
-        } catch (IllegalStateException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
+        } catch (TransicionMotorInvalidaException e) {
+            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -46,8 +47,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             nave.getMotorWarp().enfriar();
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
-        } catch (IllegalStateException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
+        } catch (TransicionMotorInvalidaException e) {
+            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -55,8 +56,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             nave.getMotorWarp().finalizarEnfriamiento();
             bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
-        } catch (IllegalStateException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
+        } catch (TransicionMotorInvalidaException e) {
+            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
