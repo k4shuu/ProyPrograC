@@ -12,7 +12,7 @@ public class EstadoEnWarp implements EstadoWarp {
     }
 
     @Override
-    public void desactivarWarp(MotorWarp motor) { //TRANSICIÓN VÁLIDA
+    public void enfriar(MotorWarp motor) { //TRANSICIÓN VÁLIDA
         motor.setEstado(new EstadoEnfriamiento());
     }
 

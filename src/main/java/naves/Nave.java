@@ -2,6 +2,7 @@ package naves;
 
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import excepciones.FaltaCombustibleException;
 import misiones.Mision;
 import warp.MotorWarp;
 
@@ -11,7 +12,6 @@ public abstract class Nave {
     protected int energia;
     protected int desgaste;
     private final MotorWarp motorWarp;
-    private AsistenteComando asistente;
 
 
 
@@ -28,9 +28,7 @@ public abstract class Nave {
      * post-cond: se ejecuto la mision
      * @param mision
      */
-    public void ejecutarMision(Mision mision){
-        this.asistente.ejecutarMision(mision);
-    }
+
 
 
     /**
@@ -91,7 +89,7 @@ public abstract class Nave {
      * post-cond: el valor del combustible decremento
      * @param comb
      */
-    public void usarCombustible(int comb){
+    public void usarCombustible(int comb)  {
         if(this.combustible-comb>=0)
             this.combustible-=comb;
         else
@@ -116,9 +114,7 @@ public abstract class Nave {
     public int getEnergia() {return energia;}
     public int getDesgaste() {return desgaste;}
     public MotorWarp getMotorWarp() {return motorWarp;}
-    public AsistenteComando getAsistente(){
-        return this.asistente;
-    }
+
 
     @Override
     public String toString(){

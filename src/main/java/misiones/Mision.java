@@ -1,10 +1,11 @@
 package misiones;
+import asistente.AsistenteComando;
 import naves.Nave;
 import bitacora.Bitacora;
 
 public abstract class Mision {
     protected final String cod;
-
+    protected AsistenteComando asistente;
     protected int combConsumido;
     protected int energConsumida;
     protected int desgaste;
@@ -18,26 +19,26 @@ public abstract class Mision {
         this.estado = Estado.CREADA;
     }
 
-    public static Mision crearMision(String cod){
+    public static Mision crearMision(String cod,AsistenteComando asistente){
         return switch (cod.toUpperCase()) {
-            case "M01" -> new MisionIntercep();
-            case "M02" -> new MisionRecolec();
-            case "M03" -> new MisionRetorno();
+            case "M01" -> new MisionIntercep(asistente);
+            case "M02" -> new MisionRecolec(asistente);
+            case "M03" -> new MisionRetorno(asistente);
             default -> throw new IllegalArgumentException("Tipo de mision desconocido");
         };
     }
 
     //Template Method
-    public final InformeMision comenzar(Nave nave){
-        preparar(nave);
-        ejecutar(nave);
+    public final InformeMision comenzar(){
+        preparar();
+        ejecutar();
         evaluar();
         return cerrar();
     }
 
-    public abstract void preparar(Nave nave);
+    public abstract void preparar();
 
-    public abstract void ejecutar(Nave nave);
+    public abstract void ejecutar();
 
     public abstract void evaluar();
 

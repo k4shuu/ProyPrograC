@@ -25,8 +25,8 @@ public class MotorWarp {
         estadoActual.ejecutarSalto(this);
     }
 
-    public void desactivarWarp() {
-        estadoActual.desactivarWarp(this);
+    public void enfriar() {
+        estadoActual.enfriar(this);
     }
 
     public void finalizarEnfriamiento() {
