@@ -3,6 +3,7 @@ package misiones;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
 import excepciones.FaltaCombustibleException;
+import naves.ExcesoEnergiaException;
 import naves.Nave;
 
 public class MisionIntercep extends Mision {
@@ -32,7 +33,7 @@ public class MisionIntercep extends Mision {
     }
 
     @Override
-    public void ejecutar(){
+    public void ejecutar() throws ExcesoEnergiaException{
         this.asistente.getNave().usarCombustible(4);
         this.asistente.getNave().realizarDesgaste(4);
         this.asistente.getNave().cargarEnerg(5);

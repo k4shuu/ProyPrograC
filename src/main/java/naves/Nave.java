@@ -58,11 +58,11 @@ public abstract class Nave {
      * post-cond: el combustible incremento
      * @param comb
      */
-    public void cargarComb(int comb){
+    public void cargarComb(int comb) throws ExcesoCombException{
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
-            throw new IllegalArgumentException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave");
+            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,100);
         }
     }
 
@@ -71,11 +71,11 @@ public abstract class Nave {
      * post-cond: la energia incremento
      * @param energ
      */
-    public void cargarEnerg(int energ){
+    public void cargarEnerg(int energ) throws ExcesoEnergiaException{
         if(this.energia+energ<=100)
             this.energia += energ;
         else
-            throw new IllegalArgumentException("No fue posible completar la carga de energia porque excedia la capacidad de la nave");
+            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",energia,100);
 
     }
 
