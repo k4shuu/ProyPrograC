@@ -12,6 +12,6 @@ public class Marciano extends DecoratorOrigen{
     }
 
     public String getConceptoSueldo(){
-        return this.tripulante.getConceptoSueldo() + "Subsidio Origen: "+18+" Sueldo Total "+this.getSueldo();
+        return this.tripulante.getConceptoSueldo() + "\t Subsidio Marciano: "+18+" Sueldo Total "+this.getSueldo();
     }
 }

@@ -10,7 +10,7 @@ public class EstadoEnWarp implements EstadoWarp {
 
     @Override
     public void ejecutarSalto(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [EN WARP]: El motor ya se encuentra en Warp.");
+        //ACCIÓN ACTUAL
     }
 
     @Override

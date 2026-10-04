@@ -12,6 +12,6 @@ public class Vulcano extends DecoratorOrigen {
     }
 
     public String getConceptoSueldo(){
-        return this.tripulante.getConceptoSueldo() + "Subsidio Origen: "+30+" Sueldo total: "+this.getSueldo();
+        return this.tripulante.getConceptoSueldo() + "\t Subsidio Vulcano: "+30+" Sueldo total: "+this.getSueldo();
     }
 }

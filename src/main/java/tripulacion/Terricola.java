@@ -12,6 +12,6 @@ public class Terricola extends DecoratorOrigen {
     }
 
     public String getConceptoSueldo(){
-        return this.tripulante.getConceptoSueldo() + "Subsidio Origen: "+20+" Sueldo total: "+this.getSueldo();
+        return this.tripulante.getConceptoSueldo() + "\t Subsidio Terrícola: "+20+" Sueldo total: "+this.getSueldo();
     }
 }

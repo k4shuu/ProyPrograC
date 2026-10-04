@@ -11,6 +11,6 @@ public class Alferez extends Cargo{
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por cargo: "+200+" Adicional antiguedad: "+200*0.005*this.antiguedad;
+        return "Sueldo base por Alferez: "+200+"\t Adicional antiguedad: "+200*0.005*this.antiguedad;
     }
 }
