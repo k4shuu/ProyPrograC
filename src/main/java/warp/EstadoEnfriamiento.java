@@ -13,7 +13,7 @@ public class EstadoEnfriamiento implements EstadoWarp {
 
     @Override
     public void enfriar(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [ENFRIAMIENTO]: El motor ya no está en Warp.");
+        //ACCIÓN ACTUAL
     }
 
     @Override

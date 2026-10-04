@@ -11,6 +11,6 @@ public class Capitan extends Cargo {
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por cargo: "+1000+" Adicional antiguedad: "+1000*0.2*this.antiguedad;
+        return "Sueldo base por Capitan: "+1000+"\t Adicional antiguedad: "+1000*0.2*this.antiguedad;
     }
 }

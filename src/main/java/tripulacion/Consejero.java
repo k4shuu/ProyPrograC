@@ -11,6 +11,6 @@ public class Consejero extends Cargo {
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por cargo: "+600+" Adicional antiguedad: "+600*0.05*this.antiguedad;
+        return "Sueldo base por Consejero: "+600+"\t Adicional antiguedad: "+600*0.05*this.antiguedad;
     }
 }

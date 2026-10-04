@@ -10,6 +10,6 @@ public class Teniente extends Cargo {
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por cargo: "+400+" Adicional antiguedad: "+400*0.03*this.antiguedad;
+        return "Sueldo base por Teniente: "+400+"\t Adicional antiguedad: "+400*0.03*this.antiguedad;
     }
 }
