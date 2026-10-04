@@ -18,11 +18,7 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
     public List<Entrada> getEntradas() {
         return Collections.unmodifiableList(entradas); //NO MODIFICAREMOS, SOLO CARGAREMOS
     }
-    public void mostrar(){
-        for(entrada Entrada: entradas){
-            entrada.toString();
-        }
-    }
+
     public void limpiar() { //VACÍA TODA LA COLECCIÓN
         this.entradas.clear();
     }
