@@ -1,7 +1,5 @@
 package warp;
 
-import excepciones.TransicionMotorInvalidaException;
-
 public class EstadoPreparandoSalto implements EstadoWarp {
     @Override
     public void prepararSalto(MotorWarp motor) {
@@ -14,14 +12,13 @@ public class EstadoPreparandoSalto implements EstadoWarp {
     }
 
     @Override
-    public void enfriar(MotorWarp motor) throws TransicionMotorInvalidaException {  //TRANSICIÓN VÁLIDA
-
-        throw new TransicionMotorInvalidaException("Error [PREPARANDO SALTO]: No puede enfriar","PreparandoSalto","Enfriamiento");
+    public void enfriar(MotorWarp motor) {  //TRANSICIÓN VÁLIDA
+        motor.setEstado(new EstadoDisponible());
     }
 
     @Override
-    public void finalizarEnfriamiento(MotorWarp motor) throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("Error [PREPARANDO SALTO]: No puede finalizar enfriamiento","PreparandoSalto","Disponible");
+    public void finalizarEnfriamiento(MotorWarp motor) {
+        throw new IllegalStateException("Error [PREPARANDO SALTO]: El motor no está en enfriamiento.");
     }
 
     @Override
