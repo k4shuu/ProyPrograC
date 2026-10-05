@@ -34,6 +34,10 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.bitacora.registrar(origen,mensaje);
     }
 
+    public Bitacora getBitacora() {
+        return bitacora;
+    }
+
     //ÓRDENES PARA EL MOTOR WARP
     /**
      * pre-cond: nave != null
