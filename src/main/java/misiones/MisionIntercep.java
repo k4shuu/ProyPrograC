@@ -14,7 +14,7 @@ public class MisionIntercep extends Mision {
     }
 
     @Override
-    public void preparar() {
+    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException{
         if(this.asistente.getNave().tieneCombustible(4))
             if(this.asistente.getNave().sePuedeDesgastar(4)){
 
@@ -22,12 +22,12 @@ public class MisionIntercep extends Mision {
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
-                throw new IllegalStateException("ERROR: el desgaste de la mision excede lo permitido para la nave ");
+                throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave ",this.asistente.getNave().getDesgaste(),4);
 
             }
         else {
                 this.asistente.escribirBitacora("M-01","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
-                throw new IllegalStateException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
+                throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",4,this.asistente.getNave().getCombustible());
             }
     }
 
