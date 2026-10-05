@@ -2,7 +2,10 @@ package warp;
 
 import excepciones.TransicionMotorInvalidaException;
 
+
 public class EstadoPreparandoSalto implements EstadoWarp {
+
+
     @Override
     public void prepararSalto(MotorWarp motor) {
         //ACCIÓN ACTUAL

@@ -1,13 +1,14 @@
 package universo;
 
+import asistente.AsistenteComando;
 import naves.Nave;
 
 import java.util.ArrayList;
 
 public class Universo{
-    private ArrayList<Nave> naves;
+    private ArrayList<AsistenteComando> asistentes;
 
     public Universo(){
-        this.naves=new ArrayList<>();
+        this.asistentes=new ArrayList<>();
     }
 }
