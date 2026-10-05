@@ -9,7 +9,6 @@ public abstract class Tripulante {
         this.antiguedad=antiguedad;
     }
     public Tripulante(){//constructor para el decorator
-        
     }
 
     public abstract double getSueldo();

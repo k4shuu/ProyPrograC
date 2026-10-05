@@ -1,9 +1,9 @@
 package naves;
 
-import asistente.AsistenteComando;
-import bitacora.Bitacora;
+import excepciones.ExcesoCombException;
+import excepciones.ExcesoDesgasteException;
+import excepciones.ExcesoEnergiaException;
 import excepciones.FaltaCombustibleException;
-import misiones.Mision;
 import tripulacion.Tripulante;
 import warp.MotorWarp;
 
@@ -61,7 +61,7 @@ public abstract class Nave {
      * post-cond: el combustible incremento
      * @param comb
      */
-    public void cargarComb(int comb) throws ExcesoCombException{
+    public void cargarComb(int comb) throws ExcesoCombException {
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
@@ -74,7 +74,7 @@ public abstract class Nave {
      * post-cond: la energia incremento
      * @param energ
      */
-    public void cargarEnerg(int energ) throws ExcesoEnergiaException{
+    public void cargarEnerg(int energ) throws ExcesoEnergiaException {
         if(this.energia+energ<=100)
             this.energia += energ;
         else
@@ -92,11 +92,11 @@ public abstract class Nave {
      * post-cond: el valor del combustible decremento
      * @param comb
      */
-    public void usarCombustible(int comb)  {
+    public void usarCombustible(int comb) throws FaltaCombustibleException {
         if(this.combustible-comb>=0)
             this.combustible-=comb;
         else
-            throw new IllegalArgumentException("La operacion de uso de combustible no fue posible porque el combustible disponible era menor al esperado");
+            throw new FaltaCombustibleException("La operacion de uso de combustible no fue posible porque el combustible disponible era menor al esperado",comb,this.combustible);
     }
 
     /**
@@ -104,11 +104,11 @@ public abstract class Nave {
      * post-cond: desgaste aumento
      * @param desgaste
      */
-    public void realizarDesgaste(int desgaste){
+    public void realizarDesgaste(int desgaste) throws ExcesoDesgasteException {
         if(this.desgaste+desgaste<=100)
              this.desgaste+=desgaste;
         else
-            throw new IllegalArgumentException("La operacion de desgaste no fue posible porque excedia la capacidad maxima de desgaste de la nave");
+            throw new ExcesoDesgasteException("La operacion de desgaste no fue posible porque excedia la capacidad maxima de desgaste de la nave",this.desgaste,desgaste);
     }
 
     /**

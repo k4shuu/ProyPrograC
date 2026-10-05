@@ -1,9 +1,11 @@
 package warp;
 
+import excepciones.TransicionMotorInvalidaException;
+
 public class EstadoEnWarp implements EstadoWarp {
     @Override
-    public void prepararSalto(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [EN WARP]: No se puede preparar otro salto mientras se está en Warp.");
+    public void prepararSalto(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [EN WARP]: No se puede preparar otro salto mientras se está en Warp.","EnWarp","PreparandoSalto");
     }
 
     @Override
@@ -17,8 +19,8 @@ public class EstadoEnWarp implements EstadoWarp {
     }
 
     @Override
-    public void finalizarEnfriamiento(MotorWarp motor) {
-        throw new IllegalStateException("ERROR [EN WARP]: Aún está en Warp, debe desactivarse primero.");
+    public void finalizarEnfriamiento(MotorWarp motor) throws TransicionMotorInvalidaException {
+        throw new TransicionMotorInvalidaException("ERROR [EN WARP]: Aún está en Warp, no puede finalizar enfriamiento","EnWarp","Disponible");
     }
 
     @Override

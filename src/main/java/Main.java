@@ -6,6 +6,7 @@ import naves.*;
 
 public class Main {
     public static void main(String[] args) {
+
         Tripulante capitanVulcano1 = new Vulcano(new Capitan("Juan",7));
         Tripulante consejeroMarciano2 = new Marciano(new Consejero("Lucia",20));
         Tripulante alferezTerricola3 = new Terricola(new Alferez("Paula",1));

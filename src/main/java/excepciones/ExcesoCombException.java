@@ -1,4 +1,4 @@
-package naves;
+package excepciones;
 
 public class ExcesoCombException extends Exception {
     private int combAct, combMax;
