@@ -33,6 +33,11 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
         return Collections.unmodifiableList(entradas); //NO MODIFICAREMOS, SOLO CARGAREMOS
     }
 
+    public void mostrarBitacora() {
+        for (Entrada entrada : entradas)
+            System.out.println(entrada.toString());
+    }
+
     public void limpiar() { //VACÍA TODA LA COLECCIÓN
         this.entradas.clear();
     }
