@@ -2,8 +2,9 @@ package misiones;
 import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import naves.Nave;
-import bitacora.Bitacora;
+import naves.ExcesoEnergiaException;
+
+
 
 public abstract class Mision {
     protected final String cod;
@@ -40,7 +41,8 @@ public abstract class Mision {
 
     public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException;
 
-    public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException;
+
+    public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException,ExcesoEnergiaException;
 
     public abstract void evaluar();
 

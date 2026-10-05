@@ -4,6 +4,7 @@ import asistente.AsistenteComando;
 import bitacora.Bitacora;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
+import naves.ExcesoEnergiaException;
 import naves.Nave;
 
 public class MisionIntercep extends Mision {
@@ -15,7 +16,7 @@ public class MisionIntercep extends Mision {
     }
 
     @Override
-    public void preparar() throws FaltaCombustibleException, ExcesoDesgasteException {
+    public void preparar() {
         if(this.asistente.getNave().tieneCombustible(4))
             if(this.asistente.getNave().sePuedeDesgastar(4)){
 
@@ -23,17 +24,17 @@ public class MisionIntercep extends Mision {
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
-                throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave ",this.asistente.getNave().getDesgaste(),4);
+                throw new IllegalStateException("ERROR: el desgaste de la mision excede lo permitido para la nave ");
 
             }
         else {
                 this.asistente.escribirBitacora("M-01","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
-                throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",4,this.asistente.getNave().getCombustible());
+                throw new IllegalStateException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
             }
     }
 
     @Override
-    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
+    public void ejecutar() throws ExcesoEnergiaException,FaltaCombustibleException, ExcesoDesgasteException {
         this.asistente.getNave().usarCombustible(4);
         this.asistente.getNave().realizarDesgaste(4);
         this.asistente.getNave().cargarEnerg(5);
@@ -49,7 +50,7 @@ public class MisionIntercep extends Mision {
     @Override
     public InformeMision cerrar() {
         this.asistente.solicitarDesactivarWarp(this.asistente.getNave());
-        InformeMision informe=new InformeMision("Se llego al objetivo simulado y se realizo la asistencia,","M-01");
+        InformeMision informe=new InformeMision("Se llego al objetivo simulado y se realizo la asistencia","M-01");
         return informe;
     }
 }
