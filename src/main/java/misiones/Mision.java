@@ -2,7 +2,7 @@ package misiones;
 import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import naves.ExcesoEnergiaException;
+import excepciones.ExcesoEnergiaException;
 
 
 
@@ -32,7 +32,7 @@ public abstract class Mision {
     }
 
     //Template Method
-    public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException {
+    public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
         preparar();
         ejecutar();
         evaluar();

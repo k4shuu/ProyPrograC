@@ -1,10 +1,9 @@
 package naves;
 
-import asistente.AsistenteComando;
-import bitacora.Bitacora;
+import excepciones.ExcesoCombException;
 import excepciones.ExcesoDesgasteException;
+import excepciones.ExcesoEnergiaException;
 import excepciones.FaltaCombustibleException;
-import misiones.Mision;
 import tripulacion.Tripulante;
 import warp.MotorWarp;
 
@@ -62,7 +61,7 @@ public abstract class Nave {
      * post-cond: el combustible incremento
      * @param comb
      */
-    public void cargarComb(int comb) throws ExcesoCombException{
+    public void cargarComb(int comb) throws ExcesoCombException {
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
@@ -75,7 +74,7 @@ public abstract class Nave {
      * post-cond: la energia incremento
      * @param energ
      */
-    public void cargarEnerg(int energ) throws ExcesoEnergiaException{
+    public void cargarEnerg(int energ) throws ExcesoEnergiaException {
         if(this.energia+energ<=100)
             this.energia += energ;
         else

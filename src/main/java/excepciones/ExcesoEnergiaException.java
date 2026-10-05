@@ -1,4 +1,4 @@
-package naves;
+package excepciones;
 
 public class ExcesoEnergiaException extends Exception {
     private int energiaAct, energiaMax;

@@ -1,10 +1,9 @@
 package misiones;
 
 import asistente.AsistenteComando;
-import bitacora.Bitacora;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import naves.Nave;
+import excepciones.ExcesoEnergiaException;
 
 public class MisionRecolec extends Mision{
 
@@ -31,7 +30,7 @@ public class MisionRecolec extends Mision{
     }
 
     @Override
-    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
+    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
         this.asistente.getNave().usarCombustible(4);
         this.asistente.getNave().realizarDesgaste(4);
         this.asistente.getNave().cargarEnerg(5);
