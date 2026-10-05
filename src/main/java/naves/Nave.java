@@ -24,6 +24,7 @@ public abstract class Nave {
         this.energia = energia;
         this.desgaste = desgaste;
         this.motorWarp = new MotorWarp();
+        this.tripulacion=new ArrayList<>();
     }
 
     /**
