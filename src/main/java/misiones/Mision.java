@@ -1,5 +1,6 @@
 package misiones;
 import asistente.AsistenteComando;
+import naves.ExcesoEnergiaException;
 import naves.Nave;
 import bitacora.Bitacora;
 
@@ -38,7 +39,7 @@ public abstract class Mision {
 
     public abstract void preparar();
 
-    public abstract void ejecutar();
+    public abstract void ejecutar() throws ExcesoEnergiaException;
 
     public abstract void evaluar();
 
