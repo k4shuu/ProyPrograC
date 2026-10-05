@@ -8,7 +8,6 @@ import excepciones.ExcesoEnergiaException;
 public class MisionRecolec extends Mision{
 
     public MisionRecolec(AsistenteComando asistente) {
-
         super("M02");
         this.asistente=asistente;
     }
