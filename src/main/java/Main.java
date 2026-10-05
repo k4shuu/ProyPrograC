@@ -91,7 +91,7 @@ public class Main {
         catch(ExcesoEnergiaException e){
             System.out.println(e.getMensaje());
         }
-
+        bitacora.mostrarBitacora();
 
 
 

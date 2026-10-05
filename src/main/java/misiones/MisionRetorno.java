@@ -46,6 +46,7 @@ public class MisionRetorno extends Mision{
     @Override
     public InformeMision cerrar() {
         InformeMision informe=new InformeMision("Se completo al regreso simulado","M-03");
+        this.asistente.escribirBitacora(informe);
         return informe;
     }
 
