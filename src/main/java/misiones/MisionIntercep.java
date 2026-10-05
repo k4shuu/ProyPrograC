@@ -27,7 +27,7 @@ public class MisionIntercep extends Mision {
             }
         else {
                 this.asistente.escribirBitacora("M-01","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
-                throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",this.asistente.getNave().getCombustible(),4);
+                throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",4,this.asistente.getNave().getCombustible());
             }
     }
 

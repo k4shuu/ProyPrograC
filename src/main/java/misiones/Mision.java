@@ -41,7 +41,6 @@ public abstract class Mision {
 
     public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException;
 
-
     public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException,ExcesoEnergiaException;
 
     public abstract void evaluar();
