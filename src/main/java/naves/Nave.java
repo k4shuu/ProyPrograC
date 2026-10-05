@@ -51,9 +51,6 @@ public abstract class Nave {
         return cond;
     }
 
-
-
-
     public boolean reqMant(){return this.desgaste > 80;}
 
     /**
