@@ -93,11 +93,37 @@ public class Main {
         }
         bitacora.mostrarBitacora();
 
+        // ESCENARIO D - Contrato Invalido
+        Nave naveD1=NaveFactory.crearNave("carguero","naveD1",100,60,0);
+        naveD1.agregarTripulante(consejeroMarciano2);
+        naveD1.agregarTripulante(alferezTerricola3);
+        naveD1.agregarTripulante(tenienteVulcano4);
 
-
-
-
-
-
+        System.out.println(naveD1.toString());
+        try{
+            naveD1.cargarEnerg(50);
+        }
+        catch(ExcesoEnergiaException e){
+            System.out.println(e.getMensaje());
+        }
+        try{
+            naveD1.usarCombustible(120);
+        }
+        catch(FaltaCombustibleException e){
+            System.out.println(e.getMensaje());
+        }
+        try{
+            naveD1.realizarDesgaste(120);
+        }
+        catch(ExcesoDesgasteException e){
+            System.out.println(e.getMensaje());
+        }
+        try{
+            naveD1.usarCombustible(120);
+        }
+        catch(FaltaCombustibleException e){
+            System.out.println(e.getMensaje());
+        }
+        System.out.print(naveD1.toString());
     }
 }
