@@ -1,6 +1,6 @@
 package asistente;
 
-import bitacora.Bitacora;
+import bitacora.*;
 import excepciones.TransicionMotorInvalidaException;
 import misiones.Mision;
 import naves.Nave;
@@ -33,6 +33,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public void escribirBitacora(String origen, String mensaje){
         this.bitacora.registrar(origen,mensaje);
     }
+
+    public void escribirBitacora(Entrada entry){this.bitacora.registrar(entry);}
 
     //ÓRDENES PARA EL MOTOR WARP
     /**

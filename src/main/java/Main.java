@@ -1,5 +1,7 @@
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import excepciones.*;
+import misiones.*;
 import naves.Nave;
 import tripulacion.*;
 import naves.*;
