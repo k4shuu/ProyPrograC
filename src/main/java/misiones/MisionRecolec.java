@@ -43,6 +43,7 @@ public class MisionRecolec extends Mision{
     @Override
     public InformeMision cerrar() {
         InformeMision informe=new InformeMision("Se llego al objetivo simulado y se obtuvo datos o muestra","M-02");
+        this.asistente.escribirBitacora(informe);
         return informe;
     }
 
