@@ -1,16 +1,18 @@
 package tripulacion;
 
 public class Alferez extends Cargo{
+    private static double sueldoBase = 200;
+    private static float multiplicador = 0.005f;
 
-    public Alferez(String identidad,int antiguedad) {
-        super(identidad,antiguedad);
+    public Alferez(String identidad, int antiguedad) {
+        super(identidad, antiguedad);
     }
 
     public double getSueldo(){
-        return 200+200*0.005*this.antiguedad;
+        return sueldoBase*(1 + multiplicador*antiguedad);
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por Alferez: "+200+"\t Adicional antiguedad: "+200*0.005*this.antiguedad;
+        return "Sueldo base por Alferez: " + sueldoBase + "\t Adicional antiguedad: " + sueldoBase*multiplicador*antiguedad;
     }
 }
