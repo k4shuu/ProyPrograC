@@ -3,7 +3,7 @@ import bitacora.Bitacora;
 import excepciones.ExcesoDesgasteException;
 import excepciones.ExcesoEnergiaException;
 import excepciones.FaltaCombustibleException;
-import misiones.Mision;
+import misiones.*;
 import naves.Nave;
 import tripulacion.*;
 import naves.*;
@@ -50,7 +50,7 @@ public class Main {
         nave1.agregarTripulante(alferezTerricola5);
 
         AsistenteComando asistente1=new AsistenteComando(bitacora,nave1);
-        Mision mision1= Mision.crearMision("m01",asistente1);
+        Mision mision1= MisionFactory.crearMision("m01",asistente1);
         try{
             System.out.println("Informe de mision: "+mision1.comenzar().toString());
         }
@@ -64,7 +64,7 @@ public class Main {
             System.out.println(e.getMensaje());
         }
 
-        Mision mision2= Mision.crearMision("m02",asistente1);
+        Mision mision2= MisionFactory.crearMision("m02",asistente1);
         try{
             System.out.println("Informe de mision: "+mision2.comenzar().toString());
         }
@@ -78,7 +78,7 @@ public class Main {
             System.out.println(e.getMensaje());
         }
 
-        Mision mision3= Mision.crearMision("m03",asistente1);
+        Mision mision3 = MisionFactory.crearMision("m03",asistente1);
         try{
             System.out.println("Informe de mision: "+mision3.comenzar().toString());
         }
