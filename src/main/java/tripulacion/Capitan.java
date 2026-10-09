@@ -1,16 +1,18 @@
 package tripulacion;
 
 public class Capitan extends Cargo {
+    private static double sueldoBase = 1000;
+    private static float multiplicador = 0.2f;
 
-    public Capitan(String identidad,int antiguedad) {
-        super(identidad,antiguedad);
+    public Capitan(String identidad, int antiguedad) {
+        super(identidad, antiguedad);
     }
 
     public double getSueldo(){
-        return 1000+1000*0.2*this.antiguedad;
+        return sueldoBase*(1 + multiplicador*antiguedad);
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por Capitan: "+1000+"\t Adicional antiguedad: "+1000*0.2*this.antiguedad;
+        return "Sueldo base por Capitán: " + sueldoBase + "\t Adicional antiguedad: " + sueldoBase*multiplicador*antiguedad;
     }
 }
