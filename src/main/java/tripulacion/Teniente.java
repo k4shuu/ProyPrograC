@@ -1,15 +1,18 @@
 package tripulacion;
 
 public class Teniente extends Cargo {
-    public Teniente(String identidad,int antiguedad) {
-        super(identidad,antiguedad);
+    private static double sueldoBase = 400;
+    private static float multiplicador = 0.03f;
+
+    public Teniente(String identidad, int antiguedad) {
+        super(identidad, antiguedad);
     }
-    
+
     public double getSueldo(){
-        return 400+400*0.03*this.antiguedad;
+        return sueldoBase*(1 + multiplicador*antiguedad);
     }
 
     public String getConceptoSueldo(){
-        return "Sueldo base por Teniente: "+400+"\t Adicional antiguedad: "+400*0.03*this.antiguedad;
+        return "Sueldo base por Teniente: " + sueldoBase + "\t Adicional antiguedad: " + sueldoBase*multiplicador*antiguedad;
     }
 }
