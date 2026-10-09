@@ -3,6 +3,7 @@ package asistente;
 import bitacora.Bitacora;
 import bitacora.Entrada;
 import excepciones.TransicionMotorInvalidaException;
+import misiones.InformeMision;
 import misiones.Mision;
 import naves.Nave;
 
