@@ -10,7 +10,7 @@ public abstract class Mision {
     protected final String cod;
     protected AsistenteComando asistente;
     protected int combConsumido;
-    protected int energConsumida;
+    protected int energCargada;
     protected int desgaste;
 
     protected InformeMision informe;
@@ -23,6 +23,14 @@ public abstract class Mision {
     }
 
     //Template Method
+
+    /**
+     * postcond: la nave gasto recursos o se cancelo la mision
+     * @return Informe de mision correspondiente
+     * @throws FaltaCombustibleException si combAct < combRequerido
+     * @throws ExcesoDesgasteException si desgasteAct + desgasteRequerido > 100
+     * @throws ExcesoEnergiaException si energiaCargadd + energAct > 100
+     */
     public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
         preparar();
         ejecutar();
