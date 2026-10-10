@@ -14,11 +14,13 @@ public class MisionIntercep extends Mision {
     }
 
     @Override
-    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException{
+    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException, ExcesoEnergiaException{
         if(this.asistente.getNave().tieneCombustible(4))
             if(this.asistente.getNave().sePuedeDesgastar(4)){
-
-                this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+                if(this.asistente.getNave().puedeCargarEnergia(5)){
+                    this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+                }else
+                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",asistente.getNave().getEnergia(),5);
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
@@ -48,8 +50,7 @@ public class MisionIntercep extends Mision {
     @Override
     public InformeMision cerrar() {
         this.asistente.solicitarDesactivarWarp(this.asistente.getNave());
-        InformeMision informe = new InformeMision("Se llego al objetivo simulado y se realizo la asistencia","M-01");
-        this.asistente.escribirBitacora(informe);
-        return informe;
+        this.asistente.escribirBitacora("Mision-01", "Misión completada con éxito, mas informacion en el respectivo informe");
+        return new InformeMision("M01",4, 5,4);
     }
 }

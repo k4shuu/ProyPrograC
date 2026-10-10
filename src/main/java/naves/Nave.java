@@ -42,16 +42,14 @@ public abstract class Nave {
      * @return
      */
     public boolean tieneCombustible(int comb){
-        boolean cond;
-        cond = this.combustible >= comb;
-        return cond;
+        return this.combustible >= comb;
     }
     public boolean sePuedeDesgastar(int desgaste){
-        boolean cond;
-        cond = this.desgaste+desgaste<=100;
-        return cond;
+        return this.desgaste+desgaste<=100;
     }
-
+    public boolean puedeCargarEnergia(int energia){
+        return this.energia + energia <= 100;
+    }
     public boolean reqMant(){return this.desgaste > 80;}
 
     /**

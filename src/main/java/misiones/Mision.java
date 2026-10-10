@@ -30,7 +30,7 @@ public abstract class Mision {
         return cerrar();
     }
 
-    public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException;
+    public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException;
 
     public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException,ExcesoEnergiaException;
 

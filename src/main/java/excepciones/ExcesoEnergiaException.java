@@ -13,7 +13,6 @@ public class ExcesoEnergiaException extends Exception {
     public int getEnergiaAct() {
         return energiaAct;
     }
-
     public int getEnergiaCargar() {
         return energiaCargar;
     }
