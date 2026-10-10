@@ -25,6 +25,6 @@ public class EstadoEnfriamiento implements EstadoWarp {
 
     @Override
     public String getNombreEstado() {
-        return "Enfriamiento";
+        return "ENFRIAMIENTO";
     }
 }

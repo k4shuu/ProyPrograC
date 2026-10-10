@@ -26,6 +26,6 @@ public class EstadoDisponible implements EstadoWarp {
 
     @Override
     public String getNombreEstado() {
-        return "Disponible";
+        return "DISPONIBLE";
     }
 }
