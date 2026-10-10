@@ -14,4 +14,7 @@ public class FaltaCombustibleException extends Exception{
     public String getMensaje(){
         return this.mensaje;
     }
+    public int getCombustibleRequerido(){
+        return this.combustibleRequerido;
+    }
 }
