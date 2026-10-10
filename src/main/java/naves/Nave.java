@@ -61,7 +61,7 @@ public abstract class Nave {
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
-            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,100);
+            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,comb);
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class Nave {
         if(this.energia+energ<=100)
             this.energia += energ;
         else
-            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",energia,100);
+            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",energia,energ);
 
     }
 
