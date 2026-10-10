@@ -11,13 +11,14 @@ import naves.*;
 public class Main {
     public static void main(String[] args) {
 
-        Tripulante capitanVulcano1 = new Vulcano(new Capitan("Juan",7));
+        Tripulante capitanVulcano1 = new Vulcano(CargoFactory.crear("Capitan","Julia",5));
         Tripulante consejeroMarciano2 = new Marciano(new Consejero("Lucia",20));
         Tripulante alferezTerricola3 = new Terricola(new Alferez("Paula",1));
         Tripulante tenienteVulcano4 = new Vulcano(new Teniente("Pablo",3));
         Tripulante alferezTerricola5 = new Terricola(new Alferez("Julia",16));
 
         Tripulante nuevoTrip = OrigenFactory.crear(CargoFactory.crear("Capitan", "Pepito", 10), "Vulcano");
+
 
         System.out.println(nuevoTrip.getConceptoSueldo());
 
@@ -99,6 +100,71 @@ public class Main {
         }
         bitacora.mostrarBitacora();
          */
+
+        //ESCENARIO B
+
+
+        Bitacora bitacoraB=new Bitacora();
+
+        //Combustible insuficiente
+        Nave nave4=NaveFactory.crearNave("Combate","nave03",1,1,0);
+
+        nave4.agregarTripulante(capitanVulcano1);
+        nave4.agregarTripulante(consejeroMarciano2);
+        nave4.agregarTripulante(alferezTerricola3);
+        nave4.agregarTripulante(tenienteVulcano4);
+        nave4.agregarTripulante(alferezTerricola5);
+
+        System.out.println("Combustible antes de ejecutar la mision: "+nave4.getCombustible());
+        Mision misionB=MisionFactory.crearMision("M01",new AsistenteComando(bitacoraB,nave4));
+        try {
+            misionB.comenzar();
+        } catch (FaltaCombustibleException e) {
+            System.out.println("Combustible luego de intentar ejecutar la mision: "+nave4.getCombustible());
+            System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
+            System.out.println(e.getMensaje());
+        } catch (ExcesoDesgasteException e) {
+            System.out.println(e.getMensaje());
+        } catch (ExcesoEnergiaException e) {
+            System.out.println(e.getMensaje());
+        }
+
+
+        //Desgaste desmedido, no se podra ejecutar mision
+        nave4.setDesgaste(97);
+        nave4.setCombustible(10);//Ahora hay combustible suficiente
+
+        System.out.println("Desgaste antes de ejecutar la mision: "+nave4.getDesgaste());
+        misionB=MisionFactory.crearMision("M02",new AsistenteComando(bitacoraB,nave4));
+        try {
+            misionB.comenzar();
+        } catch (FaltaCombustibleException e) {
+            System.out.println(e.getMensaje());
+        } catch (ExcesoDesgasteException e) {
+            System.out.println("Desgaste luego de intentar ejecutar la mision: "+nave4.getDesgaste());
+            System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
+            System.out.println(e.getMensaje());
+        } catch (ExcesoEnergiaException e) {
+            System.out.println(e.getMensaje());
+        }
+
+        //Energia desmedida, no se podra ejecutar mision
+        nave4.setEnergia(97);
+        nave4.setDesgaste(10);//Ahora hay menos desgaste
+
+        System.out.println("Energia antes de ejecutar la mision: "+nave4.getEnergia());
+        misionB=MisionFactory.crearMision("M01",new AsistenteComando(bitacoraB,nave4));
+        try {
+            misionB.comenzar();
+        } catch (FaltaCombustibleException e) {
+            System.out.println(e.getMensaje());
+        } catch (ExcesoDesgasteException e) {
+            System.out.println(e.getMensaje());
+        } catch (ExcesoEnergiaException e) {
+            System.out.println("Energia luego de intentar ejecutar la mision: "+nave4.getEnergia());
+            System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
+            System.out.println(e.getMensaje());
+        }
 
         //ESCENARIO C
         /*

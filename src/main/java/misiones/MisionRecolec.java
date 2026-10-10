@@ -7,8 +7,15 @@ import excepciones.ExcesoEnergiaException;
 
 public class MisionRecolec extends Mision{
 
+    /**
+     * pre-cond: asistente!=null
+     * post-cond: se creo una instancia de MisionRecolec con el asistente dado
+     * @param asistente
+     */
     public MisionRecolec(AsistenteComando asistente) {
+
         super("M02");
+        assert asistente==null: "El asistente dado para instanciar MisionRecolec no es valido";
         this.asistente=asistente;
     }
 
@@ -18,8 +25,10 @@ public class MisionRecolec extends Mision{
             if(this.asistente.getNave().sePuedeDesgastar(4)){
                 if(this.asistente.getNave().puedeCargarEnergia(5)){
                     this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
-                }else
-                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",asistente.getNave().getEnergia(),5);
+                }else {
+                    this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
+                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), 5);
+                }
             }
             else{
                 this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave ");

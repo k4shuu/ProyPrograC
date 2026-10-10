@@ -8,9 +8,14 @@ import naves.Nave;
 
 public class MisionRetorno extends Mision{
 
+    /**
+     * pre-cond: asistente!=null
+     * post-cond: se creo una instancia de MisionRecotorno con el asistente dado
+     * @param asistente
+     */
     public MisionRetorno(AsistenteComando asistente) {
-
         super( "M03");
+        assert asistente==null: "El asistente dado para instanciar MisionRecotorno no es valido";
         this.asistente=asistente;
     }
 

@@ -12,12 +12,15 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Nave nave;
 
     /**
-     * pre-cond:
+     * pre-cond:bitacora!=null
+     * post-cond: nave!=null
      * post-cond: Asistente de comando tendrá registrada la nave y la bitacora
      * @param bitacora Bitacora que será registrada en el asistente
      * @param nave Nave que será registrada en el asistente
      */
     public AsistenteComando(Bitacora bitacora, Nave nave) {
+        assert bitacora!=null:"La bitacora debe ser distinta de null";
+        assert nave!=null:"La nave debe ser distinta de null";
         this.bitacora = bitacora;
         this.nave = nave;
     }
@@ -28,6 +31,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     //BITACORA
     /**
+     * pre-cond: origen!=null y origen!=""
+     * pre-cond: mensaje!=null y mensaje!=""
      * post-cond: El tamaño de entradas de la bitácora se incrementará en 1
      * @param origen Área de donde viene el evento
      * @param mensaje Contenido del evento a registrar
@@ -53,9 +58,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public void solicitarPreparacionSalto(Nave nave) {
         try {
             nave.getMotorWarp().prepararSalto();
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -67,9 +72,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public void solicitarEjecucionSalto(Nave nave) {
         try {
             nave.getMotorWarp().ejecutarSalto();
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -81,9 +86,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public void solicitarDesactivarWarp(Nave nave) {
         try {
             nave.getMotorWarp().enfriar();
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
@@ -95,9 +100,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public void solicitarFinalizarEnfriamiento(Nave nave) {
         try {
             nave.getMotorWarp().finalizarEnfriamiento();
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("AsistenteComando", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
         }
     }
 
