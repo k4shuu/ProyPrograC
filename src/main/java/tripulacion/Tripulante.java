@@ -17,8 +17,6 @@ public abstract class Tripulante {
         this.identidad=identidad;
         this.antiguedad=antiguedad;
     }
-    public Tripulante(){//constructor para el decorator
-    }
 
     public String getIdentidad(){
         return this.identidad;

@@ -19,7 +19,7 @@ public class Main {
 
         Tripulante nuevoTrip = OrigenFactory.crear(CargoFactory.crear("Capitan", "Pepito", 10), "Vulcano");
 
-        System.out.println(nuevoTrip.getConceptoSueldo());
+        System.out.println(capitanVulcano1.getConceptoSueldo());
 
         //BITÁCORA Y ASISTENTE PRINCIPAL
         Bitacora bitacora = new Bitacora();

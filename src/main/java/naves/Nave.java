@@ -100,10 +100,9 @@ public abstract class Nave {
         assert energ>0 && energ<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         if(this.energia+energ<=100)
             this.energia += energ;
-        else {
+        else
             throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", energia, energ);
-            assert energiaAnterior + energ == this.energia : "La energia no incremento de acuerdo al valor ingresado";
-        }
+        assert energiaAnterior + energ == this.energia : "La energia no incremento de acuerdo al valor ingresado";
     }
 
     /**
