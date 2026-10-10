@@ -1,12 +1,12 @@
 package excepciones;
 
 public class ExcesoCombException extends Exception {
-    private int combAct, combMax;
+    private int combAct, combCargar;
     private String mensaje;
-    public ExcesoCombException(String mensaje, int combActual, int combMax) {
+    public ExcesoCombException(String mensaje, int combActual, int combCargar) {
         this.mensaje=mensaje;
         this.combAct= combAct;
-        this.combMax= combMax;
+        this.combCargar= combCargar;
 
     }
     public String getMensaje(){return this.mensaje;}
@@ -14,7 +14,7 @@ public class ExcesoCombException extends Exception {
         return combAct;
     }
 
-    public int getCombMax() {
-        return combMax;
+    public int getCombCargar() {
+        return combCargar;
     }
 }
