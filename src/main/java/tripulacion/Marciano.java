@@ -4,7 +4,7 @@ public class Marciano extends DecoratorOrigen{
     private Tripulante tripulante;
 
     public Marciano(Tripulante tripulante) {
-        this.tripulante=tripulante;
+        super(tripulante);
     }
 
     public double getSueldo(){

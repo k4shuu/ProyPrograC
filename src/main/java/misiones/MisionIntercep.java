@@ -19,6 +19,7 @@ public class MisionIntercep extends Mision {
             if(this.asistente.getNave().sePuedeDesgastar(4)){
 
                 this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
@@ -37,7 +38,7 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().realizarDesgaste(4);
         this.asistente.getNave().cargarEnerg(5);
         this.asistente.solicitarEjecucionSalto(this.asistente.getNave());
-
+        //escribir en bitacora los recursos que uso la mision y que se ejecuto aca
     }
     ;
     @Override
@@ -49,7 +50,8 @@ public class MisionIntercep extends Mision {
     public InformeMision cerrar() {
         this.asistente.solicitarDesactivarWarp(this.asistente.getNave());
         InformeMision informe=new InformeMision("Se llego al objetivo simulado y se realizo la asistencia","M-01");
-        this.asistente.escribirBitacora(informe);
+        //this.asistente.escribirBitacora(informe);
+        //informe no seria hijo entrada
         return informe;
     }
 }

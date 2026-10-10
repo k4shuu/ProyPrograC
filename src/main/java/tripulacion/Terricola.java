@@ -2,9 +2,11 @@ package tripulacion;
 
 public class Terricola extends DecoratorOrigen {
     private Tripulante tripulante;
-    
+
+
     public Terricola(Tripulante tripulante){
-        this.tripulante=tripulante;
+
+        super(tripulante);
     }
 
     public double getSueldo(){

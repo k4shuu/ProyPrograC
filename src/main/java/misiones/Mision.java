@@ -22,6 +22,7 @@ public abstract class Mision {
         this.estado = Estado.CREADA;
     }
 
+    //Factory debe estar en otra clase
     public static Mision crearMision(String cod,AsistenteComando asistente){
         return switch (cod.toUpperCase()) {
             case "M01" -> new MisionIntercep(asistente);

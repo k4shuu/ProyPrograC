@@ -4,7 +4,7 @@ public class Vulcano extends DecoratorOrigen {
     private Tripulante tripulante;
 
     public Vulcano(Tripulante tripulante) {
-        this.tripulante=tripulante;
+        super(tripulante);
     }
 
     public double getSueldo(){
