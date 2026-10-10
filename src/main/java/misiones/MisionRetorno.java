@@ -55,7 +55,7 @@ public class MisionRetorno extends Mision{
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.escribirBitacora("Mision-03", "Misión finalizada, mas informacion en el respectivo informe");
+        this.asistente.escribirBitacora("Mision-03", "Misión finalizada, el regreso fue seguro y exitoso");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
         return new InformeMision("M03",combConsumido, energCargada,desgaste,result,lastState);

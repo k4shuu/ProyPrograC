@@ -62,7 +62,7 @@ public class MisionRecolec extends Mision{
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.escribirBitacora("Mision-02", "Misión finalizada, mas informacion en el respectivo informe");
+        this.asistente.escribirBitacora("Mision-02", "Misión finalizada, muestras obtenidas correctamente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
         return new InformeMision("M02",4, 5,4,result,lastState);

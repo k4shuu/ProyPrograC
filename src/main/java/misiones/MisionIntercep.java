@@ -64,7 +64,7 @@ public class MisionIntercep extends Mision {
     @Override
     public InformeMision cerrar() {
         this.asistente.solicitarDesactivarWarp(this.asistente.getNave());
-        this.asistente.escribirBitacora("Mision-01", "Misión finalizada, mas informacion en el respectivo informe");
+        this.asistente.escribirBitacora("Mision-01", "Misión finalizada, se alcanzo el objetivo y se dio asistencia");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
         return new InformeMision("M01",4, 5,4, result, lastState);
