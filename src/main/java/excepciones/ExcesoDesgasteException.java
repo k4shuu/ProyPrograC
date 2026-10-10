@@ -13,5 +13,6 @@ public class ExcesoDesgasteException extends Exception {
     public String getMensaje(){
         return this.mensaje;
     }
-
+    public int getDesgasteExigido() {return desgasteExigido;}
+    public int getDesgasteActual() {return desgasteActual;}
 }

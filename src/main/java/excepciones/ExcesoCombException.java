@@ -7,13 +7,11 @@ public class ExcesoCombException extends Exception {
         this.mensaje=mensaje;
         this.combAct= combAct;
         this.combCargar= combCargar;
-
     }
     public String getMensaje(){return this.mensaje;}
     public int getCombAct() {
         return combAct;
     }
-
     public int getCombCargar() {
         return combCargar;
     }

@@ -20,7 +20,7 @@ public class MisionIntercep extends Mision {
                 if(this.asistente.getNave().puedeCargarEnergia(5)){
                     this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
                 }else
-                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",asistente.getNave().getEnergia(),100);
+                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",asistente.getNave().getEnergia(),5);
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
