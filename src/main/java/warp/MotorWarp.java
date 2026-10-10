@@ -39,6 +39,20 @@ public class MotorWarp {
         return estadoActual;
     }
 
+    public void cambiarEstado(EstadoWarp nuevoEstado){
+        try {
+            switch (nuevoEstado.getNombreEstado()) {
+                case "DISPONIBLE"      -> estadoActual.finalizarEnfriamiento(this);
+                case "ENFRIAMIENTO"    -> estadoActual.enfriar(this);
+                case "ENWARP"          -> estadoActual.ejecutarSalto(this);
+                case "PREPARANDOSALTO" -> estadoActual.prepararSalto(this);
+                default -> throw new TransicionMotorInvalidaException("Transición desconocida", estadoActual.getNombreEstado(), nuevoEstado.getNombreEstado());
+            }
+        }catch(TransicionMotorInvalidaException e){
+            System.out.println(e.getMensaje());
+        }
+    }
+
     public void setEstado(EstadoWarp nuevoEstado) {
         if (bitacora != null)
             bitacora.registrar("MotorWarp", "CAMBIO DE ESTADO: " + estadoActual.getNombreEstado() + " -> " + nuevoEstado.getNombreEstado());

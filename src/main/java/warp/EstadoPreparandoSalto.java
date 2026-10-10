@@ -28,6 +28,6 @@ public class EstadoPreparandoSalto implements EstadoWarp {
 
     @Override
     public String getNombreEstado() {
-        return "Preparando salto";
+        return "PREPARANDOSALTO";
     }
 }

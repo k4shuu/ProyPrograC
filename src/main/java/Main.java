@@ -7,10 +7,13 @@ import misiones.*;
 import naves.Nave;
 import tripulacion.*;
 import naves.*;
+import warp.EstadoDisponible;
+import warp.EstadoEnWarp;
+import warp.EstadoEnfriamiento;
+import warp.EstadoPreparandoSalto;
 
 public class Main {
     public static void main(String[] args) {
-
         Tripulante capitanVulcano1 = new Vulcano(CargoFactory.crear("Capitan","Julia",5));
         Tripulante consejeroMarciano2 = new Marciano(new Consejero("Lucia",20));
         Tripulante alferezTerricola3 = new Terricola(new Alferez("Paula",1));
@@ -19,12 +22,11 @@ public class Main {
 
         Tripulante nuevoTrip = OrigenFactory.crear(CargoFactory.crear("Capitan", "Pepito", 10), "Vulcano");
 
-
         System.out.println(nuevoTrip.getConceptoSueldo());
 
         //BITÁCORA Y ASISTENTE PRINCIPAL
         Bitacora bitacora = new Bitacora();
-        /*
+
         System.out.println(capitanVulcano1.getConceptoSueldo());
         System.out.println(consejeroMarciano2.getConceptoSueldo());
         System.out.println(alferezTerricola3.getConceptoSueldo());
@@ -42,7 +44,6 @@ public class Main {
         nave1.agregarTripulante(tenienteVulcano4);
 
         asistente.mostrarLiquidacionHaberes(nave1);
-        */
 
         //ESCENARIO A-Ejecucion correcta
         /*
@@ -102,8 +103,7 @@ public class Main {
          */
 
         //ESCENARIO B
-
-
+        /*
         Bitacora bitacoraB=new Bitacora();
 
         //Combustible insuficiente
@@ -165,37 +165,38 @@ public class Main {
             System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
             System.out.println(e.getMensaje());
         }
+         */
 
         //ESCENARIO C
-        /*
+
         //CAMINO FELIZ
         System.out.println("\nCAMINO FELIZ: ");
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual()); //DISPONIBLE
 
-        asistente1.solicitarPreparacionSalto(nave1); //DISPONIBLE -> PREPARANDO SALTO
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoPreparandoSalto()); //DISPONIBLE -> PREPARANDO SALTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente1.solicitarEjecucionSalto(nave1);   //PREPARANDO SALTO -> EN WARP
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnWarp()); //PREPARANDO SALTO -> EN WARP
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente1.solicitarDesactivarWarp(nave1);   //EN WARP -> ENFRIAMIENTO (DISPONIBLE EN PRIMERA PARTE)
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnfriamiento()); //EN WARP -> ENFRIAMIENTO (DISPONIBLE EN PRIMERA PARTE)
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
         //TRANSICIÓN INVÁLIDA
         System.out.println("\nTRANSICIÓN INVÁLIDA: ");
-        asistente1.solicitarPreparacionSalto(nave1);      //PREPARANDO SALTO
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoPreparandoSalto()); //PREPARANDO SALTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente1.solicitarDesactivarWarp(nave1);        //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> DISPONIBLE
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoDisponible()); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> DISPONIBLE
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente1.solicitarFinalizarEnfriamiento(nave1); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> ENFRIAMIENTO
+        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnfriamiento()); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> ENFRIAMIENTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
         //BITÁCORA COMPLETA
         System.out.println("\nBITÁCORA COMPLETA: ");
-        asistente1.getBitacora().mostrarBitacora();
-        */
+        asistente.getBitacora().mostrarBitacora();
+
 
         // ESCENARIO D - Contrato Invalido
         /*
