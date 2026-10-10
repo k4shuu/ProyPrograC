@@ -4,6 +4,7 @@ import bitacora.Entrada;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class InformeMision {
     private final LocalDateTime fechaHora;
@@ -13,8 +14,19 @@ public class InformeMision {
     private final int energiaCargada;
     private final int desgaste;
 
-
+    /**
+     * precond: cod != null o vacio
+     * precond: comb, energia y desgaste >= 0
+     * @param cod
+     * @param comb
+     * @param energ
+     * @param desgaste
+     */
     public InformeMision(String cod, int comb,int energ, int desgaste) {
+        assert !Objects.equals(cod,""): "Ingrese un codigo de mision valido";
+        assert comb >=0 : "Combustible gastado no        assert comb >=0 : \"Combustible gastado no puede ser negativo\";\n puede ser negativo";
+        assert energ >=0 : "Energia cargada no puede ser negativa";
+        assert desgaste >=0 : "Desgaste generado no puede ser negativo";
         this.fechaHora = LocalDateTime.now();
         this.cod = cod;
         this.combGastado = comb;
