@@ -6,8 +6,8 @@ public class ExcesoCombException extends Exception {
 
     public ExcesoCombException(String mensaje, int combActual, int combCargar) {
         this.mensaje=mensaje;
-        this.combAct= combAct;
-        this.combMax= combMax;
+        this.combAct= combActual;
+        this.combMax= combCargar;
 
     }
     public String getMensaje(){return this.mensaje;}
