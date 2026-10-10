@@ -1,20 +1,19 @@
 package excepciones;
 
 public class ExcesoEnergiaException extends Exception {
-    private int energiaAct, energiaMax;
+    private int energiaAct, energiaCargar;
     private String mensaje;
-    public ExcesoEnergiaException(String mensaje, int energiaAct, int energiaMax) {
+    public ExcesoEnergiaException(String mensaje, int energiaAct, int energiaCargar) {
         this.mensaje=mensaje;
         this.energiaAct= energiaAct;
-        this.energiaMax= energiaMax;
+        this.energiaCargar= energiaCargar;
     }
 
     public String getMensaje(){return this.mensaje;}
     public int getEnergiaAct() {
         return energiaAct;
     }
-
-    public int getEnergiaMax() {
-        return energiaMax;
+    public int getEnergiaCargar() {
+        return energiaCargar;
     }
 }

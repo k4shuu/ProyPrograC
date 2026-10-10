@@ -51,6 +51,7 @@ public abstract class Nave {
     public boolean tieneCombustible(int comb){
         assert comb>0 && comb<=100: "El combustible ingresado debe ser mayor a cero y menor o igual a 100" ;
 
+
         return this.combustible >= comb;
     }
 
@@ -68,7 +69,9 @@ public abstract class Nave {
         cond = this.desgaste+desgaste<=100;
         return cond;
     }
-
+    public boolean puedeCargarEnergia(int energia){
+        return this.energia + energia <= 100;
+    }
     public boolean reqMant(){return this.desgaste > 80;}
 
     /**
@@ -82,7 +85,7 @@ public abstract class Nave {
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
-            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,100);
+            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,comb);
         }
         assert combAnterior+comb==this.combustible:"El combustible no incremento de acuerdo al valor ingresado";
     }
@@ -97,13 +100,13 @@ public abstract class Nave {
         assert energ>0 && energ<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         if(this.energia+energ<=100)
             this.energia += energ;
-        else
-            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave",energia,100);
-        assert energiaAnterior+energ==this.energia:"La energia no incremento de acuerdo al valor ingresado";
+        else {
+            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", energia, energ);
+            assert energiaAnterior + energ == this.energia : "La energia no incremento de acuerdo al valor ingresado";
+        }
     }
 
     /**
-     * pre-cond: ???
      * post-cond: el valor del desgaste es 0
      */
     public void mantenimiento(){this.desgaste = 0;}

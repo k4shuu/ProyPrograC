@@ -1,6 +1,7 @@
 package tripulacion;
 
 public class Marciano extends DecoratorOrigen{
+    private static double subsidio = 18;
     private Tripulante tripulante;
 
     public Marciano(Tripulante tripulante) {

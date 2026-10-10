@@ -2,8 +2,7 @@ package tripulacion;
 
 public class Terricola extends DecoratorOrigen {
     private Tripulante tripulante;
-
-
+    
     public Terricola(Tripulante tripulante){
 
         super(tripulante);
