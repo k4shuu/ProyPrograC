@@ -12,6 +12,8 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
     }
 
     /**
+     * pre-cond: origen!=null y origen!=""
+     * pre-cond: mensaje!=null y mensaje!=""
      * post-cond: El tamaño de entradas se incrementará en 1
      *
      * @param origen  Área de donde viene el evento
@@ -22,7 +24,7 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
     }
 
     /**
-     * pre-cond: entrada
+     * pre-cond: entrada!=null
      * post-cond: El tamaño de entradas se incrementará en 1
      *
      * @param entrada Evento a registrar
@@ -40,6 +42,9 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
             System.out.println(entrada.toString());
     }
 
+    public Entrada getUltimaEntrada(){
+        return this.entradas.getLast();
+    }
     public void limpiar() { //VACÍA TODA LA COLECCIÓN
         this.entradas.clear();
     }

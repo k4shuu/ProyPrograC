@@ -8,6 +8,12 @@ public class Entrada { //CADA EVENTO REGISTRABLE
     private final String mensaje;
     private final String origen; //DE DONDE VIENE EL NUEVO EVENTO REGISTRADO
 
+    /**
+     * pre-cond: origen!=null y origen!=""
+     * pre-cond: mensaje!=null y mensaje!=""
+     * @param origen
+     * @param mensaje
+     */
     public Entrada(String origen, String mensaje) {
         this.fechaHora = LocalDateTime.now(); //EL INSTANTE EN EL QUE SE REGISTRA EL EVENTO
         this.origen = origen;

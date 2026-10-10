@@ -14,8 +14,8 @@ public abstract class Nave {
     protected int combustible;
     protected int energia;
     protected int desgaste;
-    private final MotorWarp motorWarp;
-    private ArrayList<Tripulante> tripulacion = new ArrayList<>();
+    protected final MotorWarp motorWarp;
+    protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
 
 
     /**
@@ -23,7 +23,7 @@ public abstract class Nave {
      * pre-cond: combustible>0 y combustible<=100
      * pre-cond: energia>0 y energia<=100
      * pre-cond: desgaste>0 y desgaste<=100
-     * post-cond: se creo una instancia nave
+     * post-cond: se creo una instancia nave con los parametros dados
      * @param identidad
      * @param combustible
      * @param energia
@@ -44,32 +44,32 @@ public abstract class Nave {
 
     /**
      * precond: comb>0 y comb<=100
-     * postcondicion: el atributo comb no se vio modificado??
      * @param comb
      * @return
      */
     public boolean tieneCombustible(int comb){
         assert comb>0 && comb<=100: "El combustible ingresado debe ser mayor a cero y menor o igual a 100" ;
-
-
         return this.combustible >= comb;
     }
 
     /**
      * precond: desgaste>0 y desgaste<=100
-     * postcondicion: no se modifico ell atributo desgaste??
      * @param desgaste
      * @return
      */
     public boolean sePuedeDesgastar(int desgaste){
-        boolean cond;
-
         assert desgaste>0:"El desgaste ingresado debe ser mayor a cero y menor o igual a 100";
-
-        cond = this.desgaste+desgaste<=100;
-        return cond;
+        return this.desgaste+desgaste<=100;
     }
+
+    /**
+     * pre-cond: energia>0 y energia<=100
+     * @param energia
+     * @return
+     */
+
     public boolean puedeCargarEnergia(int energia){
+        assert energia>0:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         return this.energia + energia <= 100;
     }
     public boolean reqMant(){return this.desgaste > 80;}
@@ -142,7 +142,7 @@ public abstract class Nave {
 
     /**
      * pre-cond: tripulante != null
-     * post-con: El tamaño de tripulacion se incrementará en 1 (nuevo tripulante)
+     * post-cond: El tamaño de tripulacion se incrementará en 1 (nuevo tripulante)
      * @param tripulante el nuevo tripulante
      */
     public void agregarTripulante(Tripulante tripulante){
@@ -161,6 +161,11 @@ public abstract class Nave {
         for (Tripulante tripulante : tripulacion)
             System.out.println(tripulante.getConceptoSueldo());
     }
+    public void setCombustible(int comb){this.combustible=comb;}
+    public void setEnergia(int energia){this.energia=energia;}
+    public void setIdentidad(String identidad){this.identidad=identidad;}
+    public void setDesgaste(int desgaste){this.desgaste=desgaste;}
+    public void setTripulacion(ArrayList<Tripulante> tripulacion){this.tripulacion=tripulacion;}
 
     @Override
     public String toString(){

@@ -10,7 +10,7 @@ public class NaveFactory {
      * pre-cond: combustible>0 y combustible<=100
      * pre-cond: energia>0 y energia<=100
      * pre-cond: desgaste>0 y desgaste<=100
-     * post-cond:??
+     * post-cond: se creo una instancia de nave con los parametros dados
      * @param tipo
      * @param identidad
      * @param combustible

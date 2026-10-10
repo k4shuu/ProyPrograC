@@ -2,10 +2,15 @@ package tripulacion;
 
 public class Vulcano extends DecoratorOrigen {
     private static double subsidio = 30;
-    private Tripulante tripulante;
 
+    /**
+     * pre-cond: tripulante!=null
+     * post-cond: se creo una instancia de Vulcano
+     * @param tripulante
+     */
     public Vulcano(Tripulante tripulante) {
         super(tripulante);
+        assert tripulante!=null: "El tripulante para constructor de Vulcano ingresado debe ser distinto de null";
     }
 
     public double getSueldo(){

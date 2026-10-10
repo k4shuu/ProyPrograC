@@ -2,10 +2,16 @@ package tripulacion;
 
 public class Marciano extends DecoratorOrigen{
     private static double subsidio = 18;
-    private Tripulante tripulante;
 
+    /**
+     * pre-cond: tripulante!=null
+     * post-cond: se creo una instancia de Marciano con el tripulante dado
+     * @param tripulante
+     */
     public Marciano(Tripulante tripulante) {
+
         super(tripulante);
+        assert tripulante!=null:"Tripulante ingresado para el constructor de Marciano debe ser distinto de null";
     }
 
     public double getSueldo(){
