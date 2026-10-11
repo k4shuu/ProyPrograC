@@ -14,9 +14,8 @@ public class MisionIntercep extends Mision {
      * @param asistente
      */
     public MisionIntercep(AsistenteComando asistente) {
-        super("M01");
-        assert asistente==null: "El asistente dado para instanciar MisionIntercep no es valido";
-        this.asistente=asistente;
+        super("M01",asistente);
+        assert asistente!=null: "El asistente dado para instanciar MisionIntercep no es valido";
         this.combConsumido = 4;
         this.energCargada = 5;
         this.desgaste = 4;

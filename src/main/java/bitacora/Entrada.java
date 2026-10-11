@@ -33,6 +33,9 @@ public class Entrada { //CADA EVENTO REGISTRABLE
         return mensaje;
     }
 
+
+
+
     @Override
     public String toString() {
         return "[" + fechaHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "] [" + origen + "]: " + mensaje;

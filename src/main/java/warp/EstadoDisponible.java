@@ -3,6 +3,7 @@ package warp;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoDisponible implements EstadoWarp {
+
     @Override
     public void prepararSalto(MotorWarp motor) { //TRANSICIÓN VÁLIDA
         motor.setEstado(new EstadoPreparandoSalto());

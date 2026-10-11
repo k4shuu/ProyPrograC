@@ -25,7 +25,7 @@ public class InformeMision {
      * @param desgaste
      */
     public InformeMision(String cod, int comb,int energ, int desgaste, Resultado result, Estado estado) {
-        assert !Objects.equals(cod,""): "Ingrese un codigo de mision valido";
+        assert cod!=null && !Objects.equals(cod,""): "Ingrese un codigo de mision valido";
         assert comb >=0 : "Combustible gastado no        assert comb >=0 : \"Combustible gastado no puede ser negativo\";\n puede ser negativo";
         assert energ >=0 : "Energia cargada no puede ser negativa";
         assert desgaste >=0 : "Desgaste generado no puede ser negativo";

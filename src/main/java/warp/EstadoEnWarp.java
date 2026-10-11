@@ -3,6 +3,7 @@ package warp;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoEnWarp implements EstadoWarp {
+
     @Override
     public void prepararSalto(MotorWarp motor) throws TransicionMotorInvalidaException {
         throw new TransicionMotorInvalidaException("ERROR [EN WARP]: No se puede preparar otro salto mientras se está en Warp.","EnWarp","PreparandoSalto");
