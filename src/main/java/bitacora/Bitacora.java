@@ -20,6 +20,8 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
      * @param mensaje Contenido del evento a registrar
      */
     public void registrar(String origen, String mensaje) {
+        assert origen!=null && !origen.isEmpty():"El origen de una entrada debe ser distinto de null y distinto de cadena vacia";
+        assert mensaje!=null && !mensaje.isEmpty():"El mensaje de una entrada debe ser distinto de null y distinto de cadena vacia";
         this.entradas.add(new Entrada(origen, mensaje));
     }
 
@@ -30,7 +32,10 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
      * @param entrada Evento a registrar
      */
     public void registrar(Entrada entrada) {
+        int tamAnterior=this.entradas.size();
+        assert entrada!=null: "La entrada debe ser distinta de null";
         this.entradas.add(entrada);
+        assert (tamAnterior + 1) == this.entradas.size() :"El tamaño de entradas se debe incrementar en 1";
     }
 
     public List<Entrada> getEntradas() {
