@@ -1,20 +1,15 @@
 package excepciones;
 
 public class FaltaCombustibleException extends Exception{
-    private String mensaje;
     private int combustibleRequerido;
     private int combustibleDisponible;
 
     public FaltaCombustibleException(String mensaje,int combustibleRequerido, int combustibleDisponible){
-        this.mensaje=mensaje;
+        super(mensaje);
         this.combustibleDisponible=combustibleDisponible;
         this.combustibleRequerido=combustibleRequerido;
     }
-
-    public String getMensaje(){
-        return this.mensaje;
-    }
-
+    public int getCombustibleDisponible(){return combustibleDisponible;}
     public int getCombustibleRequerido() {
         return combustibleRequerido;
     }
