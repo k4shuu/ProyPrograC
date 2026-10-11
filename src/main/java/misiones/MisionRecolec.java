@@ -27,7 +27,7 @@ public class MisionRecolec extends Mision{
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
                 if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
-                    this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+                    this.asistente.solicitarPreparacionSalto();
                 }else {
                     this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
                     throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);

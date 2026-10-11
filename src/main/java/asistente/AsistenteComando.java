@@ -53,9 +53,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Preparando Salto
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarPreparacionSalto(Nave nave) {
+    public void solicitarPreparacionSalto() {
         try {
             nave.getMotorWarp().prepararSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
@@ -67,9 +66,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarEjecucionSalto(Nave nave) {
+    public void solicitarEjecucionSalto() {
         try {
             nave.getMotorWarp().ejecutarSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
@@ -81,9 +79,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarDesactivarWarp(Nave nave) {
+    public void solicitarDesactivarWarp() {
         try {
             nave.getMotorWarp().enfriar();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
@@ -95,9 +92,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Disponible
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarFinalizarEnfriamiento(Nave nave) {
+    public void solicitarFinalizarEnfriamiento() {
         try {
             nave.getMotorWarp().finalizarEnfriamiento();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
@@ -108,9 +104,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     /**
      * pre-cond: nave != null
-     * @param nave Nave cuya liquidación de haberes de su tripulación ha sido solicitada
      */
-    public void mostrarLiquidacionHaberes(Nave nave){
+    public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }
 }

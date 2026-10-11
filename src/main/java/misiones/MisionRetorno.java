@@ -25,7 +25,7 @@ public class MisionRetorno extends Mision{
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException {
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+                this.asistente.solicitarPreparacionSalto();
             }
             else{
                 this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave");
