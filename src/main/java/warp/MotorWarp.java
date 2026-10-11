@@ -5,22 +5,7 @@ import excepciones.TransicionMotorInvalidaException;
 
 public class MotorWarp {
     private EstadoWarp estadoActual;
-    private Bitacora bitacora;
 
-    /**
-     * pre-cond: bitacora != null
-     * post-con: atributo bitácora contendrá una referencia a la bitácora pasada por parametro
-     * @param bitacora canal bitácora para registrar eventos
-     * @returns MotorWarp
-     */
-    public MotorWarp(Bitacora bitacora) {
-        assert bitacora != null : "La bitácora pasada por parámetro es nula.";
-
-        this.estadoActual = new EstadoDisponible(this);
-        this.bitacora = bitacora;
-
-        assert this.bitacora.equals(bitacora) : "El atributo bitácora no almacenó la referencia a la bítacora parámetro.";
-    }
 
     //SEGÚN REQUERIMIENTO E1-02 EL MOTOR COMIENZA EN ESTADO DISPONIBLE
     public MotorWarp() {
@@ -56,9 +41,6 @@ public class MotorWarp {
      */
     public void setEstado(EstadoWarp nuevoEstado) {
         assert nuevoEstado != null : "Estado pasado por parámetro es nulo.";
-
-        if (bitacora != null)
-            bitacora.registrar("MotorWarp", "CAMBIO DE ESTADO: " + estadoActual.getNombreEstado() + " -> " + nuevoEstado.getNombreEstado());
 
         this.estadoActual = nuevoEstado;
     }
