@@ -27,7 +27,7 @@ public class MisionIntercep extends Mision {
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
                 if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
-                    this.asistente.solicitarPreparacionSalto(this.asistente.getNave());
+                    this.asistente.solicitarPreparacionSalto();
                 }else {
                     this.asistente.escribirBitacora("M-01","ERROR: No fue posible completar la carga de energia porque excedia la capacidad de la nave ");
                     throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
@@ -50,7 +50,7 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
-        this.asistente.solicitarEjecucionSalto(this.asistente.getNave());
+        this.asistente.solicitarEjecucionSalto();
         this.estado = Estado.EJECUTADA;
     }
     ;
@@ -63,7 +63,7 @@ public class MisionIntercep extends Mision {
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.solicitarDesactivarWarp(this.asistente.getNave());
+        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-01", "Misión finalizada, se alcanzo el objetivo y se dio asistencia");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;

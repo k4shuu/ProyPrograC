@@ -7,31 +7,41 @@ public class MotorWarp {
     private EstadoWarp estadoActual;
     private Bitacora bitacora;
 
+    /**
+     * pre-cond: bitacora != null
+     * post-con: atributo bitácora contendrá una referencia a la bitácora pasada por parametro
+     * @param bitacora canal bitácora para registrar eventos
+     * @returns MotorWarp
+     */
     public MotorWarp(Bitacora bitacora) {
-        this.estadoActual = new EstadoDisponible();
+        assert bitacora != null : "La bitácora pasada por parámetro es nula.";
+
+        this.estadoActual = new EstadoDisponible(this);
         this.bitacora = bitacora;
+
+        assert this.bitacora.equals(bitacora) : "El atributo bitácora no almacenó la referencia a la bítacora parámetro.";
     }
 
     //SEGÚN REQUERIMIENTO E1-02 EL MOTOR COMIENZA EN ESTADO DISPONIBLE
     public MotorWarp() {
-        this.estadoActual = new EstadoDisponible();
+        this.estadoActual = new EstadoDisponible(this);
     }
 
     //DELEGAMOS CADA ACCIÓNAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
     public void prepararSalto() throws TransicionMotorInvalidaException {
-        estadoActual.prepararSalto(this);
+        estadoActual.prepararSalto();
     }
 
     public void ejecutarSalto() throws TransicionMotorInvalidaException {
-        estadoActual.ejecutarSalto(this);
+        estadoActual.ejecutarSalto();
     }
 
     public void enfriar() throws TransicionMotorInvalidaException {
-        estadoActual.enfriar(this);
+        estadoActual.enfriar();
     }
 
     public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
-        estadoActual.finalizarEnfriamiento(this);
+        estadoActual.finalizarEnfriamiento();
     }
 
     //GETTERS & SETTERS
@@ -39,21 +49,14 @@ public class MotorWarp {
         return estadoActual;
     }
 
-    public void cambiarEstado(EstadoWarp nuevoEstado){
-        try {
-            switch (nuevoEstado.getNombreEstado()) {
-                case "DISPONIBLE"      -> estadoActual.finalizarEnfriamiento(this);
-                case "ENFRIAMIENTO"    -> estadoActual.enfriar(this);
-                case "ENWARP"          -> estadoActual.ejecutarSalto(this);
-                case "PREPARANDOSALTO" -> estadoActual.prepararSalto(this);
-                default -> throw new TransicionMotorInvalidaException("Transición desconocida", estadoActual.getNombreEstado(), nuevoEstado.getNombreEstado());
-            }
-        }catch(TransicionMotorInvalidaException e){
-            System.out.println(e.getMensaje());
-        }
-    }
-
+    /**
+     * pre-cond: nuevoEstado != null
+     * post-con: se actualizará el estado interno del motor al pasado por parámetro
+     * @param nuevoEstado estado para actualizar
+     */
     public void setEstado(EstadoWarp nuevoEstado) {
+        assert nuevoEstado != null : "Estado pasado por parámetro es nulo.";
+
         if (bitacora != null)
             bitacora.registrar("MotorWarp", "CAMBIO DE ESTADO: " + estadoActual.getNombreEstado() + " -> " + nuevoEstado.getNombreEstado());
 

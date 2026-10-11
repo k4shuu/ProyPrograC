@@ -43,7 +43,7 @@ public class Main {
         nave1.agregarTripulante(alferezTerricola3);
         nave1.agregarTripulante(tenienteVulcano4);
 
-        asistente.mostrarLiquidacionHaberes(nave1);
+        asistente.mostrarLiquidacionHaberes();
 
         //ESCENARIO A-Ejecucion correcta
         /*
@@ -173,24 +173,24 @@ public class Main {
         System.out.println("\nCAMINO FELIZ: ");
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual()); //DISPONIBLE
 
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoPreparandoSalto()); //DISPONIBLE -> PREPARANDO SALTO
+        asistente.solicitarPreparacionSalto(); //DISPONIBLE -> PREPARANDO SALTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnWarp()); //PREPARANDO SALTO -> EN WARP
+        asistente.solicitarEjecucionSalto();  //PREPARANDO SALTO -> EN WARP
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnfriamiento()); //EN WARP -> ENFRIAMIENTO (DISPONIBLE EN PRIMERA PARTE)
+        asistente.solicitarDesactivarWarp();  //EN WARP -> ENFRIAMIENTO (DISPONIBLE EN PRIMERA PARTE)
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
         //TRANSICIÓN INVÁLIDA
         System.out.println("\nTRANSICIÓN INVÁLIDA: ");
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoPreparandoSalto()); //PREPARANDO SALTO
+        asistente.solicitarPreparacionSalto(); //PREPARANDO SALTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoDisponible()); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> DISPONIBLE
+        asistente.solicitarFinalizarEnfriamiento(); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> DISPONIBLE
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
-        asistente.getNave().getMotorWarp().cambiarEstado(new EstadoEnfriamiento()); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> ENFRIAMIENTO
+        asistente.solicitarDesactivarWarp(); //(TRANSICIÓN INVÁLIDA) PREPARANDO SALTO -> ENFRIAMIENTO
         System.out.println(nave1.getMotorWarp().getNombreEstadoActual());
 
         //BITÁCORA COMPLETA
