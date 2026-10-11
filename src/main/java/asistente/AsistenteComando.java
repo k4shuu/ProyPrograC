@@ -13,7 +13,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     /**
      * pre-cond:bitacora!=null
-     * post-cond: nave!=null
+     * pre-cond: nave!=null
      * post-cond: Asistente de comando tendrá registrada la nave y la bitacora
      * @param bitacora Bitacora que será registrada en el asistente
      * @param nave Nave que será registrada en el asistente
@@ -28,6 +28,20 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public Nave getNave(){
         return nave;
     }
+
+    /**
+     * pre-cond: bitacora!=null
+     * post-cond: atributo bitacora tendra por valor ingresado por valor
+     * @param bitacora
+     */
+
+
+    /**
+     * pre-cond: nave!=null
+     * post-cond: atributo nave tendra por valor el ingresado por parametro
+     * @param nave
+     */
+
 
     //BITACORA
     /**
@@ -51,7 +65,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     //ÓRDENES PARA EL MOTOR WARP
     /**
-     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Preparando Salto
      */
     public void solicitarPreparacionSalto() {
@@ -64,7 +77,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
-     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
     public void solicitarEjecucionSalto() {
@@ -77,7 +89,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
-     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
      */
     public void solicitarDesactivarWarp() {
@@ -90,7 +101,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
-     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Disponible
      */
     public void solicitarFinalizarEnfriamiento() {
@@ -102,9 +112,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         }
     }
 
-    /**
-     * pre-cond: nave != null
-     */
     public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }
