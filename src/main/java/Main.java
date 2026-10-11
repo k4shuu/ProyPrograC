@@ -14,13 +14,13 @@ import warp.EstadoPreparandoSalto;
 
 public class Main {
     public static void main(String[] args) {
-        Tripulante capitanVulcano1 = new Vulcano(CargoFactory.crear("Capitan","Julia",5));
-        Tripulante consejeroMarciano2 = new Marciano(new Consejero("Lucia",20));
+        Tripulante capitanVulcano1 = new Vulcano(CargoFactory.crear("Capitan","Julia",5,0));
+        Tripulante consejeroMarciano2 = new Marciano(new Consejero("Lucia",20,3));
         Tripulante alferezTerricola3 = new Terricola(new Alferez("Paula",1));
         Tripulante tenienteVulcano4 = new Vulcano(new Teniente("Pablo",3));
         Tripulante alferezTerricola5 = new Terricola(new Alferez("Julia",16));
 
-        Tripulante nuevoTrip = OrigenFactory.crear(CargoFactory.crear("Capitan", "Pepito", 10), "Vulcano");
+        Tripulante nuevoTrip = OrigenFactory.crear(CargoFactory.crear("Capitan", "Pepito", 10,0), "Vulcano");
 
         System.out.println(nuevoTrip.getConceptoSueldo());
 

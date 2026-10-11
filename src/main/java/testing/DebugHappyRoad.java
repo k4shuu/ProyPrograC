@@ -87,23 +87,23 @@ public class DebugHappyRoad {
 
     private static void agregarTripulacionValida(Nave nave) {
         nave.agregarTripulante(OrigenFactory.crear(
-                CargoFactory.crear("CAPITAN", "Capitán Debug", 10),
+                CargoFactory.crear("CAPITAN", "Capitán Debug", 10,0),
                 "VULCANO"
         ));
         nave.agregarTripulante(OrigenFactory.crear(
-                CargoFactory.crear("CONSEJERO", "Consejero Debug", 5),
+                CargoFactory.crear("CONSEJERO", "Consejero Debug", 5,7),
                 "MARCIANO"
         ));
         nave.agregarTripulante(OrigenFactory.crear(
-                CargoFactory.crear("TENIENTE", "Teniente Debug", 3),
+                CargoFactory.crear("TENIENTE", "Teniente Debug", 3,0),
                 "TERRICOLA"
         ));
         nave.agregarTripulante(OrigenFactory.crear(
-                CargoFactory.crear("ALFEREZ", "Alférez Debug 1", 1),
+                CargoFactory.crear("ALFEREZ", "Alférez Debug 1", 1,0),
                 "TERRICOLA"
         ));
         nave.agregarTripulante(OrigenFactory.crear(
-                CargoFactory.crear("ALFEREZ", "Alférez Debug 2", 2),
+                CargoFactory.crear("ALFEREZ", "Alférez Debug 2", 2,0),
                 "VULCANO"
         ));
     }
