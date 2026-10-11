@@ -65,7 +65,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             nave.getMotorWarp().prepararSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             nave.getMotorWarp().ejecutarSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             nave.getMotorWarp().enfriar();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             nave.getMotorWarp().finalizarEnfriamiento();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
