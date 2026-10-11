@@ -25,21 +25,21 @@ public class DebugWarp {
                 "Preparar salto desde Disponible",
                 nave,
                 "Preparando salto",
-                () -> asistente.solicitarPreparacionSalto(nave)
+                () -> asistente.solicitarPreparacionSalto()
         );
 
         probarTransicion(
                 "Ejecutar salto desde Preparando salto",
                 nave,
                 "En warp",
-                () -> asistente.solicitarEjecucionSalto(nave)
+                () -> asistente.solicitarEjecucionSalto()
         );
 
         probarTransicion(
                 "Desactivar Warp desde En warp",
                 nave,
                 "Disponible",
-                () -> asistente.solicitarDesactivarWarp(nave)
+                () -> asistente.solicitarDesactivarWarp()
         );
 
         System.out.println("BITÁCORA:");
@@ -60,35 +60,35 @@ public class DebugWarp {
                 "Ejecutar salto desde Disponible",
                 nave,
                 "Disponible",
-                () -> asistente.solicitarEjecucionSalto(nave)
+                () -> asistente.solicitarEjecucionSalto()
         );
 
         probarTransicion(
                 "Desactivar Warp desde Disponible",
                 nave,
                 "Disponible",
-                () -> asistente.solicitarDesactivarWarp(nave)
+                () -> asistente.solicitarDesactivarWarp()
         );
 
         probarTransicion(
                 "Preparar salto desde Disponible",
                 nave,
                 "Preparando salto",
-                () -> asistente.solicitarPreparacionSalto(nave)
+                () -> asistente.solicitarPreparacionSalto()
         );
 
         probarTransicion(
                 "Desactivar Warp desde Preparando salto",
                 nave,
                 "Preparando salto",
-                () -> asistente.solicitarDesactivarWarp(nave)
+                () -> asistente.solicitarDesactivarWarp()
         );
 
         probarTransicion(
                 "Finalizar enfriamiento desde Preparando salto",
                 nave,
                 "Preparando salto",
-                () -> asistente.solicitarFinalizarEnfriamiento(nave)
+                () -> asistente.solicitarFinalizarEnfriamiento()
         );
 
         System.out.println("BITÁCORA:");
