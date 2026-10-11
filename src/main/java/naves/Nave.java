@@ -8,6 +8,7 @@ import tripulacion.Tripulante;
 import warp.MotorWarp;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Nave {
     protected String identidad;
@@ -58,7 +59,7 @@ public abstract class Nave {
      * @return
      */
     public boolean sePuedeDesgastar(int desgaste){
-        assert desgaste>0:"El desgaste ingresado debe ser mayor a cero y menor o igual a 100";
+        assert desgaste>0 && desgaste<=100:"El desgaste ingresado debe ser mayor a cero y menor o igual a 100";
         return this.desgaste+desgaste<=100;
     }
 
@@ -69,7 +70,7 @@ public abstract class Nave {
      */
 
     public boolean puedeCargarEnergia(int energia){
-        assert energia>0:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
+        assert energia>0 && energia<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         return this.energia + energia <= 100;
     }
     public boolean reqMant(){return this.desgaste > 80;}
@@ -146,6 +147,7 @@ public abstract class Nave {
      * @param tripulante el nuevo tripulante
      */
     public void agregarTripulante(Tripulante tripulante){
+        assert tripulante!=null:"El tripulante debe ser distinto de null";
         tripulacion.add(tripulante);
     }
 
@@ -155,6 +157,9 @@ public abstract class Nave {
     public int getEnergia() {return energia;}
     public int getDesgaste() {return desgaste;}
     public MotorWarp getMotorWarp() {return motorWarp;}
+    public Iterator<Tripulante> getTripulacion() {
+        return this.tripulacion.iterator();
+    }
     public void mostrarLiquidacionTripulacion() {
         System.out.println("\nLiquidación de haberes de la tripulación:");
 

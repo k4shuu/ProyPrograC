@@ -31,4 +31,5 @@ public class Consejero extends Cargo {
     public String getConceptoSueldo(){
         return "Sueldo base por Consejero: " + sueldoBase + "\t Adicional antiguedad: " + sueldoBase*multiplicador*antiguedad;
     }
+    public int getCantConsejos(){return cantConsejos;}
 }
