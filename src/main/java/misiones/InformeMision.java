@@ -23,6 +23,8 @@ public class InformeMision {
      * @param comb
      * @param energ
      * @param desgaste
+     * @param estado
+     * @param result
      */
     public InformeMision(String cod, int comb,int energ, int desgaste, Resultado result, Estado estado) {
         assert cod!=null && !Objects.equals(cod,""): "Ingrese un codigo de mision valido";
@@ -51,4 +53,10 @@ public class InformeMision {
     public int getCombGastado() {return combGastado;}
     public int getEnergiaCargada() {return energiaCargada;}
     public int getDesgaste() {return desgaste;}
+    public Resultado getResult() {
+        return result;
+    }
+    public Estado getLastState() {
+        return lastState;
+    }
 }
