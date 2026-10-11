@@ -61,13 +61,13 @@ public class Main {
             System.out.println("Informe de mision: "+mision1.comenzar().toString());
         }
         catch(FaltaCombustibleException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         catch(ExcesoDesgasteException e){
-           System.out.println(e.getMensaje());
+           System.out.println(e.getMessage());
         }
         catch(ExcesoEnergiaException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
 
         Mision mision2= MisionFactory.crearMision("m02",asistente1);
@@ -75,13 +75,13 @@ public class Main {
             System.out.println("Informe de mision: "+mision2.comenzar().toString());
         }
         catch(FaltaCombustibleException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         catch(ExcesoDesgasteException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         catch(ExcesoEnergiaException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
 
         Mision mision3 = MisionFactory.crearMision("m03",asistente1);
@@ -89,13 +89,13 @@ public class Main {
             System.out.println("Informe de mision: "+mision3.comenzar().toString());
         }
         catch(FaltaCombustibleException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         catch(ExcesoDesgasteException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         catch(ExcesoEnergiaException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         bitacora.mostrarBitacora();
 
@@ -121,11 +121,11 @@ public class Main {
         } catch (FaltaCombustibleException e) {
             System.out.println("Combustible luego de intentar ejecutar la mision: "+nave4.getCombustible());
             System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoDesgasteException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoEnergiaException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
 
 
@@ -138,13 +138,13 @@ public class Main {
         try {
             misionB.comenzar();
         } catch (FaltaCombustibleException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoDesgasteException e) {
             System.out.println("Desgaste luego de intentar ejecutar la mision: "+nave4.getDesgaste());
             System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoEnergiaException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
 
         //Energia desmedida, no se podra ejecutar mision
@@ -156,13 +156,13 @@ public class Main {
         try {
             misionB.comenzar();
         } catch (FaltaCombustibleException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoDesgasteException e) {
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         } catch (ExcesoEnergiaException e) {
             System.out.println("Energia luego de intentar ejecutar la mision: "+nave4.getEnergia());
             System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
 
         */
@@ -213,25 +213,25 @@ public class Main {
             naveD1.cargarEnerg(50);
         }
         catch(ExcesoEnergiaException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         try{
             naveD1.usarCombustible(120);
         }
         catch(FaltaCombustibleException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         try{
             naveD1.cargarComb(100);
         }
         catch(ExcesoCombException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         try{
             naveD1.realizarDesgaste(120);
         }
         catch(ExcesoDesgasteException e){
-            System.out.println(e.getMensaje());
+            System.out.println(e.getMessage());
         }
         System.out.print(naveD1.toString());
         */
