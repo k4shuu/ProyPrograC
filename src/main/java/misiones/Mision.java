@@ -77,4 +77,19 @@ public abstract class Mision {
     public String getCod(){
         return this.cod;
     }
+    public void setCombConsumido(int combConsumido) {
+        this.combConsumido = combConsumido;
+    }
+    public void setEnergCargada(int energCargada) {
+        this.energCargada = energCargada;
+    }
+    public void setDesgaste(int desgaste) {
+        this.desgaste = desgaste;
+    }
+    public void setResult(Resultado result) {
+        this.result = result;
+    }
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 }

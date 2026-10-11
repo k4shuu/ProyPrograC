@@ -17,8 +17,8 @@ public class MisionRetorno extends Mision{
     public MisionRetorno(AsistenteComando asistente) {
         super( "M03",asistente);
         assert asistente!=null: "El asistente dado para instanciar MisionRecotorno no es valido";
-        this.combConsumido = 4;
-        this.desgaste = 4;
+        setCombConsumido(4);
+        setDesgaste(4);
     }
 
     @Override
