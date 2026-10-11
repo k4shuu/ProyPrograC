@@ -29,20 +29,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         return nave;
     }
 
-    /**
-     * pre-cond: bitacora!=null
-     * post-cond: atributo bitacora tendra por valor ingresado por valor
-     * @param bitacora
-     */
-
-
-    /**
-     * pre-cond: nave!=null
-     * post-cond: atributo nave tendra por valor el ingresado por parametro
-     * @param nave
-     */
-
-
     //BITACORA
     /**
      * pre-cond: origen!=null y origen!=""
@@ -55,7 +41,13 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.bitacora.registrar(origen,mensaje);
     }
 
+    /**
+     * pre-cond: entrada!=null y mensaje!=""
+     * post-cond: escribir en la bitacora la entrada recibida
+     * @param entrada Contenido del evento a registrar
+     */
     public void escribirBitacora(Entrada entrada){
+        assert entrada!=null :"La entrada debe ser distinta de null";
         this.bitacora.registrar(entrada);
     }
 
@@ -65,6 +57,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     //ÓRDENES PARA EL MOTOR WARP
     /**
+
      * post-cond: El motor warp de la nave cambiará de estado a Preparando Salto
      */
     public void solicitarPreparacionSalto() {
@@ -77,6 +70,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
     public void solicitarEjecucionSalto() {
@@ -89,6 +83,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
      */
     public void solicitarDesactivarWarp() {
@@ -101,6 +96,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Disponible
      */
     public void solicitarFinalizarEnfriamiento() {
@@ -112,6 +108,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         }
     }
 
+    /**
+     * pre-cond: nave != null
+     */
     public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }

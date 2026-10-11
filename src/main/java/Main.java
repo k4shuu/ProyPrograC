@@ -1,5 +1,6 @@
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import excepciones.ExcesoCombException;
 import excepciones.ExcesoDesgasteException;
 import excepciones.ExcesoEnergiaException;
 import excepciones.FaltaCombustibleException;
@@ -39,7 +40,9 @@ public class Main {
         nave1.agregarTripulante(tenienteVulcano4);
 
 
-        asistente.mostrarLiquidacionHaberes();
+        //Liquidacion de haberes
+        //asistente.mostrarLiquidacionHaberes();
+
 
         //ESCENARIO A-Ejecucion correcta
         /*
@@ -58,13 +61,13 @@ public class Main {
             System.out.println("Informe de mision: "+mision1.comenzar().toString());
         }
         catch(FaltaCombustibleException e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMensaje());
         }
         catch(ExcesoDesgasteException e){
-           System.out.println(e.getMessage());
+           System.out.println(e.getMensaje());
         }
         catch(ExcesoEnergiaException e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMensaje());
         }
 
         Mision mision2= MisionFactory.crearMision("m02",asistente1);
@@ -120,7 +123,7 @@ public class Main {
             System.out.println("Ultima entrada en Bitacora: "+bitacoraB.getUltimaEntrada().toString());
             System.out.println(e.getMensaje());
         } catch (ExcesoDesgasteException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMensaje());
         } catch (ExcesoEnergiaException e) {
             System.out.println(e.getMensaje());
         }
@@ -219,18 +222,18 @@ public class Main {
             System.out.println(e.getMensaje());
         }
         try{
+            naveD1.cargarComb(100);
+        }
+        catch(ExcesoCombException e){
+            System.out.println(e.getMensaje());
+        }
+        try{
             naveD1.realizarDesgaste(120);
         }
         catch(ExcesoDesgasteException e){
             System.out.println(e.getMensaje());
         }
-        try{
-            naveD1.usarCombustible(120);
-        }
-        catch(FaltaCombustibleException e){
-            System.out.println(e.getMensaje());
-        }
         System.out.print(naveD1.toString());
-         */
+        */
     }
 }

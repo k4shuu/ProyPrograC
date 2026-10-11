@@ -17,9 +17,9 @@ public class MisionRecolec extends Mision{
 
         super("M02",asistente);
         assert asistente!=null: "El asistente dado para instanciar MisionRecolec no es valido";
-        this.combConsumido= 4;
-        this.energCargada = 5;
-        this.desgaste = 4;
+        setCombConsumido(4);
+        setEnergCargada(5);
+        setDesgaste(4);
     }
 
     @Override
