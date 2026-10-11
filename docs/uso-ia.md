@@ -19,3 +19,4 @@ Además,se crearon las clases concretas del decorador, cada una con el método i
 * Resultado aprovechado: Se validó que la arquitectura implementada utilizaba adecuadamente una interfaz común con transiciones delegadas desde el contexto, confirmando que se ajustaba formalmente a la teoría y a las restricciones de la cátedra (evitando condicionales centrales masivos).
 * Revisión o modificación realizada por el equipo: El equipo contrastó la estructura sugerida con los diagramas conceptuales del modelo y aseguró la correcta integración de la gestión de excepciones para transiciones inválidas y el registro de eventos en la Bitacora.
 * Forma en que se verificó el resultado: Se realizaron pruebas de ejecución controladas (escenarios de transiciones válidas e inválidas del Motor Warp) comprobando mediante consola y bitácora que las restricciones de estado operaban de forma robusta e inequívoca.
+

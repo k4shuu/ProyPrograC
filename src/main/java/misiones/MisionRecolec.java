@@ -49,6 +49,7 @@ public class MisionRecolec extends Mision{
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
+        this.asistente.solicitarEjecucionSalto();
         this.estado = Estado.EJECUTADA;
     }
 
@@ -61,10 +62,11 @@ public class MisionRecolec extends Mision{
 
     @Override
     public InformeMision cerrar() {
+        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-02", "Misión finalizada, muestras obtenidas correctamente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
-        return new InformeMision("M02",4, 5,4,result,lastState);
+        return new InformeMision("M02",combConsumido, energCargada,desgaste,result,lastState);
     }
 
 }
