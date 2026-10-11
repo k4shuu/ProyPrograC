@@ -70,6 +70,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
     public void solicitarEjecucionSalto() {
@@ -82,6 +83,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
      */
     public void solicitarDesactivarWarp() {
@@ -94,6 +96,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     /**
+     * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Disponible
      */
     public void solicitarFinalizarEnfriamiento() {
@@ -105,6 +108,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         }
     }
 
+    /**
+     * pre-cond: nave != null
+     */
     public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }

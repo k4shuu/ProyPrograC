@@ -42,7 +42,9 @@ public class MisionRetorno extends Mision{
     public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
+        this.asistente.solicitarEjecucionSalto();
         this.estado = Estado.EJECUTADA;
+
     }
 
     @Override
@@ -54,6 +56,7 @@ public class MisionRetorno extends Mision{
 
     @Override
     public InformeMision cerrar() {
+        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-03", "Misión finalizada, el regreso fue seguro y exitoso");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
