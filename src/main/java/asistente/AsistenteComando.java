@@ -14,8 +14,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Bitacora bitacora;
     private final Nave nave;
     private final Tablero tablero;
-    private Posicion posicion;
-    private RadarLargoAlcance radarLA;
+    private final RadarLargoAlcance radarLA;
 
     /**
      * pre-cond:bitacora!=null
@@ -30,8 +29,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.bitacora = bitacora;
         this.nave = nave;
         this.tablero = t;
-        this.posicion = p;
-        this.radarLA = new RadarLargoAlcance(p);
+        this.radarLA = new RadarLargoAlcance();
     }
 
     public Nave getNave(){
@@ -136,6 +134,6 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     public void moverNave(Posicion p){
-        this.posicion = p;
+        tablero.moverNave(p);
     }
 }

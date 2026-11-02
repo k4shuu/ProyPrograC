@@ -13,7 +13,4 @@ public class FaltaCombustibleException extends Exception{
     public int getCombustibleRequerido() {
         return combustibleRequerido;
     }
-    public int getCombustibleRequerido(){
-        return this.combustibleRequerido;
-    }
 }

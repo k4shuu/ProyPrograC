@@ -1,6 +1,11 @@
 package destinoytablero;
 
 
+import excepciones.CantidadDeElementosSuperaCasillaException;
+import excepciones.DimensionesDeTableroInconsistentesException;
+
+import java.util.*;
+
 /**
  * Administra una grilla rectangular, sus elementos, la nave y el objetivo.
  * La coordenada x identifica la fila y la coordenada y la columna. Ambas

@@ -1,4 +1,4 @@
-package destinoytablero;
+package excepciones;
 
 /** Indica que la cantidad de elementos supera la capacidad permitida del tablero. */
 public class CantidadDeElementosSuperaCasillaException extends Exception {
