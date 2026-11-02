@@ -3,7 +3,9 @@ import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
+import destinoytablero.*;
 
+import java.util.List;
 
 
 public abstract class Mision {
@@ -12,10 +14,12 @@ public abstract class Mision {
     protected int combConsumido;
     protected int energCargada;
     protected int desgaste;
+    protected Destino obj;
+    protected List<Posicion> ruta;
 
     protected InformeMision informe;
     protected Estado estado;
-    protected Resultado result = null;
+    public Resultado result = null;
 
     /**
      * pre-cond: cod!=null y cod!=""
@@ -34,7 +38,6 @@ public abstract class Mision {
     }
 
     //Template Method
-    public final InformeMision comenzar(){
     /**
      * postcond: la nave gasto recursos o se cancelo la mision
      * @return Informe de mision correspondiente
