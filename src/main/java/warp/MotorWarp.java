@@ -5,33 +5,28 @@ import excepciones.TransicionMotorInvalidaException;
 
 public class MotorWarp {
     private EstadoWarp estadoActual;
-    private Bitacora bitacora;
 
-    public MotorWarp(Bitacora bitacora) {
-        this.estadoActual = new EstadoDisponible();
-        this.bitacora = bitacora;
-    }
 
     //SEGÚN REQUERIMIENTO E1-02 EL MOTOR COMIENZA EN ESTADO DISPONIBLE
     public MotorWarp() {
-        this.estadoActual = new EstadoDisponible();
+        this.estadoActual = new EstadoDisponible(this);
     }
 
     //DELEGAMOS CADA ACCIÓNAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
     public void prepararSalto() throws TransicionMotorInvalidaException {
-        estadoActual.prepararSalto(this);
+        estadoActual.prepararSalto();
     }
 
     public void ejecutarSalto() throws TransicionMotorInvalidaException {
-        estadoActual.ejecutarSalto(this);
+        estadoActual.ejecutarSalto();
     }
 
     public void enfriar() throws TransicionMotorInvalidaException {
-        estadoActual.enfriar(this);
+        estadoActual.enfriar();
     }
 
     public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
-        estadoActual.finalizarEnfriamiento(this);
+        estadoActual.finalizarEnfriamiento();
     }
 
     //GETTERS & SETTERS
@@ -39,9 +34,13 @@ public class MotorWarp {
         return estadoActual;
     }
 
+    /**
+     * pre-cond: nuevoEstado != null
+     * post-con: se actualizará el estado interno del motor al pasado por parámetro
+     * @param nuevoEstado estado para actualizar
+     */
     public void setEstado(EstadoWarp nuevoEstado) {
-        if (bitacora != null)
-            bitacora.registrar("MotorWarp", "CAMBIO DE ESTADO: " + estadoActual.getNombreEstado() + " -> " + nuevoEstado.getNombreEstado());
+        assert nuevoEstado != null : "Estado pasado por parámetro es nulo.";
 
         this.estadoActual = nuevoEstado;
     }

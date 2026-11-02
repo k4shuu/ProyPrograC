@@ -13,7 +13,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     /**
      * pre-cond:bitacora!=null
-     * post-cond: nave!=null
+     * pre-cond: nave!=null
      * post-cond: Asistente de comando tendrá registrada la nave y la bitacora
      * @param bitacora Bitacora que será registrada en el asistente
      * @param nave Nave que será registrada en el asistente
@@ -41,7 +41,13 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.bitacora.registrar(origen,mensaje);
     }
 
+    /**
+     * pre-cond: entrada!=null y mensaje!=""
+     * post-cond: escribir en la bitacora la entrada recibida
+     * @param entrada Contenido del evento a registrar
+     */
     public void escribirBitacora(Entrada entrada){
+        assert entrada!=null :"La entrada debe ser distinta de null";
         this.bitacora.registrar(entrada);
     }
 
@@ -51,66 +57,61 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
 
     //ÓRDENES PARA EL MOTOR WARP
     /**
-     * pre-cond: nave != null
+
      * post-cond: El motor warp de la nave cambiará de estado a Preparando Salto
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarPreparacionSalto(Nave nave) {
+    public void solicitarPreparacionSalto() {
         try {
             nave.getMotorWarp().prepararSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarEjecucionSalto(Nave nave) {
+    public void solicitarEjecucionSalto() {
         try {
             nave.getMotorWarp().ejecutarSalto();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarDesactivarWarp(Nave nave) {
+    public void solicitarDesactivarWarp() {
         try {
             nave.getMotorWarp().enfriar();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a Disponible
-     * @param nave Nave que solicita cambio de estado de motor warp
      */
-    public void solicitarFinalizarEnfriamiento(Nave nave) {
+    public void solicitarFinalizarEnfriamiento() {
         try {
             nave.getMotorWarp().finalizarEnfriamiento();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
         } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMensaje());
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
         }
     }
 
     /**
      * pre-cond: nave != null
-     * @param nave Nave cuya liquidación de haberes de su tripulación ha sido solicitada
      */
-    public void mostrarLiquidacionHaberes(Nave nave){
+    public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }
 }

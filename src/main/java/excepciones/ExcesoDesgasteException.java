@@ -3,16 +3,12 @@ package excepciones;
 public class ExcesoDesgasteException extends Exception {
     private int desgasteExigido;
     private int desgasteActual;
-    private String mensaje;
-
     public ExcesoDesgasteException(String mensaje,int desgasteActual,int desgasteExigido){
+        super(mensaje);
         this.desgasteActual=desgasteActual;
         this.desgasteExigido=desgasteExigido;
-        this.mensaje=mensaje;
     }
-    public String getMensaje(){
-        return this.mensaje;
-    }
+
     public int getDesgasteExigido() {return desgasteExigido;}
     public int getDesgasteActual() {return desgasteActual;}
 }

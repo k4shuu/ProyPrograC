@@ -15,7 +15,7 @@ public class MisionFactory {
      @param cod String
      */
     public static Mision crearMision(String cod, AsistenteComando asistente){
-        assert !Objects.equals(cod, "") && cod != null: "Codigo no puede estar vacio";
+        assert  cod != null && !Objects.equals(cod, "") : "Codigo no puede estar vacio";
         assert asistente != null: "Asistente debe ser valido";
         return switch (cod.toUpperCase()) {
             case "M01" -> new MisionIntercep(asistente);
