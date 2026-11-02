@@ -1,3 +1,5 @@
+package destinoytablero;
+
 /** Indica que la cantidad de elementos supera la capacidad permitida del tablero. */
 public class CantidadDeElementosSuperaCasillaException extends Exception {
     /** Identificador de versión para la serialización. */

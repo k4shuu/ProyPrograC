@@ -1,4 +1,6 @@
+package destinoytablero;
 import java.util.ArrayList;
+
 
 /** Base para objetos que notifican cambios a sus observadores. */
 public abstract class Observable {

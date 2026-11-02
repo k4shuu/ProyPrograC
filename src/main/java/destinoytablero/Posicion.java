@@ -1,3 +1,5 @@
+package destinoytablero;
+
 /** Coordenadas inmutables. Los límites pertenecen al tablero. */
 public final class Posicion {
     /** Coordenada de fila inmutable (eje x). */
