@@ -8,11 +8,14 @@ import misiones.Mision;
 import naves.Nave;
 import destinoytablero.*;
 
+import java.util.List;
+
 public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Bitacora bitacora;
     private final Nave nave;
     private final Tablero tablero;
-    private final Posicion posicion;
+    private Posicion posicion;
+    private RadarLargoAlcance radarLA;
 
     /**
      * pre-cond:bitacora!=null
@@ -21,11 +24,14 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
      * @param bitacora Bitacora que será registrada en el asistente
      * @param nave Nave que será registrada en el asistente
      */
-    public AsistenteComando(Bitacora bitacora, Nave nave) {
+    public AsistenteComando(Bitacora bitacora, Nave nave, Tablero t, Posicion p) {
         assert bitacora!=null:"La bitacora debe ser distinta de null";
         assert nave!=null:"La nave debe ser distinta de null";
         this.bitacora = bitacora;
         this.nave = nave;
+        this.tablero = t;
+        this.posicion = p;
+        this.radarLA = new RadarLargoAlcance(p);
     }
 
     public Nave getNave(){
@@ -118,6 +124,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         nave.mostrarLiquidacionTripulacion();
     }
 
+    public List<Posicion> calcRuta(Posicion destino){
+        return this.radarLA.calcRuta(destino);
+    }
     public Tablero getTablero() {
         return tablero;
     }
@@ -126,7 +135,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         return posicion;
     }
 
-    public moverNave(int x, int y){
-        this.posicion = new Posicion(posicion.getX()+x, posicion.getY()+y);
+    public void moverNave(Posicion p){
+        this.posicion = p;
     }
 }
