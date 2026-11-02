@@ -42,6 +42,7 @@ public class MisionIntercep extends Mision {
                 throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getCombustible());
             }
         this.estado = Estado.PREPARADA;
+        this.ruta = this.asistente.calcRuta(this.obj);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class MisionIntercep extends Mision {
     @Override
     public InformeMision cerrar() {
         this.asistente.solicitarDesactivarWarp();
-        this.asistente.escribirBitacora("Mision-01", "Misión finalizada, se alcanzo el objetivo y se dio asistencia");
+        this.asistente.escribirBitacora("Mision-01", "Misión finalizada, para mas informacion consultar el informe correspondiente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
         return new InformeMision("M01",4, 5,4, result, lastState);

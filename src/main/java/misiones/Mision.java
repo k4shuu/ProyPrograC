@@ -14,7 +14,7 @@ public abstract class Mision {
     protected int combConsumido;
     protected int energCargada;
     protected int desgaste;
-    protected Destino obj;
+    protected Posicion obj;
     protected List<Posicion> ruta;
 
     protected InformeMision informe;
@@ -41,14 +41,19 @@ public abstract class Mision {
     /**
      * postcond: la nave gasto recursos o se cancelo la mision
      * @return Informe de mision correspondiente
-     * @throws FaltaCombustibleException si combAct < combRequerido
-     * @throws ExcesoDesgasteException si desgasteAct + desgasteRequerido > 100
-     * @throws ExcesoEnergiaException si energiaCargadd + energAct > 100
      */
-    public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
-        preparar();
-        ejecutar();
-        evaluar();
+    public final InformeMision comenzar() {
+        try{
+            preparar();
+            ejecutar();
+            evaluar();
+        }catch (FaltaCombustibleException combExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada por falta de combustible, cargue antes de reintentarlo");
+        }catch (ExcesoDesgasteException desgExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada debido a alto desgaste de la nave, se recomienda mantenimiento");
+        }catch (ExcesoEnergiaException enerExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada, peligro de sobrecarga de baterias, se solicita consumir energia");
+        }
         return cerrar();
     }
 
