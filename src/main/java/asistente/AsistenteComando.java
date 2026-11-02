@@ -23,13 +23,13 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
      * @param bitacora Bitacora que será registrada en el asistente
      * @param nave Nave que será registrada en el asistente
      */
-    public AsistenteComando(Bitacora bitacora, Nave nave, Tablero t, Posicion p) {
+    public AsistenteComando(Bitacora bitacora, Nave nave, Tablero t) {
         assert bitacora!=null:"La bitacora debe ser distinta de null";
         assert nave!=null:"La nave debe ser distinta de null";
         this.bitacora = bitacora;
         this.nave = nave;
         this.tablero = t;
-        this.radarLA = new RadarLargoAlcance();
+        this.radarLA = new RadarLargoAlcance(t);
     }
 
     public Nave getNave(){
