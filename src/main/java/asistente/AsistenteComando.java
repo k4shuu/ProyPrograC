@@ -6,10 +6,13 @@ import excepciones.TransicionMotorInvalidaException;
 import misiones.InformeMision;
 import misiones.Mision;
 import naves.Nave;
+import destinoytablero.*;
 
 public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Bitacora bitacora;
     private final Nave nave;
+    private final Tablero tablero;
+    private final Posicion posicion;
 
     /**
      * pre-cond:bitacora!=null
@@ -113,5 +116,17 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
      */
     public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public Posicion getPosicion() {
+        return posicion;
+    }
+
+    public moverNave(int x, int y){
+        this.posicion = new Posicion(posicion.getX()+x, posicion.getY()+y);
     }
 }
