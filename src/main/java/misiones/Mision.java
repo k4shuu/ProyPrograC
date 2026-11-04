@@ -3,7 +3,9 @@ import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
+import destinoytablero.*;
 
+import java.util.List;
 
 
 public abstract class Mision {
@@ -12,9 +14,12 @@ public abstract class Mision {
     protected int combConsumido;
     protected int energCargada;
     protected int desgaste;
+    protected Posicion obj;
+    protected List<Posicion> ruta;
 
+    protected InformeMision informe;
     protected Estado estado;
-    protected Resultado result = null;
+    public Resultado result = null;
 
     /**
      * pre-cond: cod!=null y cod!=""
@@ -33,27 +38,47 @@ public abstract class Mision {
     }
 
     //Template Method
-
     /**
      * postcond: la nave gasto recursos o se cancelo la mision
      * @return Informe de mision correspondiente
-     * @throws FaltaCombustibleException si combAct < combRequerido
-     * @throws ExcesoDesgasteException si desgasteAct + desgasteRequerido > 100
-     * @throws ExcesoEnergiaException si energiaCargadd + energAct > 100
      */
-    public final InformeMision comenzar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
-        preparar();
-        ejecutar();
-        evaluar();
+    public final InformeMision comenzar() {
+        try{
+            preparar();
+            ejecutar();
+            evaluar();
+        }catch (FaltaCombustibleException combExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada por falta de combustible, cargue antes de reintentarlo");
+        }catch (ExcesoDesgasteException desgExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada debido a alto desgaste de la nave, se recomienda mantenimiento");
+        }catch (ExcesoEnergiaException enerExc){
+            this.asistente.escribirBitacora("Mision","Mision cancelada, peligro de sobrecarga de baterias, se solicita consumir energia");
+        }
         return cerrar();
     }
 
     public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException;
 
+    /**
+     * precond: mision debe estar preparada
+     * postcond: la nave del asistente gasto recursos
+     * @throws FaltaCombustibleException
+     * @throws ExcesoDesgasteException
+     * @throws ExcesoEnergiaException
+     */
     public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException,ExcesoEnergiaException;
 
+    /**
+     *precond: mision debe haberse ejecutado
+     *postcond: cambio de estado de la mision
+     */
     public abstract void evaluar();
 
+    /**
+     * precond: debe haberse evaluado la mision o haber fallado antes
+     * postcond: cambio de estado de la mision
+     * @return Informe de la mision
+     */
     public abstract InformeMision cerrar();
 
     public Estado getEstado(){
