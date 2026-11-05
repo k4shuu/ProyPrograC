@@ -1,17 +1,8 @@
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
-import excepciones.ExcesoCombException;
-import excepciones.ExcesoDesgasteException;
-import excepciones.ExcesoEnergiaException;
-import excepciones.FaltaCombustibleException;
-import misiones.*;
 import naves.Nave;
 import tripulacion.*;
 import naves.*;
-import warp.EstadoDisponible;
-import warp.EstadoEnWarp;
-import warp.EstadoEnfriamiento;
-import warp.EstadoPreparandoSalto;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,7 +20,7 @@ public class Main {
 
 
         Nave nave1= NaveFactory.crearNave("carguero","nave01",100,60,0);
-        AsistenteComando asistente = new AsistenteComando(bitacora, nave1);
+        //AsistenteComando asistente = new AsistenteComando(bitacora, nave1);
 
         System.out.println(nave1.toString());
 

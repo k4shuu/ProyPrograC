@@ -1,10 +1,8 @@
 package misiones;
 
 import asistente.AsistenteComando;
-import bitacora.Bitacora;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import naves.Nave;
 
 public class MisionRetorno extends Mision{
 

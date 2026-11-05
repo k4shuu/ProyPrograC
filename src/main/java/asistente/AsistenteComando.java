@@ -3,8 +3,6 @@ package asistente;
 import bitacora.Bitacora;
 import bitacora.Entrada;
 import excepciones.TransicionMotorInvalidaException;
-import misiones.InformeMision;
-import misiones.Mision;
 import naves.Nave;
 import destinoytablero.*;
 
@@ -129,11 +127,11 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         return tablero;
     }
 
-    public Posicion getPosicion() {
+    /*public Posicion getPosicion() {
         return posicion;
     }
 
     public void moverNave(Posicion p){
         tablero.moverNave(p);
-    }
+    }*/
 }

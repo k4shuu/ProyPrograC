@@ -13,6 +13,7 @@ public class RadarLargoAlcance{
         this.tablero = t;
     }
 
+
     public List<Posicion> calcRuta(Posicion destino){
         List<Posicion> ruta = new ArrayList<>();
         int x = this.tablero.getPosicionNave().getX();

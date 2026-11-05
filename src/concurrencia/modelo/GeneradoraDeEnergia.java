@@ -1,3 +1,4 @@
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneradoraDeEnergia implements Runnable{

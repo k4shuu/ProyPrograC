@@ -1,9 +1,36 @@
 package naves;
 
-import bitacora.Bitacora;
-import warp.MotorWarp;
-
 public class NaveCarguero extends Nave{
+
+    @Override
+    public Resultado atacar(Nave nave) {
+
+        /*switch(nave.atacadoPorCarguero()){
+            case Resultado.GANA: return Resultado.PIERDE;
+            break;
+            case Resultado.PIERDE: return Resultado.GANA;
+            break;
+            case Resultado.PAZ: return Resultado.PAZ;
+            default:
+        }*/
+        return null;
+    }
+
+    @Override
+    public Resultado atacadoPorExploradora() {
+        return Resultado.PIERDE;
+    }
+
+    @Override
+    public Resultado atacadoPorCarguero() {
+        return null;
+    }
+
+    @Override
+    public Resultado atacadoPorCombate() {
+        return null;
+    }
+
 
     /**
      * pre-cond: identidad!=null e identidad!=""
