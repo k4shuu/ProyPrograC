@@ -1,5 +1,6 @@
 package naves;
 
+import destinoytablero.ElementoDelUniverso;
 import excepciones.ExcesoCombException;
 import excepciones.ExcesoDesgasteException;
 import excepciones.ExcesoEnergiaException;
@@ -10,7 +11,7 @@ import warp.MotorWarp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Nave {
+public abstract class Nave implements ElementoDelUniverso {
     protected String identidad;
     protected int combustible;
     protected int energia;
@@ -18,6 +19,24 @@ public abstract class Nave {
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
 
+    public void colisionConAsteroide(int energia){
+        if((this.energia-energia)<0){
+            this.energia=0;
+            //la mision fallo, lanzo excepcion FalloMision? o que deberia hacer??
+        }
+    }
+    public void ayudaEstacion(int energia){
+        if((this.energia+energia)>100){
+            this.energia=100;
+            //deberia lanzar excepcion??
+        }
+
+    }
+
+    public abstract Resultado atacar(Nave nave);
+    public abstract Resultado atacadoPorExploradora();
+    public abstract Resultado atacadoPorCarguero();
+    public abstract Resultado atacadoPorCombate();
 
     /**
      * pre-cond: identidad!=null e identidad!=""

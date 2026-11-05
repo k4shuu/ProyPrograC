@@ -1,6 +1,8 @@
 package misiones;
 
 import asistente.AsistenteComando;
+import destinoytablero.ElementoDelUniverso;
+import destinoytablero.Posicion;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
@@ -52,6 +54,68 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().cargarEnerg(energCargada);
         this.asistente.solicitarEjecucionSalto();
         this.estado = Estado.EJECUTADA;
+/*
+        boolean naveViva=true;
+        boolean alcanzoDestino=false;
+        // 2. Ciclo de travesía
+        while (naveViva && !alcanzoDestino) {
+            // --- A. Turno de la Nave ---
+
+            // A.1. Inspección de posición actual utilizando el Tablero
+            ElementoDelUniverso elemento = tablero.inspeccionarPosicion();
+            if (elemento != null) {
+                elemento.interactuar(nave);
+            }
+
+            //metodo de asistente que valide esta nave
+            // Validación inmediata de destrucción post-interacción
+            if (nave.getDesgaste() >= 100 || nave.getEnergia() <= 0 || nave.getCombustible() <= 0) {
+                this.resultado=Resultado.FALLIDA;
+                //seter boolean
+                //deberiamos lanzar excepcion??
+                return;
+            }
+            else {
+                // A.2. Escaneo
+                ElementoDelUniverso elemento=this.asistente.radarCortoAlcane.analizaPasoSig(tablero.getPosicionNave(),this.ruta);
+
+
+                //Cuando se solicitaria el saltoWarp?? y como hago que dure varios turnos
+                // A.3. Planificación y movimiento
+                if(elemento==null){
+                    this.asistente.solicitarSalto();
+                    //nave consume 2 de combustible
+                }
+                else {
+                    this.asistente.solicitarSaltoWarp();//no lanza excepcion, salto simple
+
+                }
+
+                asistente.moverNave(proximaPosicion);
+
+                // --- B. Turno del Tablero ---
+                destino.turnoDestino(tablero);
+
+                // Nota técnica: Pausa en cada iteración
+                try{
+                    Thread.sleep(500);
+                }catch (InterruptedException e){
+                }
+            }
+        }
+
+        // 3. Verificación en destino
+        // Solo se llega aquí si el bucle terminó porque alcanzó el destino y sigue viva.
+        if (misionExigeRecursosAdicionales()) {
+            if (!nave.conservaRecursosExigidos()) {
+                fallarMision("Fallo: La nave no conservó los recursos exigidos para la entrega.");
+            } else {
+                completarMisionExitosamente();
+            }
+        } else {
+            completarMisionExitosamente();
+        }
+ */
     }
     ;
     @Override

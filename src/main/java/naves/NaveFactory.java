@@ -1,8 +1,5 @@
 package naves;
 
-import bitacora.Bitacora;
-import warp.MotorWarp;
-
 public class NaveFactory {
 
     /**

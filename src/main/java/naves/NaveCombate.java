@@ -1,9 +1,26 @@
 package naves;
 
-import bitacora.Bitacora;
-import warp.MotorWarp;
-
 public class NaveCombate extends Nave{
+
+    @Override
+    public Resultado atacar(Nave nave) {
+        return null;
+    }
+
+    @Override
+    public Resultado atacadoPorExploradora() {
+        return null;
+    }
+
+    @Override
+    public Resultado atacadoPorCarguero() {
+        return null;
+    }
+
+    @Override
+    public Resultado atacadoPorCombate() {
+        return null;
+    }
 
     /**
      * pre-cond: identidad!=null e identidad!=""
