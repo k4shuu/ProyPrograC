@@ -1,11 +1,58 @@
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import excepciones.CredencialesInvalidasException;
 import naves.Nave;
+import persistencia.UsuarioDAO;
+import persistencia.UsuarioDTO;
 import tripulacion.*;
 import naves.*;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        // -- REGISTRO Y LOGIN - INICIO -- //
+        Scanner scanner = new Scanner(System.in);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDTO usuarioLogueado = null;
+
+        //BUCLE DE LOGIN/REGISTER
+        while (usuarioLogueado == null) {
+            System.out.println("\n1_ Iniciar Sesión");
+            System.out.println("2_ Registrarse");
+            System.out.print("\nElija una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); //LIMPIAR BUFFER
+
+            if (opcion == 1) { //LOGIN
+                try {
+                    System.out.print("Usuario: ");
+                    String user = scanner.nextLine();
+                    System.out.print("Contraseña: ");
+                    String pass = scanner.nextLine();
+
+                    usuarioLogueado = usuarioDAO.validarCredenciales(user, pass);
+                    System.out.println("\n[" + usuarioLogueado.getUsername() + "] inició sesión correctamente!");
+                } catch (CredencialesInvalidasException e) {
+                    System.out.println("\n[Error de autenticación] " + e.getMessage() + " Intente nuevamente.");
+                }
+            } else
+                if (opcion == 2) { //REGISTRO
+                    System.out.print("Usuario: ");
+                    String user = scanner.nextLine();
+                    System.out.print("Contraseña: ");
+                    String pass = scanner.nextLine();
+
+                    UsuarioDTO nuevoUsuario = new UsuarioDTO(user, pass);
+                    boolean registrado = usuarioDAO.registrarUsuario(nuevoUsuario);
+
+                    if (registrado)
+                        System.out.println("\nBienvenido " + user + "! Ya puedes iniciar sesión.");
+                } else
+                    System.out.println("\nOpción inválida.");
+        }
+        // -- REGISTRO Y LOGIN - FIN -- //
 
         Tripulante capitanVulcano1=OrigenFactory.crear(CargoFactory.crear("Capitan","Julia",5,0),"Vulcano");
         Tripulante consejeroMarciano2= OrigenFactory.crear(CargoFactory.crear("Consejero","Lucia",20,3),"Marciano");
@@ -14,10 +61,8 @@ public class Main {
         Tripulante tenienteVulcano4 =OrigenFactory.crear(CargoFactory.crear("Teniente","Pablo",3,0),"Vulcano");
         Tripulante alferezTerricola5 =OrigenFactory.crear(CargoFactory.crear("Alferez","Julia",16,0),"Terricola");
 
-
         //BITÁCORA Y ASISTENTE PRINCIPAL
         Bitacora bitacora = new Bitacora();
-
 
         Nave nave1= NaveFactory.crearNave("carguero","nave01",100,60,0);
         //AsistenteComando asistente = new AsistenteComando(bitacora, nave1);
