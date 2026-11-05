@@ -2,7 +2,7 @@ package naves;
 
 public class NaveExploradora extends Nave {
 
-    @Override
+
     public Resultado atacar(Nave nave) {
         return null;
     }
@@ -44,5 +44,10 @@ public class NaveExploradora extends Nave {
     @Override
     public String toString(){
         return "Nave Exploradora" + super.toString();
+    }
+
+    @Override
+    public void interactuar(Nave nave) {
+
     }
 }

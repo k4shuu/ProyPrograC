@@ -3,32 +3,24 @@ package naves;
 public class NaveCarguero extends Nave{
 
     @Override
-    public Resultado atacar(Nave nave) {
-
-        /*switch(nave.atacadoPorCarguero()){
-            case Resultado.GANA: return Resultado.PIERDE;
-            break;
-            case Resultado.PIERDE: return Resultado.GANA;
-            break;
-            case Resultado.PAZ: return Resultado.PAZ;
-            default:
-        }*/
-        return null;
+    public void interactuar(Nave nave) {
+        if(nave.atacadoPorCarguero()==Resultado.PIERDE)
+            this.destruida=true;
     }
 
     @Override
     public Resultado atacadoPorExploradora() {
-        return Resultado.PIERDE;
+        return Resultado.GANA;
     }
 
     @Override
     public Resultado atacadoPorCarguero() {
-        return null;
+        return Resultado.PAZ;
     }
 
     @Override
     public Resultado atacadoPorCombate() {
-        return null;
+        return Resultado.PIERDE;
     }
 
 

@@ -27,12 +27,7 @@ public class MisionIntercep extends Mision {
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException, ExcesoEnergiaException{
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
                     this.asistente.solicitarPreparacionSalto();
-                }else {
-                    this.asistente.escribirBitacora("M-01","ERROR: No fue posible completar la carga de energia porque excedia la capacidad de la nave ");
-                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
-                }
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
@@ -67,7 +62,7 @@ public class MisionIntercep extends Mision {
                 elemento.interactuar(nave);
             }
 
-            //metodo de asistente que valide esta nave
+            //metodo de asistente que valide esta nave es asistente.estaVivaNave que es boolean
             // Validación inmediata de destrucción post-interacción
             if (nave.getDesgaste() >= 100 || nave.getEnergia() <= 0 || nave.getCombustible() <= 0) {
                 this.resultado=Resultado.FALLIDA;
