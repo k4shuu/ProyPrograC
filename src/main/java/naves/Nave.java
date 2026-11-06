@@ -16,24 +16,32 @@ public abstract class Nave implements ElementoDelUniverso {
     protected int combustible;
     protected int energia;
     protected int desgaste;
+    protected boolean destruida=false;
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
 
+
+    public boolean estaViva(){
+        return !this.destruida && energia>0 && desgaste<100 && combustible>0;
+    }
     public void colisionConAsteroide(int energia){
-        if((this.energia-energia)<0){
+        if ((this.energia-energia)<0)
             this.energia=0;
-            //la mision fallo, lanzo excepcion FalloMision? o que deberia hacer??
-        }
+        else
+            this.energia-=energia;
     }
+
     public void ayudaEstacion(int energia){
-        if((this.energia+energia)>100){
-            this.energia=100;
-            //deberia lanzar excepcion??
-        }
-
+        this.cargarEnerg(energia);
     }
-
-    public abstract Resultado atacar(Nave nave);
+    public void usarEnergia(int energia){
+        if((this.energia-energia)<0) {
+            this.energia = 0;
+            //faltaria lanzar excepcion aca
+        }
+        else
+            this.energia-=energia;
+    }
     public abstract Resultado atacadoPorExploradora();
     public abstract Resultado atacadoPorCarguero();
     public abstract Resultado atacadoPorCombate();
@@ -49,6 +57,7 @@ public abstract class Nave implements ElementoDelUniverso {
      * @param energia
      * @param desgaste
      */
+
     public Nave(String identidad, int combustible, int energia, int desgaste) {
         assert combustible>0 && combustible<=100: "El combustible ingresado debe ser mayor a cero y menor o igual a 100" ;
         assert energia>0 && energia<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
@@ -99,13 +108,13 @@ public abstract class Nave implements ElementoDelUniverso {
      * post-cond: el combustible incremento de acuerdo al valor ingresado
      * @param comb
      */
-    public void cargarComb(int comb) throws ExcesoCombException {
+    public void cargarComb(int comb){
         assert comb>0 && comb<=100: "El combustible cargado debe ser mayor a cero y menor o igual a 100";
         int combAnterior=this.combustible;
         if(this.combustible+comb<=100)
             this.combustible += comb;
         else{
-            throw new ExcesoCombException("El combustible ingresado no se pudo cargar por que excedia la capacidad de la nave",combustible,comb);
+            this.combustible=100;
         }
         assert combAnterior+comb==this.combustible:"El combustible no incremento de acuerdo al valor ingresado";
     }
@@ -115,13 +124,13 @@ public abstract class Nave implements ElementoDelUniverso {
      * post-cond: la energia incremento de acuerdo al valor ingresado
      * @param energ
      */
-    public void cargarEnerg(int energ) throws ExcesoEnergiaException {
+    public void cargarEnerg(int energ){
         int energiaAnterior=this.energia;
         assert energ>0 && energ<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         if(this.energia+energ<=100)
             this.energia += energ;
         else
-            throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", energia, energ);
+            this.energia=100;
         assert energiaAnterior + energ == this.energia : "La energia no incremento de acuerdo al valor ingresado";
     }
 
@@ -135,6 +144,7 @@ public abstract class Nave implements ElementoDelUniverso {
      * post-cond: el valor del combustible decremento de acuerdo al valor ingresado
      * @param comb
      */
+
     public void usarCombustible(int comb) throws FaltaCombustibleException {
         assert comb>0 && comb<=100:"Combustible ingresado debe ser mayor a cero y menor a 100";
         int combAnterior=this.combustible;

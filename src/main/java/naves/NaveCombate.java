@@ -2,24 +2,25 @@ package naves;
 
 public class NaveCombate extends Nave{
 
-    @Override
-    public Resultado atacar(Nave nave) {
-        return null;
+
+    public void interactuar(Nave nave) {
+        if(nave.atacadoPorCombate()==Resultado.PIERDE)
+            this.destruida=true;
     }
 
     @Override
     public Resultado atacadoPorExploradora() {
-        return null;
+        return Resultado.PIERDE;
     }
 
     @Override
     public Resultado atacadoPorCarguero() {
-        return null;
+        return Resultado.GANA;
     }
 
     @Override
     public Resultado atacadoPorCombate() {
-        return null;
+        return Resultado.PAZ;
     }
 
     /**
@@ -45,4 +46,6 @@ public class NaveCombate extends Nave{
     public String toString(){
         return "Nave Combate" + super.toString();
     }
+
+
 }
