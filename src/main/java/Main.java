@@ -14,8 +14,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-      VistaCreacionNaveTripulacion vista=new VistaCreacionNaveTripulacion();
-      vista.setVisible(true);
+        //La unica ventana que instanciariamos aca seria la el login
+        //que despues se termina encadenando con las otras
+        //esta la instancie para ver la vista nomas
+      //VistaCreacionNaveTripulacion vista=new VistaCreacionNaveTripulacion();
+      //vista.setVisible(true);
 
         // -- REGISTRO Y LOGIN - INICIO -- //
         Scanner scanner = new Scanner(System.in);
