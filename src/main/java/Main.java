@@ -1,3 +1,5 @@
+
+import Vista.VistaCreacionNaveTripulacion;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
 import excepciones.CredencialesInvalidasException;
@@ -11,6 +13,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+      VistaCreacionNaveTripulacion vista=new VistaCreacionNaveTripulacion();
+      vista.setVisible(true);
+
         // -- REGISTRO Y LOGIN - INICIO -- //
         Scanner scanner = new Scanner(System.in);
         UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -53,6 +59,11 @@ public class Main {
                     System.out.println("\nOpción inválida.");
         }
         // -- REGISTRO Y LOGIN - FIN -- //
+
+
+
+
+
 
         Tripulante capitanVulcano1=OrigenFactory.crear(CargoFactory.crear("Capitan","Julia",5,0),"Vulcano");
         Tripulante consejeroMarciano2= OrigenFactory.crear(CargoFactory.crear("Consejero","Lucia",20,3),"Marciano");
