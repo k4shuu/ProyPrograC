@@ -1,4 +1,4 @@
-package MVC.RegistroLogin.Vista;
+package Vista;
 
 import javax.swing.*;
 import java.awt.*;
