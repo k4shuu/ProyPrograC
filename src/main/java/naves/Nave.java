@@ -1,10 +1,7 @@
 package naves;
 
 import destinoytablero.ElementoDelUniverso;
-import excepciones.ExcesoCombException;
-import excepciones.ExcesoDesgasteException;
-import excepciones.ExcesoEnergiaException;
-import excepciones.FaltaCombustibleException;
+import excepciones.*;
 import tripulacion.Tripulante;
 import warp.MotorWarp;
 
@@ -34,10 +31,10 @@ public abstract class Nave implements ElementoDelUniverso {
     public void ayudaEstacion(int energia){
         this.cargarEnerg(energia);
     }
-    public void usarEnergia(int energia){
+    public void usarEnergia(int energia) throws FaltaEnergiaException {
         if((this.energia-energia)<0) {
             this.energia = 0;
-            //faltaria lanzar excepcion aca
+            throw new FaltaEnergiaException("La operacion de uso de energía no fue posible porque la energía disponible era menor a la esperada.", energia, this.energia);
         }
         else
             this.energia-=energia;
@@ -63,12 +60,13 @@ public abstract class Nave implements ElementoDelUniverso {
         assert energia>0 && energia<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
         assert identidad!=null && !identidad.isEmpty() :"La identidad ingresada debe ser distinta de null y de cadena vacia";
         assert desgaste>0 && desgaste<=100:"El desgaste ingresado debe ser mayor a cero y menor o igual a 100";
-        this.identidad = identidad;
+
+        this.identidad   = identidad;
         this.combustible = combustible;
-        this.energia = energia;
+        this.energia  = energia;
         this.desgaste = desgaste;
-        this.motorWarp = new MotorWarp();
-        this.tripulacion=new ArrayList<>();
+        this.motorWarp   = new MotorWarp(this);
+        this.tripulacion = new ArrayList<>();
     }
 
     /**

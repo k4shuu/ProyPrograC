@@ -23,9 +23,8 @@ public class MisionRetorno extends Mision{
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException {
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                this.asistente.solicitarPreparacionSalto();
-            }
-            else{
+                this.asistente.solicitarEjecucionSaltoWarp();
+            }else{
                 this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave");
                 throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave ",this.asistente.getNave().getDesgaste(),desgaste);
             }
@@ -41,7 +40,7 @@ public class MisionRetorno extends Mision{
     public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
-        this.asistente.solicitarEjecucionSalto();
+        this.asistente.solicitarEjecucionSaltoWarp();
         this.estado = Estado.EJECUTADA;
 
     }
@@ -55,7 +54,6 @@ public class MisionRetorno extends Mision{
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-03", "Misión finalizada, para mas informacion consultar el informe correspondiente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;

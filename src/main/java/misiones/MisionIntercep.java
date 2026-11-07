@@ -28,7 +28,7 @@ public class MisionIntercep extends Mision {
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException, ExcesoEnergiaException{
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                    this.asistente.solicitarPreparacionSalto();
+                    this.asistente.solicitarEjecucionSaltoWarp();
             }
             else{
                 this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
@@ -48,7 +48,7 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
-        this.asistente.solicitarEjecucionSalto();
+        this.asistente.solicitarEjecucionSaltoWarp();
         this.estado = Estado.EJECUTADA;
 
         boolean naveViva=true;
@@ -125,7 +125,6 @@ public class MisionIntercep extends Mision {
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-01", "Misión finalizada, para mas informacion consultar el informe correspondiente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;

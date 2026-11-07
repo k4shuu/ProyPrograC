@@ -27,7 +27,7 @@ public class MisionRecolec extends Mision{
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
                 if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
-                    this.asistente.solicitarPreparacionSalto();
+                    this.asistente.solicitarEjecucionSaltoWarp();
                 }else {
                     this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
                     throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
@@ -50,7 +50,7 @@ public class MisionRecolec extends Mision{
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
-        this.asistente.solicitarEjecucionSalto();
+        this.asistente.solicitarEjecucionSaltoWarp();
         this.estado = Estado.EJECUTADA;
     }
 
@@ -63,7 +63,6 @@ public class MisionRecolec extends Mision{
 
     @Override
     public InformeMision cerrar() {
-        this.asistente.solicitarDesactivarWarp();
         this.asistente.escribirBitacora("Mision-02", "Misión finalizada, para mas informacion consultar el informe correspondiente");
         Estado lastState = this.estado;
         this.estado = Estado.CERRADA;
