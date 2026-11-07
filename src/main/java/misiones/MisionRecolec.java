@@ -18,7 +18,7 @@ public class MisionRecolec extends Mision{
         super("M02",asistente);
         assert asistente!=null: "El asistente dado para instanciar MisionRecolec no es valido";
         setCombConsumido(4);
-        setEnergCargada(5);
+        setEnergCargada(10);
         setDesgaste(4);
     }
 
@@ -46,34 +46,8 @@ public class MisionRecolec extends Mision{
     }
 
     @Override
-    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
-        this.asistente.getNave().usarCombustible(combConsumido);
-        this.asistente.getNave().realizarDesgaste(desgaste);
-        this.asistente.getNave().cargarEnerg(energCargada);
-        this.estado = Estado.EJECUTADA;
-    }
-
-    @Override
-    public void evaluar() {;
-        System.out.println("Evaluando resultados");
-        this.estado = Estado.EVALUADA;
-        this.result = Resultado.EXITOSA;
-    }
-
-    @Override
-    public InformeMision cerrar() {
-        this.asistente.escribirBitacora("Mision-02", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        if (result == Resultado.EXITOSA) {
-            aplicarResultadoExitoso();
-        }
-
-        this.estado = Estado.CERRADA;
-        return informe;
-    }
-
-    @Override
     protected void aplicarResultadoExitoso() {
-        getNave().addGemas(azar.nextInt(19,101));
+        getNave().addGemas(azar.nextInt(20,101));
     }
 
 }

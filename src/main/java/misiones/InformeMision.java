@@ -1,6 +1,7 @@
 package misiones;
 
 import bitacora.Entrada;
+import naves.Nave;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,44 +9,61 @@ import java.util.Objects;
 
 public class InformeMision {
     private final LocalDateTime fechaHora;
-
     private final String cod;
-    private final int combGastado;
-    private final int energiaCargada;
-    private final int desgaste;
-    private final Resultado result;
-    private final Estado lastState;
+    private Resultado result;
+    private Estado lastState;
+
+    private final int combustibleInicial;
+    private final int energiaInicial;
+    private final int desgasteInicial;
+    private final int gemasIniciales;
+
+    private int balanceCombustible;
+    private int balanceEnergia;
+    private int balanceDesgaste;
+    private int balanceGemas;
 
     /**
      * precond: cod != null o vacio
      * precond: comb, energia y desgaste >= 0
      * @param cod
-     * @param comb
-     * @param energ
-     * @param desgaste
-     * @param estado
-     * @param result
+     * @param nave
      */
-    public InformeMision(String cod, int comb,int energ, int desgaste, Resultado result, Estado estado) {
-        assert cod!=null && !Objects.equals(cod,""): "Ingrese un codigo de mision valido";
-        assert comb >=0 : "Combustible gastado no        assert comb >=0 : \"Combustible gastado no puede ser negativo\";\n puede ser negativo";
-        assert energ >=0 : "Energia cargada no puede ser negativa";
-        assert desgaste >=0 : "Desgaste generado no puede ser negativo";
+    public InformeMision(String cod, Nave nave) {
         this.fechaHora = LocalDateTime.now();
         this.cod = cod;
-        this.combGastado = comb;
-        this.energiaCargada = energ;
-        this.desgaste = desgaste;
-        this.result = result;
-        this.lastState = estado;
+        this.combustibleInicial = nave.getCombustible();
+        this.energiaInicial = nave.getEnergia();
+        this.desgasteInicial = nave.getDesgaste();
+        this.gemasIniciales = nave.getGemas();
     }
 
+    public void finalizar(Nave nave, Resultado resultado, Estado estado) {
+        this.balanceCombustible = nave.getCombustible() - combustibleInicial;
+        this.balanceEnergia = nave.getEnergia() - energiaInicial;
+        this.balanceDesgaste = nave.getDesgaste() - desgasteInicial;
+        this.balanceGemas = nave.getGemas() - gemasIniciales;
+
+        this.result = resultado;
+        this.lastState = estado;
+    }
     @Override
     public String toString() {
-        return "[" + fechaHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "] [ Codigo de Misión: " + cod + " ]: \n" +
-                "Combustible utilizado: " + combGastado + "\n" +
-                "Energía recargada: " + energiaCargada + "\n" +
-                "Desgaste generado: " + desgaste;
+        return "[" + fechaHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
+                "] Misión: " + cod + "\n" +
+                "Resultado: " + result + "\n" +
+                "Balance de combustible: " +
+                formatoBalance(balanceCombustible) + "\n" +
+                "Balance de energía: " +
+                formatoBalance(balanceEnergia) + "\n" +
+                "Balance de desgaste: " +
+                formatoBalance(balanceDesgaste) + "\n" +
+                "Balance de gemas: " +
+                formatoBalance(balanceGemas);
+    }
+
+    private String formatoBalance(int balance) {
+        return balance > 0 ? "+" + balance : String.valueOf(balance);
     }
 
     public LocalDateTime getFechaHora() {return fechaHora;}

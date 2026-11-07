@@ -36,32 +36,6 @@ public class MisionRetorno extends Mision{
         this.estado = Estado.PREPARADA;
     }
 
-    @Override
-    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
-        this.asistente.getNave().usarCombustible(combConsumido);
-        this.asistente.getNave().realizarDesgaste(desgaste);
-
-        this.estado = Estado.EJECUTADA;
-
-    }
-
-    @Override
-    public void evaluar() {
-        System.out.println("Evaluando resultados");
-        this.estado = Estado.EVALUADA;
-        this.result = Resultado.EXITOSA;
-    }
-
-    @Override
-    public InformeMision cerrar() {
-        this.asistente.escribirBitacora("Mision-03", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        if (result == Resultado.EXITOSA) {
-            aplicarResultadoExitoso();
-        }
-
-        this.estado = Estado.CERRADA;
-        return informe;
-    }
 
     // M03
     protected void aplicarResultadoExitoso() {

@@ -44,18 +44,47 @@ public abstract class Mision {
      * @return Informe de mision correspondiente
      */
     public final InformeMision comenzar() {
+        this.informe = new InformeMision(cod, getNave());
         try{
             preparar();
             ejecutar();
-            evaluar();
-        }catch (FaltaCombustibleException combExc){
-            this.asistente.escribirBitacora("Mision","Mision cancelada por falta de combustible, cargue antes de reintentarlo");
-        }catch (ExcesoDesgasteException desgExc){
-            this.asistente.escribirBitacora("Mision","Mision cancelada debido a alto desgaste de la nave, se recomienda mantenimiento");
-        }catch (ExcesoEnergiaException enerExc){
-            this.asistente.escribirBitacora("Mision","Mision cancelada, peligro de sobrecarga de baterias, se solicita consumir energia");
+        } catch (FaltaCombustibleException exception) {
+            cancelarMision("La nave no tiene combustible suficiente");
+        } catch (ExcesoDesgasteException exception) {
+            cancelarMision("El desgaste inicial supera el máximo permitido");
+        } catch (ExcesoEnergiaException exception) {
+            cancelarMision("La energía de la misión excede la capacidad");
         }
+        evaluar();
         return cerrar();
+    }
+
+
+
+    protected final void fallarMision(String motivo) {
+        this.result = Resultado.FALLIDA;
+        this.asistente.escribirBitacora(
+                this.cod,
+                "Misión fallida: " + motivo
+        );
+    }
+
+    protected final void completarMisionExitosamente() {
+        this.result = Resultado.EXITOSA;
+
+        this.asistente.escribirBitacora(
+                this.cod,
+                "Misión completada exitosamente"
+        );
+    }
+
+    protected final void cancelarMision(String motivo) {
+        this.result = Resultado.CANCELADA;
+        this.asistente.escribirBitacora(this.cod, "Misión cancelada: " + motivo);
+    }
+
+    protected final boolean alcanzoObjetivo() {
+        return asistente.getTablero().getPosicionNave().equals(obj);
     }
 
     public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException;
@@ -67,20 +96,129 @@ public abstract class Mision {
      * @throws ExcesoDesgasteException
      * @throws ExcesoEnergiaException
      */
-    public abstract void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException,ExcesoEnergiaException;
+    public final void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
+        consumirRecursosIniciales();
+
+        boolean recorridoCompletado = realizarViaje();
+
+        this.estado = Estado.EJECUTADA;
+
+        if (!recorridoCompletado) {
+            return;
+        }
+
+        if (!cumpleCondicionFinal()) {
+            fallarMision("La nave no conservo los recursos necesarios para la entrega");
+            return;
+        }
+
+        completarMisionExitosamente();
+    }
+
+    private void realizarMovimiento() {
+        ElementoDelUniverso siguienteElemento = asistente.getRadarCA().analizarPasoSig(getRuta());
+
+        if (siguienteElemento != null && getRuta().size() >= 2) {
+            asistente.solicitarEjecucionSaltoWarp(getRuta().get(1));
+
+            if(asistente.getTablero().getPosicionNave().equals(getRuta().get(1))){
+                getRuta().removeFirst();
+                getRuta().removeFirst();
+            }
+        } else {
+            asistente.solicitarEjecucionSaltoComun(getRuta().getFirst());
+
+            if(asistente.getTablero().getPosicionNave().equals(getRuta().getFirst())){
+                getRuta().removeFirst();
+            }
+        }
+    }
+
+    protected boolean cumpleCondicionFinal() {
+        return true;
+    }
+
+    private void consumirRecursosIniciales() throws FaltaCombustibleException, ExcesoDesgasteException {
+        getNave().usarCombustible(combConsumido);
+        getNave().realizarDesgaste(desgaste);
+
+        if (energCargada > 0) {
+            getNave().cargarEnerg(energCargada);
+        }
+    }
+
+    private boolean realizarViaje() {
+        boolean naveViva = asistente.estaVivaNave();
+        boolean alcanzoDestino = alcanzoObjetivo();
+
+        while (naveViva && !alcanzoDestino && !getRuta().isEmpty()) {
+
+            ElementoDelUniverso elemento =
+                    asistente.getTablero().inspeccionarPosicion();
+
+            if (elemento != null) {
+                elemento.interactuar(getNave());
+            }
+
+            naveViva = asistente.estaVivaNave();
+
+            if (!naveViva) {
+                fallarMision("La nave fue destruida durante el recorrido");
+                return false;
+            }
+
+            realizarMovimiento();
+
+            if (!asistente.estaVivaNave()) {
+                fallarMision("La nave agotó sus recursos durante el movimiento");
+                return false;
+            }
+
+            Destino.getInstance().turnoDestino();
+
+            alcanzoDestino = alcanzoObjetivo();
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+                cancelarMision("La misión fue interrumpida");
+                return false;
+            }
+        }
+
+        if (!alcanzoDestino) {
+            fallarMision("No fue posible alcanzar el objetivo");
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      *precond: mision debe haberse ejecutado
      *postcond: cambio de estado de la mision
      */
-    public abstract void evaluar();
+    public void evaluar() {
+        this.estado = Estado.EVALUADA;
+        this.informe.finalizar(getNave(), result, estado);
+    }
 
     /**
      * precond: debe haberse evaluado la mision o haber fallado antes
      * postcond: cambio de estado de la mision
      * @return Informe de la mision
      */
-    public abstract InformeMision cerrar();
+    public final InformeMision cerrar() {
+        if (result == Resultado.EXITOSA) {
+            aplicarResultadoExitoso();
+        }
+
+        asistente.escribirBitacora(cod, "Misión finalizada");
+
+        this.estado = Estado.CERRADA;
+        return informe;
+    }
 
     protected abstract void aplicarResultadoExitoso();
 
