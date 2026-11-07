@@ -1,5 +1,7 @@
 package warp;
 
+import destinoytablero.Posicion;
+import destinoytablero.Tablero;
 import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 
@@ -16,6 +18,15 @@ public class EstadoDisponible implements EstadoWarp {
         this.motor = motor;
     }
 
+    public void ejecutarSaltoComun(Posicion p) {
+        try {
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+        }catch(FaltaCombustibleException e){
+            //System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
     public void ejecutarSaltoComun() {
         try {
             motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);

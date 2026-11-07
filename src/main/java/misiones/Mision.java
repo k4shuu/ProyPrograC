@@ -7,6 +7,7 @@ import destinoytablero.*;
 import naves.Nave;
 
 import java.util.List;
+import java.util.Random;
 
 
 public abstract class Mision {
@@ -16,8 +17,7 @@ public abstract class Mision {
     protected int energCargada;
     protected int desgaste;
     protected Posicion obj;
-    protected List<Posicion> ruta;
-
+    protected Random azar = new Random();
     protected InformeMision informe;
     protected Estado estado;
     public Resultado result = null;
@@ -81,6 +81,15 @@ public abstract class Mision {
      * @return Informe de la mision
      */
     public abstract InformeMision cerrar();
+
+    protected abstract void aplicarResultadoExitoso();
+
+    public List<Posicion> getRuta(){
+        return this.asistente.getRuta();
+    }
+    public void initRuta(Posicion p){
+        this.asistente.calcRuta(p);
+    }
 
     public Estado getEstado(){
         return this.estado;

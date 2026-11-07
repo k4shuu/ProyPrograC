@@ -1,6 +1,7 @@
 package warp;
 
 import bitacora.Bitacora;
+import destinoytablero.Posicion;
 import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 import naves.Nave;

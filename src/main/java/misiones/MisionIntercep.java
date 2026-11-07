@@ -7,9 +7,11 @@ import destinoytablero.Posicion;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
+import excepciones.FaltaEnergiaException;
 
 public class MisionIntercep extends Mision {
-
+    private final int combustibleSolicitado;
+    private final int energiaSolicitada;
     /**
      * pre-cond: asistente!=null
      * post-cond: se creo una instancia de MisionIntercep con el asistente dado
@@ -22,25 +24,31 @@ public class MisionIntercep extends Mision {
         setCombConsumido(4);
         setEnergCargada(5);
         setDesgaste(4);
+        combustibleSolicitado = azar.nextInt(51);
+        energiaSolicitada = azar.nextInt(51);
     }
 
     @Override
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException, ExcesoEnergiaException{
+        this.obj = asistente.getTablero().obtenerObjetivo();
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                    this.asistente.solicitarEjecucionSaltoWarp();
+                if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
+                    initRuta(obj);
+                }else {
+                    this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
+                    throw new ExcesoEnergiaException("No será posible completar la carga de energia porque excede la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
+                }
             }
             else{
-                this.asistente.escribirBitacora("M-01","ERROR: el desgaste de la mision excede lo permitido para la nave ");
-                throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave ",this.asistente.getNave().getDesgaste(),desgaste);
-
+                this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave ");
+                throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave",this.asistente.getNave().getDesgaste(),desgaste);
             }
         else {
-                this.asistente.escribirBitacora("M-01","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
-                throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getCombustible());
-            }
+            this.asistente.escribirBitacora("M-02","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
+            throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getCombustible());
+        }
         this.estado = Estado.PREPARADA;
-        this.ruta = this.asistente.calcRuta(this.obj);
     }
 
     @Override
@@ -48,7 +56,6 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
-        this.asistente.solicitarEjecucionSaltoWarp();
         this.estado = Estado.EJECUTADA;
 
         boolean naveViva=true;
@@ -74,22 +81,20 @@ public class MisionIntercep extends Mision {
             }
             else {
                 // A.2. Escaneo
-                elemento = this.asistente.getRadarCA().analizarPasoSig(this.ruta);
+                elemento = this.asistente.getRadarCA().analizarPasoSig(getRuta());
 
 
                 //Cuando se solicitaria el saltoWarp?? y como hago que dure varios turnos
                 // A.3. Planificación y movimiento
                 if(elemento==null){
-                    try{
-                        asistente.solicitarSalto(ruta.getFirst());
-                        ruta.removeFirst();
-                    }catch(FaltaCombustibleException ignored){
-                    }
+                    asistente.solicitarEjecucionSaltoComun(getRuta().getFirst());
+                    getRuta().removeFirst();
                     //nave consume 2 de combustible
                 }
                 else {
-                    this.asistente.solicitarSaltoWarp();//no lanza excepcion, salto simple
-
+                    this.asistente.solicitarEjecucionSaltoWarp(getRuta().get(1));//no lanza excepcion, salto simple
+                    getRuta().removeFirst();
+                    getRuta().removeFirst();
                 }
 
                 // --- B. Turno del Tablero ---
@@ -105,29 +110,54 @@ public class MisionIntercep extends Mision {
 
         // 3. Verificación en destino
         // Solo se llega aquí si el bucle terminó porque alcanzó el destino y sigue viva.
-        if (misionExigeRecursosAdicionales()) {
-            if (!nave.conservaRecursosExigidos()) {
-                fallarMision("Fallo: La nave no conservó los recursos exigidos para la entrega.");
-            } else {
-                completarMisionExitosamente();
-            }
+        if (!recursosAdicionales()) {
+            fallarMision("Fallo: La nave no conservó los recursos exigidos para la entrega.");
         } else {
             completarMisionExitosamente();
         }
     }
-    ;
+
     @Override
     public void evaluar() {
-        System.out.println("Evaluando resultados");
+        if (result == null) {
+            throw new IllegalStateException(
+                    "No se puede evaluar una misión sin resultado"
+            );
+        }
+
+        this.informe = new InformeMision(
+                cod,
+                combConsumido,
+                energCargada,
+                desgaste,
+                result,
+                estado
+        );
+
         this.estado = Estado.EVALUADA;
-        this.result = Resultado.EXITOSA;
+    }
+
+    // M01
+    protected void aplicarResultadoExitoso() {
+        try {
+            getNave().usarCombustible(combustibleSolicitado);
+            getNave().usarEnergia(energiaSolicitada);
+        } catch (FaltaCombustibleException | FaltaEnergiaException ignored) {
+        }
     }
 
     @Override
     public InformeMision cerrar() {
         this.asistente.escribirBitacora("Mision-01", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        Estado lastState = this.estado;
+        if (result == Resultado.EXITOSA) {
+            aplicarResultadoExitoso();
+        }
+
         this.estado = Estado.CERRADA;
-        return new InformeMision("M01",4, 5,4, result, lastState);
+        return informe;
+    }
+
+    private boolean recursosAdicionales(){
+        return getNave().getCombustible() >= combustibleSolicitado && getNave().getEnergia() >= energiaSolicitada ;
     }
 }

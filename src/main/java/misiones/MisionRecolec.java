@@ -24,13 +24,14 @@ public class MisionRecolec extends Mision{
 
     @Override
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException , ExcesoEnergiaException{
+        this.obj = asistente.getTablero().obtenerObjetivo();
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
                 if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
-                    this.asistente.solicitarEjecucionSaltoWarp();
+                    initRuta(obj);
                 }else {
                     this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
-                    throw new ExcesoEnergiaException("No fue posible completar la carga de energia porque excedia la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
+                    throw new ExcesoEnergiaException("No será posible completar la carga de energia porque excede la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
                 }
             }
             else{
@@ -42,7 +43,6 @@ public class MisionRecolec extends Mision{
             throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getCombustible());
         }
         this.estado = Estado.PREPARADA;
-        this.ruta = this.asistente.calcRuta(this.obj);
     }
 
     @Override
@@ -50,7 +50,6 @@ public class MisionRecolec extends Mision{
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
         this.asistente.getNave().cargarEnerg(energCargada);
-        this.asistente.solicitarEjecucionSaltoWarp();
         this.estado = Estado.EJECUTADA;
     }
 
@@ -64,9 +63,17 @@ public class MisionRecolec extends Mision{
     @Override
     public InformeMision cerrar() {
         this.asistente.escribirBitacora("Mision-02", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        Estado lastState = this.estado;
+        if (result == Resultado.EXITOSA) {
+            aplicarResultadoExitoso();
+        }
+
         this.estado = Estado.CERRADA;
-        return new InformeMision("M02",combConsumido, energCargada,desgaste,result,lastState);
+        return informe;
+    }
+
+    @Override
+    protected void aplicarResultadoExitoso() {
+        getNave().addGemas(azar.nextInt(19,101));
     }
 
 }
