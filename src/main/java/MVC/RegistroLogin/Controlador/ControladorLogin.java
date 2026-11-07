@@ -1,7 +1,8 @@
-package MVC.RegistroLogin.Controlador;
+package Controlador;
 
-import MVC.RegistroLogin.Vista.IVistaLogin;
-import MVC.RegistroLogin.Vista.VistaLogin;
+
+import Vista.IVistaLogin;
+import Vista.VistaLogin;
 import persistencia.UsuarioDAO;
 import persistencia.UsuarioDTO;
 import excepciones.CredencialesInvalidasException;

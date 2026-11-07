@@ -1,4 +1,4 @@
-package MVC.RegistroLogin.Vista;
+package Vista;
 
 public interface IVistaLogin {
     String getUsuario();

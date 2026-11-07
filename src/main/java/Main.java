@@ -1,35 +1,21 @@
-
-import MVC.RegistroLogin.Controlador.ControladorLogin;
-import MVC.RegistroLogin.Vista.VistaLogin;
-import Vista.VistaCreacionNaveTripulacion;
-import asistente.AsistenteComando;
+import Controlador.ControladorLogin;
+import Vista.VistaLogin;
 import bitacora.Bitacora;
-import excepciones.CredencialesInvalidasException;
 import naves.Nave;
-import persistencia.UsuarioDAO;
-import persistencia.UsuarioDTO;
-import tripulacion.*;
-import naves.*;
-
-import java.util.Scanner;
+import naves.NaveFactory;
+import tripulacion.CargoFactory;
+import tripulacion.OrigenFactory;
+import tripulacion.Tripulante;
 
 public class Main {
     public static void main(String[] args) {
         //LOGIN - VENTANA
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                VistaLogin vistaLogin = new VistaLogin();
-                new ControladorLogin(vistaLogin);
-                vistaLogin.setVisible(true);
-            }
-        });
 
-        //La unica ventana que instanciariamos aca seria la el login
-        //que despues se termina encadenando con las otras
-        //esta la instancie para ver la vista nomas
-        //VistaCreacionNaveTripulacion vista=new VistaCreacionNaveTripulacion(); //YA SE LLAMÓ LUEGO DEL LOGIN!
-        //vista.setVisible(true);                                                //YA SE LLAMÓ LUEGO DEL LOGIN!
+        VistaLogin vistaLogin = new VistaLogin();
+        ControladorLogin controlador=new ControladorLogin(vistaLogin);
+        vistaLogin.setVisible(true);
+
+
 
         Tripulante capitanVulcano1=OrigenFactory.crear(CargoFactory.crear("Capitan","Julia",5,0),"Vulcano");
         Tripulante consejeroMarciano2= OrigenFactory.crear(CargoFactory.crear("Consejero","Lucia",20,3),"Marciano");
