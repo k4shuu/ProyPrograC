@@ -6,7 +6,6 @@ import excepciones.TransicionMotorInvalidaException;
 public class MotorWarp {
     private EstadoWarp estadoActual;
 
-
     //SEGÚN REQUERIMIENTO E1-02 EL MOTOR COMIENZA EN ESTADO DISPONIBLE
     public MotorWarp() {
         this.estadoActual = new EstadoDisponible(this);

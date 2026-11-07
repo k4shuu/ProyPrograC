@@ -4,6 +4,7 @@ import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
 import destinoytablero.*;
+import naves.Nave;
 
 import java.util.List;
 
@@ -117,4 +118,5 @@ public abstract class Mision {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+    public Nave getNave(){return this.getAsistente().getNave();}
 }

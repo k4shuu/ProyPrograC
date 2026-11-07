@@ -2,6 +2,7 @@ package asistente;
 
 import bitacora.Bitacora;
 import bitacora.Entrada;
+import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 import naves.Nave;
 import destinoytablero.*;
@@ -13,6 +14,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Nave nave;
     private final Tablero tablero;
     private final RadarLargoAlcance radarLA;
+    private final RadarCortoAlcance radarCA;
 
     /**
      * pre-cond:bitacora!=null
@@ -28,6 +30,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.nave = nave;
         this.tablero = t;
         this.radarLA = new RadarLargoAlcance(t);
+        this.radarCA = new RadarCortoAlcance(t);
     }
     public boolean estaVivaNave(){
         return this.nave.estaViva();
@@ -116,6 +119,11 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         }
     }
 
+    public void solicitarSalto(Posicion p) throws FaltaCombustibleException {
+        nave.usarCombustible(2);
+        tablero.moverNave(p);
+    }
+
     /**
      * pre-cond: nave != null
      */
@@ -130,6 +138,13 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         return tablero;
     }
 
+    public RadarLargoAlcance getRadarLA() {
+        return radarLA;
+    }
+
+    public RadarCortoAlcance getRadarCA() {
+        return radarCA;
+    }
     /*public Posicion getPosicion() {
         return posicion;
     }

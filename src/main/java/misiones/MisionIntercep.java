@@ -1,6 +1,7 @@
 package misiones;
 
 import asistente.AsistenteComando;
+import destinoytablero.Destino;
 import destinoytablero.ElementoDelUniverso;
 import destinoytablero.Posicion;
 import excepciones.ExcesoDesgasteException;
@@ -49,7 +50,7 @@ public class MisionIntercep extends Mision {
         this.asistente.getNave().cargarEnerg(energCargada);
         this.asistente.solicitarEjecucionSalto();
         this.estado = Estado.EJECUTADA;
-/*
+
         boolean naveViva=true;
         boolean alcanzoDestino=false;
         // 2. Ciclo de travesía
@@ -57,28 +58,33 @@ public class MisionIntercep extends Mision {
             // --- A. Turno de la Nave ---
 
             // A.1. Inspección de posición actual utilizando el Tablero
-            ElementoDelUniverso elemento = tablero.inspeccionarPosicion();
+            ElementoDelUniverso elemento = this.asistente.getTablero().inspeccionarPosicion();
             if (elemento != null) {
-                elemento.interactuar(nave);
+                elemento.interactuar(this.getNave());
+                naveViva = asistente.estaVivaNave();
             }
 
             //metodo de asistente que valide esta nave es asistente.estaVivaNave que es boolean
             // Validación inmediata de destrucción post-interacción
-            if (nave.getDesgaste() >= 100 || nave.getEnergia() <= 0 || nave.getCombustible() <= 0) {
-                this.resultado=Resultado.FALLIDA;
+            if (getNave().getDesgaste() >= 100 || getNave().getEnergia() <= 0 || getNave().getCombustible() <= 0) {
+                this.result=Resultado.FALLIDA;
                 //seter boolean
                 //deberiamos lanzar excepcion??
                 return;
             }
             else {
                 // A.2. Escaneo
-                ElementoDelUniverso elemento=this.asistente.radarCortoAlcane.analizaPasoSig(tablero.getPosicionNave(),this.ruta);
+                elemento = this.asistente.getRadarCA().analizarPasoSig(this.ruta);
 
 
                 //Cuando se solicitaria el saltoWarp?? y como hago que dure varios turnos
                 // A.3. Planificación y movimiento
                 if(elemento==null){
-                    this.asistente.solicitarSalto();
+                    try{
+                        asistente.solicitarSalto(ruta.getFirst());
+                        ruta.removeFirst();
+                    }catch(FaltaCombustibleException ignored){
+                    }
                     //nave consume 2 de combustible
                 }
                 else {
@@ -86,10 +92,8 @@ public class MisionIntercep extends Mision {
 
                 }
 
-                asistente.moverNave(proximaPosicion);
-
                 // --- B. Turno del Tablero ---
-                destino.turnoDestino(tablero);
+                Destino.getInstance().turnoDestino();
 
                 // Nota técnica: Pausa en cada iteración
                 try{
@@ -110,7 +114,6 @@ public class MisionIntercep extends Mision {
         } else {
             completarMisionExitosamente();
         }
- */
     }
     ;
     @Override

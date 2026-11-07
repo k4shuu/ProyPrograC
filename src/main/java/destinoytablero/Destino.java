@@ -7,8 +7,8 @@ import java.util.Random;
 /** Coordina los intentos de movimiento aleatorio de los elementos del tablero. */
 public class Destino {
     private final Random azar = new Random();
-    private Tablero tablero;
-
+    private final Tablero tablero;
+    private static Destino instance;
     /**
      * Crea un coordinador de turnos que opera sobre el tablero recibido.
      * <p><b>Precondiciones:</b> el tablero no es nulo.</p>
@@ -20,6 +20,10 @@ public class Destino {
      */
     public Destino(Tablero tablero){
         this.tablero = tablero;
+    }
+
+    public static Destino getInstance(){
+        return instance;
     }
     /**
      * Selecciona sin repetir la mitad entera de los elementos y realiza un intento
