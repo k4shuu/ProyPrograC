@@ -17,7 +17,7 @@ public class OrigenFactory {
 
         return switch (origen.toUpperCase()) {
             case "MARCIANO"  -> new Marciano(tripulante);
-            case "TERRICOLA" -> new Terricola(tripulante);
+            case "TERRÍCOLA" -> new Terricola(tripulante);
             case "VULCANO"   -> new Vulcano(tripulante);
 
             default -> throw new TipoOrigenInvalidoException("Tipo de origen desconocido.", origen);

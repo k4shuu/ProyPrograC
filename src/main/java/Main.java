@@ -1,4 +1,6 @@
-import Controlador.ControladorLogin;
+import Controlador.ControladorCreacion;
+import Vista.IVistaLogin;
+import Vista.VistaCreacionNaveTripulacion;
 import Vista.VistaLogin;
 import bitacora.Bitacora;
 import naves.Nave;
@@ -6,6 +8,7 @@ import naves.NaveFactory;
 import tripulacion.CargoFactory;
 import tripulacion.OrigenFactory;
 import tripulacion.Tripulante;
+import Controlador.ControladorLogin;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,6 +17,8 @@ public class Main {
         VistaLogin vistaLogin = new VistaLogin();
         ControladorLogin controlador=new ControladorLogin(vistaLogin);
         vistaLogin.setVisible(true);
+
+
 
 
 

@@ -1,37 +1,44 @@
 package Vista;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import naves.Nave;
+import observer.Observable;
+import observer.Observador;
+import tripulacion.Tripulante;
 
-public class VistaCreacionNaveTripulacion extends JFrame {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+
+public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreacion, Observador {
 
     // --- Componentes de la Columna Izquierda (Creación) ---
+    private JTextField txtNombreNave;
     private JComboBox<String> comboTipoNave;
     private JButton btnInstanciarNave;
 
-    // Todos los campos de ingreso pasados a JTextField simples
     private JTextField txtNombreTripulante;
-    private JTextField txtOrigenTripulante;
+    private JComboBox<String> comboOrigenTripulante;
     private JTextField txtAntiguedad;
-    private JTextField txtCargoTripulante;
+    private JComboBox<String> comboCargoTripulante;
+
+    // Componentes dinámicos para el Consejero
+    private JLabel lblCantConsejos;
+    private JTextField txtCantConsejos;
 
     private JButton btnAgregarTripulante;
 
-    // --- Componentes de la Columna Derecha (Lista) ---
-    private JTable tablaTripulantes;
-    private DefaultTableModel modeloTabla;
+    // --- Componentes de la Columna Derecha (Mensajes) ---
+    private JTextArea txtAreaMensajes;
     private JLabel lblTotalNomina;
-    private JLabel lblRequisitoCapitan;
-    private JLabel lblRequisitoBase;
-    private JLabel lblEstadoDespegue;
+    private JLabel lblMensajeError;
 
-    private JButton btnConfirmarTripulacion;
     private JButton btnIrAlComando;
 
     public VistaCreacionNaveTripulacion() {
         this.setTitle("Hangar Central - Preparación de Misión");
-        this.setSize(900, 550);
+        this.setSize(1000, 650);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -57,12 +64,19 @@ public class VistaCreacionNaveTripulacion extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createTitledBorder("[2] CONFIGURACIÓN DE NAVE"));
 
+        panel.add(new JLabel("Nombre de la Nave:"));
+        txtNombreNave = new JTextField();
+        txtNombreNave.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        panel.add(txtNombreNave);
+        panel.add(Box.createVerticalStrut(10));
+
         panel.add(new JLabel("Tipo de Nave:"));
         comboTipoNave = new JComboBox<>(new String[]{"Exploradora", "Carguera", "Combate"});
         panel.add(comboTipoNave);
         panel.add(Box.createVerticalStrut(10));
 
         btnInstanciarNave = new JButton("INSTANCIAR NAVE");
+        btnInstanciarNave.setActionCommand(CREARNAVE);
         panel.add(btnInstanciarNave);
 
         panel.add(Box.createVerticalStrut(20));
@@ -81,9 +95,8 @@ public class VistaCreacionNaveTripulacion extends JFrame {
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Planeta/Ciudad de Origen:"));
-        txtOrigenTripulante = new JTextField();
-        txtOrigenTripulante.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        panel.add(txtOrigenTripulante);
+        comboOrigenTripulante = new JComboBox<>(new String[]{"Vulcano", "Terrícola", "Marciano"});
+        panel.add(comboOrigenTripulante);
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Antigüedad (Años):"));
@@ -93,13 +106,38 @@ public class VistaCreacionNaveTripulacion extends JFrame {
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Cargo asignado:"));
-        txtCargoTripulante = new JTextField();
-        txtCargoTripulante.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        panel.add(txtCargoTripulante);
+        comboCargoTripulante = new JComboBox<>(new String[]{"Capitán", "Consejero", "Alférez", "Teniente"});
+        panel.add(comboCargoTripulante);
+
+        // Campos dinámicos para el Consejero
+        lblCantConsejos = new JLabel("Cantidad de Consejos:");
+        txtCantConsejos = new JTextField();
+        txtCantConsejos.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+        // Inicialmente ocultos
+        lblCantConsejos.setVisible(false);
+        txtCantConsejos.setVisible(false);
+
+        panel.add(lblCantConsejos);
+        panel.add(txtCantConsejos);
         panel.add(Box.createVerticalStrut(15));
+
+        // Lógica visual: Mostrar el campo solo si elige "Consejero"
+        comboCargoTripulante.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean esConsejero = "Consejero".equals(comboCargoTripulante.getSelectedItem());
+                lblCantConsejos.setVisible(esConsejero);
+                txtCantConsejos.setVisible(esConsejero);
+
+                VistaCreacionNaveTripulacion.this.revalidate();
+                VistaCreacionNaveTripulacion.this.repaint();
+            }
+        });
 
         btnAgregarTripulante = new JButton("AGREGAR TRIPULANTE");
         panel.add(btnAgregarTripulante);
+        btnAgregarTripulante.setActionCommand(IVistaCreacion.CREARTRIPULANTE);
 
         return panel;
     }
@@ -108,45 +146,40 @@ public class VistaCreacionNaveTripulacion extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(0, 10));
         panel.setBorder(BorderFactory.createTitledBorder("[3] LISTA DE PRE-EMBARQUE"));
 
-        String[] columnas = {"Nombre", "Origen", "Antigüedad", "Cargo", "Salario"};
-        modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tablaTripulantes = new JTable(modeloTabla);
-        panel.add(new JScrollPane(tablaTripulantes), BorderLayout.CENTER);
+        // Se reemplaza la JTable por un JTextArea para los carteles
+        txtAreaMensajes = new JTextArea();
+        txtAreaMensajes.setEditable(false);
+        txtAreaMensajes.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        txtAreaMensajes.setMargin(new Insets(5, 5, 5, 5));
+        panel.add(new JScrollPane(txtAreaMensajes), BorderLayout.CENTER);
 
         JPanel panelEstado = new JPanel();
         panelEstado.setLayout(new BoxLayout(panelEstado, BoxLayout.Y_AXIS));
 
+        // Sub-panel horizontal para la nómina
+        JPanel panelNomina = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+
         lblTotalNomina = new JLabel("Total Nómina: $ 0.0");
         lblTotalNomina.setFont(new Font("Arial", Font.BOLD, 12));
-        panelEstado.add(lblTotalNomina);
-        panelEstado.add(Box.createVerticalStrut(15));
 
-        panelEstado.add(new JLabel("--- REQUISITOS DE DESPEGUE ---"));
+        panelNomina.add(lblTotalNomina);
 
-        lblRequisitoCapitan = new JLabel("[ ] Capitán asignado (0/1)");
-        lblRequisitoBase = new JLabel("[ ] Tripulantes base (0/4)");
-        lblEstadoDespegue = new JLabel("ESTADO: 🔴 INCOMPLETO");
-        lblEstadoDespegue.setForeground(Color.RED);
-
-        panelEstado.add(lblRequisitoCapitan);
-        panelEstado.add(lblRequisitoBase);
         panelEstado.add(Box.createVerticalStrut(10));
-        panelEstado.add(lblEstadoDespegue);
+        panelEstado.add(panelNomina);
         panelEstado.add(Box.createVerticalStrut(15));
 
-        btnConfirmarTripulacion = new JButton("CONFIRMAR TRIPULACIÓN");
-        btnConfirmarTripulacion.setEnabled(false);
+        lblMensajeError = new JLabel(" ");
+        lblMensajeError.setFont(new Font("Arial", Font.BOLD, 12));
+        lblMensajeError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelEstado.add(lblMensajeError);
+        panelEstado.add(Box.createVerticalStrut(10));
 
         btnIrAlComando = new JButton("IR AL COMANDO");
+        btnIrAlComando.setActionCommand("IR-AL-COMANDO");
         btnIrAlComando.setEnabled(false);
 
+
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        btnPanel.add(btnConfirmarTripulacion);
         btnPanel.add(btnIrAlComando);
 
         panelEstado.add(btnPanel);
@@ -161,51 +194,80 @@ public class VistaCreacionNaveTripulacion extends JFrame {
 
     public JButton getBtnInstanciarNave() { return btnInstanciarNave; }
     public JButton getBtnAgregarTripulante() { return btnAgregarTripulante; }
-    public JButton getBtnConfirmarTripulacion() { return btnConfirmarTripulacion; }
     public JButton getBtnIrAlComando() { return btnIrAlComando; }
 
+    public String getNombreNave() { return txtNombreNave.getText(); }
     public String getTipoNaveSeleccionada() { return (String) comboTipoNave.getSelectedItem(); }
 
     public String getNombreNuevoTripulante() { return txtNombreTripulante.getText(); }
-    public String getOrigenNuevoTripulante() { return txtOrigenTripulante.getText(); }
     public String getAntiguedadNueva() { return txtAntiguedad.getText(); }
-    public String getCargoNuevoTripulante() { return txtCargoTripulante.getText(); }
+    public String getOrigenNuevoTripulante() { return (String) comboOrigenTripulante.getSelectedItem(); }
+    public String getCargoNuevoTripulante() { return (String) comboCargoTripulante.getSelectedItem(); }
 
-    public DefaultTableModel getModeloTabla() { return modeloTabla; }
+    public String getCantConsejos() { return txtCantConsejos.getText(); }
 
     // =========================================================================
     // MÉTODOS DE ACTUALIZACIÓN VISUAL
     // =========================================================================
 
-    public void actualizarContadores(int caps, int base, double totalSalario, boolean listoParaConfirmar) {
+    public void actualizarNomina(double totalSalario) {
         lblTotalNomina.setText("Total Nómina: $ " + totalSalario);
-        lblRequisitoCapitan.setText((caps == 1 ? "[X]" : "[ ]") + " Capitán asignado (" + caps + "/1)");
-        lblRequisitoBase.setText((base >= 4 ? "[X]" : "[ ]") + " Tripulantes base (" + base + "/4)");
+    }
 
-        if (listoParaConfirmar) {
-            lblEstadoDespegue.setText("ESTADO: 🟡 LISTO PARA CONFIRMAR");
-            lblEstadoDespegue.setForeground(new Color(204, 153, 0));
-            btnConfirmarTripulacion.setEnabled(true);
-        } else {
-            lblEstadoDespegue.setText("ESTADO: 🔴 INCOMPLETO");
-            lblEstadoDespegue.setForeground(Color.RED);
-            btnConfirmarTripulacion.setEnabled(false);
-            btnIrAlComando.setEnabled(false);
-        }
+    // Método nuevo para imprimir los carteles en el JTextArea
+    public void agregarMensaje(String mensaje) {
+        txtAreaMensajes.append("• " + mensaje + "\n");
+        txtAreaMensajes.setCaretPosition(txtAreaMensajes.getDocument().getLength());
+    }
+
+    public void setError(String mensaje) {
+        lblMensajeError.setText(mensaje);
+        lblMensajeError.setForeground(Color.RED);
+    }
+
+    public void clearError(){
+        lblMensajeError.setText(" ");
     }
 
     public void marcarComoConfirmado() {
-        lblEstadoDespegue.setText("ESTADO: 🟢 TRIPULACIÓN CONFIRMADA");
-        lblEstadoDespegue.setForeground(new Color(0, 153, 0));
-        btnConfirmarTripulacion.setEnabled(false);
         btnIrAlComando.setEnabled(true);
+        btnAgregarTripulante.setEnabled(false);
     }
 
     public void limpiarFormularioTripulante() {
         txtNombreTripulante.setText("");
-        txtOrigenTripulante.setText("");
         txtAntiguedad.setText("");
-        txtCargoTripulante.setText("");
+        txtCantConsejos.setText("");
+        comboOrigenTripulante.setSelectedIndex(0);
+        comboCargoTripulante.setSelectedIndex(0);
         txtNombreTripulante.requestFocus();
+    }
+
+    @Override
+    public void setActionListener(ActionListener a) {
+        this.btnInstanciarNave.addActionListener(a);
+        this.btnAgregarTripulante.addActionListener(a);
+        this.btnIrAlComando.addActionListener(a);
+    }
+
+    // =========================================================================
+    // MÉTODO ACTUALIZAR INTACTO
+    // =========================================================================
+    @Override
+    public void actualizar(Observable o, String mensaje) {
+        switch (mensaje){
+            case "AGREGAR-TRIPULANTE":{
+                Nave nave=(Nave)o;
+                Tripulante ultimoTripulante = null;
+                Iterator<Tripulante> tripulacion = nave.getTripulacion();
+
+                while (tripulacion.hasNext()) {
+                    ultimoTripulante = tripulacion.next();
+                }
+                this.agregarMensaje(ultimoTripulante.getInfo()+ultimoTripulante.getConceptoSueldo());
+                this.limpiarFormularioTripulante();
+                this.actualizarNomina(nave.calcularTotalHaberes());
+            }
+        }
     }
 }

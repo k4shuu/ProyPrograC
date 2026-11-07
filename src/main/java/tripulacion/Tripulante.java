@@ -17,6 +17,7 @@ public abstract class Tripulante {
         this.identidad=identidad;
         this.antiguedad=antiguedad;
     }
+    public  abstract String getInfo();
 
     public String getIdentidad(){
         return this.identidad;

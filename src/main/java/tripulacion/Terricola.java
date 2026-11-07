@@ -13,7 +13,9 @@ public class Terricola extends DecoratorOrigen {
         super(tripulante);
         assert tripulante!=null  :"Tripulante para constructor Terricola ingresado debe ser distinto de null";
     }
-
+    public String getInfo(){
+        return this.tripulante.getInfo()+" Origen: Terricola ";
+    }
     public double getSueldo(){
         return this.tripulante.getSueldo()+subsidio;
     }
