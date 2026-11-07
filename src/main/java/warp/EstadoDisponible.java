@@ -1,5 +1,8 @@
 package warp;
 
+import destinoytablero.Posicion;
+import destinoytablero.Tablero;
+import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoDisponible implements EstadoWarp {
@@ -15,26 +18,29 @@ public class EstadoDisponible implements EstadoWarp {
         this.motor = motor;
     }
 
+    public void ejecutarSaltoComun(Posicion p) {
+        try {
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+        }catch(FaltaCombustibleException e){
+            //System.out.println(e.getMessage());
+        }
+    }
+
     @Override
-    public void prepararSalto() { //TRANSICIÓN VÁLIDA
+    public void ejecutarSaltoComun() {
+        try {
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+        }catch(FaltaCombustibleException e){
+            //System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException {
+        ejecutarSaltoComun();
         motor.setEstado(new EstadoPreparandoSalto(motor));
+        throw new TransicionMotorInvalidaException("Error: Transición Inválida", getNombreEstado(), "En Warp");
     }
-
-    @Override
-    public void ejecutarSalto() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("ERROR [DISPONIBLE]: Debe preparar el salto antes de ejecutarlo.","Disponible","EnWarp");
-    }
-
-    @Override
-    public void enfriar() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("ERROR [DISPONIBLE]: El motor no se encuentra en Warp.","Disponible","Enfriamiento");
-    }
-
-    @Override
-    public void finalizarEnfriamiento() {
-        //ACCIÓN ACTUAL
-    }
-
 
     @Override
     public String getNombreEstado() {

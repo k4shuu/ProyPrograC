@@ -247,6 +247,10 @@ public class Tablero extends Observable {
         return ocupacion.get(posicionNave);
     }
 
+    public ElementoDelUniverso inspeccionarPosicion(Posicion p) {
+        return ocupacion.get(p);
+    }
+
     /**
      * Devuelve los elementos del vecindario de 3 por 3 centrado en la nave.
      * Las filas y columnas de la matriz avanzan en el mismo sentido que las
