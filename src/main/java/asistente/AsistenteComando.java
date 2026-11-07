@@ -29,6 +29,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.tablero = t;
         this.radarLA = new RadarLargoAlcance(t);
     }
+
     public boolean estaVivaNave(){
         return this.nave.estaViva();
     }
@@ -64,55 +65,21 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     //ÓRDENES PARA EL MOTOR WARP
-    /**
-
-     * post-cond: El motor warp de la nave cambiará de estado a Preparando Salto
-     */
-    public void solicitarPreparacionSalto() {
-        try {
-            nave.getMotorWarp().prepararSalto();
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ordenó preparar salto Warp.");
-        } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
-        }
+    public void solicitarEjecucionSaltoComun() {
+        nave.getMotorWarp().ejecutarSaltoComun();
+        bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
     }
 
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
-    public void solicitarEjecucionSalto() {
+    public void solicitarEjecucionSaltoWarp() {
         try {
-            nave.getMotorWarp().ejecutarSalto();
+            nave.getMotorWarp().ejecutarSaltoWarp();
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
-        } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
-        }
-    }
-
-    /**
-     * pre-cond: nave != null
-     * post-cond: El motor warp de la nave cambiará de estado a Enfriamiento
-     */
-    public void solicitarDesactivarWarp() {
-        try {
-            nave.getMotorWarp().enfriar();
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Desactivó motor Warp (entrando en enfriamiento).");
-        } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
-        }
-    }
-
-    /**
-     * pre-cond: nave != null
-     * post-cond: El motor warp de la nave cambiará de estado a Disponible
-     */
-    public void solicitarFinalizarEnfriamiento() {
-        try {
-            nave.getMotorWarp().finalizarEnfriamiento();
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Finalizó enfriamiento. Motor listo.");
-        } catch (TransicionMotorInvalidaException e) {
-            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage());
+        }catch (TransicionMotorInvalidaException e){
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
         }
     }
 

@@ -1,32 +1,30 @@
 package warp;
 
 import bitacora.Bitacora;
+import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
+import naves.Nave;
 
 public class MotorWarp {
+    final int COMBUSTIBLE_NECESARIO_COMUN = 2;
+    final int ENERGIA_NECESARIA_WARP = 5;
+    final int DESGASTE_MECANICO_WARP = 3;
     private EstadoWarp estadoActual;
-
+    private Nave nave;
 
     //SEGÚN REQUERIMIENTO E1-02 EL MOTOR COMIENZA EN ESTADO DISPONIBLE
-    public MotorWarp() {
+    public MotorWarp(Nave nave) {
         this.estadoActual = new EstadoDisponible(this);
+        this.nave = nave;
     }
 
-    //DELEGAMOS CADA ACCIÓNAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
-    public void prepararSalto() throws TransicionMotorInvalidaException {
-        estadoActual.prepararSalto();
+    public void ejecutarSaltoComun() {
+        estadoActual.ejecutarSaltoComun();
     }
 
-    public void ejecutarSalto() throws TransicionMotorInvalidaException {
-        estadoActual.ejecutarSalto();
-    }
-
-    public void enfriar() throws TransicionMotorInvalidaException {
-        estadoActual.enfriar();
-    }
-
-    public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
-        estadoActual.finalizarEnfriamiento();
+    //DELEGAMOS CADA ACCIONAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
+    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException{
+        estadoActual.ejecutarSaltoWarp();
     }
 
     //GETTERS & SETTERS
@@ -47,5 +45,9 @@ public class MotorWarp {
 
     public String getNombreEstadoActual() {
         return estadoActual.getNombreEstado();
+    }
+
+    public Nave getNave(){
+        return nave;
     }
 }

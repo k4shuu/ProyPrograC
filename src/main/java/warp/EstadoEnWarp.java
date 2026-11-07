@@ -1,5 +1,6 @@
 package warp;
 
+import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoEnWarp implements EstadoWarp {
@@ -15,24 +16,18 @@ public class EstadoEnWarp implements EstadoWarp {
         this.motor = motor;
     }
 
-    @Override
-    public void prepararSalto() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("ERROR [EN WARP]: No se puede preparar otro salto mientras se está en Warp.","EnWarp","PreparandoSalto");
+    public void ejecutarSaltoComun() {
+        try {
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+        }catch(FaltaCombustibleException e){
+            //System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void ejecutarSalto() {
-        //ACCIÓN ACTUAL
-    }
-
-    @Override
-    public void enfriar() { //TRANSICIÓN VÁLIDA
-        motor.setEstado(new EstadoDisponible(motor));
-    }
-
-    @Override
-    public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("ERROR [EN WARP]: Aún está en Warp, no puede finalizar enfriamiento","EnWarp","Disponible");
+    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException{
+        motor.setEstado(new EstadoEnfriamiento(motor));
+        throw new TransicionMotorInvalidaException("Error: Transición Inválida", getNombreEstado(), "En Warp");
     }
 
     @Override
