@@ -21,9 +21,10 @@ public class MisionRetorno extends Mision{
 
     @Override
     public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException {
+        this.obj = asistente.getTablero().obtenerObjetivo();
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                this.asistente.solicitarEjecucionSaltoWarp();
+                initRuta(obj);
             }else{
                 this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave");
                 throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave ",this.asistente.getNave().getDesgaste(),desgaste);
@@ -33,14 +34,13 @@ public class MisionRetorno extends Mision{
             throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getDesgaste());
         }
         this.estado = Estado.PREPARADA;
-        this.ruta = this.asistente.calcRuta(this.obj);
     }
 
     @Override
     public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
         this.asistente.getNave().usarCombustible(combConsumido);
         this.asistente.getNave().realizarDesgaste(desgaste);
-        this.asistente.solicitarEjecucionSaltoWarp();
+
         this.estado = Estado.EJECUTADA;
 
     }
@@ -55,9 +55,18 @@ public class MisionRetorno extends Mision{
     @Override
     public InformeMision cerrar() {
         this.asistente.escribirBitacora("Mision-03", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        Estado lastState = this.estado;
+        if (result == Resultado.EXITOSA) {
+            aplicarResultadoExitoso();
+        }
+
         this.estado = Estado.CERRADA;
-        return new InformeMision("M03",combConsumido, energCargada,desgaste,result,lastState);
+        return informe;
     }
 
+    // M03
+    protected void aplicarResultadoExitoso() {
+        getNave().setCombustible(100);
+        getNave().setEnergia(100);
+        getNave().mantenimiento();
+    }
 }

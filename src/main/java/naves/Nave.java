@@ -13,6 +13,7 @@ public abstract class Nave implements ElementoDelUniverso {
     protected int combustible;
     protected int energia;
     protected int desgaste;
+    protected int gemas = 0;
     protected boolean destruida=false;
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
@@ -193,6 +194,7 @@ public abstract class Nave implements ElementoDelUniverso {
         for (Tripulante tripulante : tripulacion)
             System.out.println(tripulante.getConceptoSueldo());
     }
+    public void addGemas(int valor){gemas+=valor;}
     public void setCombustible(int comb){this.combustible=comb;}
     public void setEnergia(int energia){this.energia=energia;}
     public void setIdentidad(String identidad){this.identidad=identidad;}

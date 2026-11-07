@@ -4,8 +4,10 @@ import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import excepciones.ExcesoEnergiaException;
 import destinoytablero.*;
+import naves.Nave;
 
 import java.util.List;
+import java.util.Random;
 
 
 public abstract class Mision {
@@ -15,8 +17,7 @@ public abstract class Mision {
     protected int energCargada;
     protected int desgaste;
     protected Posicion obj;
-    protected List<Posicion> ruta;
-
+    protected Random azar = new Random();
     protected InformeMision informe;
     protected Estado estado;
     public Resultado result = null;
@@ -81,6 +82,15 @@ public abstract class Mision {
      */
     public abstract InformeMision cerrar();
 
+    protected abstract void aplicarResultadoExitoso();
+
+    public List<Posicion> getRuta(){
+        return this.asistente.getRuta();
+    }
+    public void initRuta(Posicion p){
+        this.asistente.calcRuta(p);
+    }
+
     public Estado getEstado(){
         return this.estado;
     }
@@ -117,4 +127,5 @@ public abstract class Mision {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+    public Nave getNave(){return this.getAsistente().getNave();}
 }

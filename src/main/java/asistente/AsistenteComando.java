@@ -2,6 +2,7 @@ package asistente;
 
 import bitacora.Bitacora;
 import bitacora.Entrada;
+import excepciones.FaltaCombustibleException;
 import excepciones.TransicionMotorInvalidaException;
 import naves.Nave;
 import destinoytablero.*;
@@ -13,6 +14,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     private final Nave nave;
     private final Tablero tablero;
     private final RadarLargoAlcance radarLA;
+    private final RadarCortoAlcance radarCA;
+    private List<Posicion> ruta = null;
 
     /**
      * pre-cond:bitacora!=null
@@ -28,6 +31,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.nave = nave;
         this.tablero = t;
         this.radarLA = new RadarLargoAlcance(t);
+        this.radarCA = new RadarCortoAlcance(t);
     }
 
     public boolean estaVivaNave(){
@@ -65,8 +69,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     //ÓRDENES PARA EL MOTOR WARP
-    public void solicitarEjecucionSaltoComun() {
+    public void solicitarEjecucionSaltoComun(Posicion p) {
         nave.getMotorWarp().ejecutarSaltoComun();
+        tablero.moverNave(p);
         bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
     }
 
@@ -74,34 +79,32 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
-    public void solicitarEjecucionSaltoWarp() {
+    public void solicitarEjecucionSaltoWarp(Posicion p) {
         try {
             nave.getMotorWarp().ejecutarSaltoWarp();
+            tablero.moverNave(p);
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
         }catch (TransicionMotorInvalidaException e){
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
         }
     }
-
     /**
      * pre-cond: nave != null
      */
     public void mostrarLiquidacionHaberes(){
         nave.mostrarLiquidacionTripulacion();
     }
-
-    public List<Posicion> calcRuta(Posicion destino){
-        return this.radarLA.calcRuta(destino);
+    public List<Posicion> getRuta(){return ruta;}
+    public void calcRuta(Posicion destino){
+        this.ruta = this.radarLA.calcRuta(destino);
     }
     public Tablero getTablero() {
         return tablero;
     }
-
-    /*public Posicion getPosicion() {
-        return posicion;
+    public RadarLargoAlcance getRadarLA() {
+        return radarLA;
     }
-
-    public void moverNave(Posicion p){
-        tablero.moverNave(p);
-    }*/
+    public RadarCortoAlcance getRadarCA() {
+        return radarCA;
+    }
 }
