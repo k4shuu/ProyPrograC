@@ -18,8 +18,13 @@ public class Destino {
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
      * @param tablero tablero cuyos elementos coordinará
      */
-    public Destino(Tablero tablero){
+    private Destino(Tablero tablero){
         this.tablero = tablero;
+    }
+
+    public static Destino init(Tablero t){
+        if(instance == null) instance = new Destino(t);
+        return instance;
     }
 
     public static Destino getInstance(){
