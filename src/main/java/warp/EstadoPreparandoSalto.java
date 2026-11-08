@@ -1,7 +1,8 @@
 package warp;
 
+import excepciones.FaltaCombustibleException;
+import excepciones.FaltaEnergiaException;
 import excepciones.TransicionMotorInvalidaException;
-
 
 public class EstadoPreparandoSalto implements EstadoWarp {
     private MotorWarp motor;
@@ -16,24 +17,24 @@ public class EstadoPreparandoSalto implements EstadoWarp {
         this.motor = motor;
     }
 
-    @Override
-    public void prepararSalto() {
-        //ACCIÓN ACTUAL
+    public void ejecutarSaltoComun() {
+        try {
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+        }catch(FaltaCombustibleException e){
+            //System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void ejecutarSalto() {   //TRANSICIÓN VÁLIDA
-        motor.setEstado(new EstadoEnWarp(motor));
-    }
-
-    @Override
-    public void enfriar() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("Error [PREPARANDO SALTO]: El motor está preparando el salto, no puede enfriar.","PreparandoSalto","Enfriamiento");
-    }
-
-    @Override
-    public void finalizarEnfriamiento() throws TransicionMotorInvalidaException {
-        throw new TransicionMotorInvalidaException("Error [PREPARANDO SALTO]: El motor no puede finalizar enfriamiento.","PreparandoSalto","EnWarp");
+    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException {   //TRANSICIÓN VÁLIDA
+        try{
+            motor.getNave().usarEnergia(motor.ENERGIA_NECESARIA_WARP);
+            motor.setEstado(new EstadoEnWarp(motor));
+        }catch(FaltaEnergiaException e){
+            //System.out.println(e.getMessage());
+            ejecutarSaltoComun();
+            throw new TransicionMotorInvalidaException(e.getMessage(), this.getNombreEstado(), "ENWARP");
+        }
     }
 
     @Override
