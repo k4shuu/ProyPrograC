@@ -1,10 +1,10 @@
-package Vista;
+package MVC.RegistroLogin.Vista;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class VistaLogin extends JFrame implements IVistaLogin {
+public class VistaLogin extends JFrame implements Vista.IVistaLogin {
     private JTextField txtUsuario;
     private JPasswordField txtPassword;
     private JButton btnIniciarSesion;

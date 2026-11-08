@@ -1,5 +1,5 @@
-import Controlador.ControladorLogin;
-import Vista.VistaLogin;
+import MVC.RegistroLogin.Controlador.ControladorLogin;
+import MVC.RegistroLogin.Vista.VistaLogin;
 import bitacora.Bitacora;
 import naves.Nave;
 import naves.NaveFactory;

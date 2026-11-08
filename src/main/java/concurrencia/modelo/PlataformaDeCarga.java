@@ -1,4 +1,6 @@
+package concurrencia.modelo;
 import java.util.ArrayList;
+import concurrencia.observer.*;
 
 public class PlataformaDeCarga implements Observable {
     private ArrayList<Observador> observadores=new ArrayList<>();
