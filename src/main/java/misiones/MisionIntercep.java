@@ -51,16 +51,25 @@ public class MisionIntercep extends Mision {
         this.estado = Estado.PREPARADA;
     }
 
-    // M01
+    /**
+     * precond: la nave debe conservar el combustible y la energía solicitados
+     * postcond: se entregan los recursos solicitados y se actualizan los balances del informe
+     */
+    @Override
     protected void aplicarResultadoExitoso() {
         try {
             getNave().usarCombustible(combustibleSolicitado);
             getNave().usarEnergia(energiaSolicitada);
+            informe.actualizarBalances(getNave());
         } catch (FaltaCombustibleException | FaltaEnergiaException ignored) {
         }
     }
 
 
+    /**
+     * postcond: informa si la nave conserva los recursos solicitados para completar la misión
+     * @return true si la nave dispone del combustible y la energía solicitados; false en caso contrario
+     */
     @Override
     protected boolean cumpleCondicionFinal() {
         return getNave().getCombustible() >= combustibleSolicitado && getNave().getEnergia() >= energiaSolicitada;

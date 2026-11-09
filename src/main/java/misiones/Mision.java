@@ -119,14 +119,14 @@ public abstract class Mision {
         ElementoDelUniverso siguienteElemento = asistente.getRadarCA().analizarPasoSig(getRuta());
 
         if (siguienteElemento != null && getRuta().size() >= 2) {
-            asistente.solicitarEjecucionSaltoWarp(getRuta().get(1));
+            asistente.solicitarEjecucionSaltoWarp();
 
             if(asistente.getTablero().getPosicionNave().equals(getRuta().get(1))){
                 getRuta().removeFirst();
                 getRuta().removeFirst();
             }
         } else {
-            asistente.solicitarEjecucionSaltoComun(getRuta().getFirst());
+            asistente.solicitarEjecucionSaltoComun();
 
             if(asistente.getTablero().getPosicionNave().equals(getRuta().getFirst())){
                 getRuta().removeFirst();
@@ -220,6 +220,10 @@ public abstract class Mision {
         return informe;
     }
 
+    /**
+     * precond: la misión debe haber finalizado con resultado exitoso
+     * postcond: se aplica la recompensa correspondiente y se actualizan los balances del informe
+     */
     protected abstract void aplicarResultadoExitoso();
 
     public List<Posicion> getRuta(){

@@ -45,9 +45,14 @@ public class MisionRecolec extends Mision{
         this.estado = Estado.PREPARADA;
     }
 
+    /**
+     * precond: la misión debe haber finalizado con resultado exitoso
+     * postcond: se agregan entre 20 y 100 gemas y se actualizan los balances del informe
+     */
     @Override
     protected void aplicarResultadoExitoso() {
         getNave().addGemas(azar.nextInt(20,101));
+        informe.actualizarBalances(getNave());
     }
 
 }

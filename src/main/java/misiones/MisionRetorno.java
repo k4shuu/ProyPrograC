@@ -36,11 +36,15 @@ public class MisionRetorno extends Mision{
         this.estado = Estado.PREPARADA;
     }
 
-
-    // M03
+    /**
+     * precond: la misión debe haber finalizado con resultado exitoso
+     * postcond: se recargan los recursos, se repara la nave y se actualizan los balances del informe
+     */
+    @Override
     protected void aplicarResultadoExitoso() {
         getNave().setCombustible(100);
         getNave().setEnergia(100);
         getNave().mantenimiento();
+        informe.actualizarBalances(getNave());
     }
 }

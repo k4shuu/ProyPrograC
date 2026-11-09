@@ -38,12 +38,15 @@ public class InformeMision {
         this.gemasIniciales = nave.getGemas();
     }
 
+    /**
+     * precond: nave, resultado y estado deben ser distintos de null
+     * postcond: se actualizan los balances y se registra el resultado y el último estado de la misión
+     * @param nave nave utilizada para calcular los balances finales
+     * @param resultado resultado obtenido por la misión
+     * @param estado último estado alcanzado por la misión
+     */
     public void finalizar(Nave nave, Resultado resultado, Estado estado) {
-        this.balanceCombustible = nave.getCombustible() - combustibleInicial;
-        this.balanceEnergia = nave.getEnergia() - energiaInicial;
-        this.balanceDesgaste = nave.getDesgaste() - desgasteInicial;
-        this.balanceGemas = nave.getGemas() - gemasIniciales;
-
+        actualizarBalances(nave);
         this.result = resultado;
         this.lastState = estado;
     }
@@ -62,15 +65,24 @@ public class InformeMision {
                 formatoBalance(balanceGemas);
     }
 
+    /**
+     * precond: nave debe ser distinta de null
+     * postcond: los balances reflejan la diferencia entre los recursos actuales y los iniciales
+     * @param nave nave cuyos recursos actuales se utilizarán para calcular los balances
+     */
+    public void actualizarBalances(Nave nave) {
+        this.balanceCombustible = nave.getCombustible() - combustibleInicial;
+        this.balanceEnergia = nave.getEnergia() - energiaInicial;
+        this.balanceDesgaste = nave.getDesgaste() - desgasteInicial;
+        this.balanceGemas = nave.getGemas() - gemasIniciales;
+    }
+
     private String formatoBalance(int balance) {
         return balance > 0 ? "+" + balance : String.valueOf(balance);
     }
 
     public LocalDateTime getFechaHora() {return fechaHora;}
     public String getCod() {return cod;}
-    public int getCombGastado() {return combGastado;}
-    public int getEnergiaCargada() {return energiaCargada;}
-    public int getDesgaste() {return desgaste;}
     public Resultado getResult() {
         return result;
     }
