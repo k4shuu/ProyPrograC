@@ -69,7 +69,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     //ÓRDENES PARA EL MOTOR WARP
-    public void solicitarEjecucionSaltoComun(Posicion p) {
+    public void solicitarEjecucionSaltoComun() {
+        Posicion p = ruta.getFirst();
         nave.getMotorWarp().ejecutarSaltoComun();
         tablero.moverNave(p);
         bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
@@ -79,8 +80,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
-    public void solicitarEjecucionSaltoWarp(Posicion p) {
+    public void solicitarEjecucionSaltoWarp() {
         try {
+            Posicion p = ruta.get(1);
             nave.getMotorWarp().ejecutarSaltoWarp();
             tablero.moverNave(p);
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");

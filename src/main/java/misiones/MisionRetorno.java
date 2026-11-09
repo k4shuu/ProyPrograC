@@ -36,37 +36,15 @@ public class MisionRetorno extends Mision{
         this.estado = Estado.PREPARADA;
     }
 
+    /**
+     * precond: la misión debe haber finalizado con resultado exitoso
+     * postcond: se recargan los recursos, se repara la nave y se actualizan los balances del informe
+     */
     @Override
-    public void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
-        this.asistente.getNave().usarCombustible(combConsumido);
-        this.asistente.getNave().realizarDesgaste(desgaste);
-
-        this.estado = Estado.EJECUTADA;
-
-    }
-
-    @Override
-    public void evaluar() {
-        System.out.println("Evaluando resultados");
-        this.estado = Estado.EVALUADA;
-        this.result = Resultado.EXITOSA;
-    }
-
-    @Override
-    public InformeMision cerrar() {
-        this.asistente.escribirBitacora("Mision-03", "Misión finalizada, para mas informacion consultar el informe correspondiente");
-        if (result == Resultado.EXITOSA) {
-            aplicarResultadoExitoso();
-        }
-
-        this.estado = Estado.CERRADA;
-        return informe;
-    }
-
-    // M03
     protected void aplicarResultadoExitoso() {
         getNave().setCombustible(100);
         getNave().setEnergia(100);
         getNave().mantenimiento();
+        informe.actualizarBalances(getNave());
     }
 }
