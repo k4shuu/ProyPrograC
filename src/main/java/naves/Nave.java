@@ -125,7 +125,7 @@ public abstract class Nave implements ElementoDelUniverso {
      */
     public void cargarEnerg(int energ){
         int energiaAnterior=this.energia;
-        assert energ>0 && energ<=100:"La energia ingresada debe ser mayor a cero y menor o igual a 100";
+        assert energ>=0 && energ<=100:"La energia ingresada debe ser mayor igual a cero y menor o igual a 100";
         if(this.energia+energ<=100)
             this.energia += energ;
         else
@@ -145,7 +145,7 @@ public abstract class Nave implements ElementoDelUniverso {
      */
 
     public void usarCombustible(int comb) throws FaltaCombustibleException {
-        assert comb>0 && comb<=100:"Combustible ingresado debe ser mayor a cero y menor a 100";
+        assert comb>=0 && comb<=100:"Combustible ingresado debe ser mayor igual a cero y menor a 100";
         int combAnterior=this.combustible;
         if(this.combustible-comb>=0)
             this.combustible-=comb;
@@ -160,7 +160,7 @@ public abstract class Nave implements ElementoDelUniverso {
      * @param desgaste
      */
     public void realizarDesgaste(int desgaste) throws ExcesoDesgasteException {
-        assert desgaste>0 && desgaste<=100:"El desgaste ingresado debe ser mayor a cero y menor o igual a 100";
+        assert desgaste>=0 && desgaste<=100:"El desgaste ingresado debe ser mayor igual a cero y menor o igual a 100";
         int desgasteAnterior=this.desgaste;
         if(this.desgaste+desgaste<=100)
              this.desgaste+=desgaste;
@@ -204,5 +204,9 @@ public abstract class Nave implements ElementoDelUniverso {
     @Override
     public String toString(){
         return "Identidad: "+this.identidad+" combustible: "+this.combustible+" energia: "+this.energia+" desgaste: "+this.desgaste;
+    }
+
+    public int getGemas() {
+        return gemas;
     }
 }

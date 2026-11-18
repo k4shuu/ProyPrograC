@@ -2,10 +2,14 @@ import Controlador.ControladorLogin;
 import Vista.VistaLogin;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import destinoytablero.Destino;
 import destinoytablero.ElementoDelUniverso;
 import destinoytablero.Tablero;
 import excepciones.CantidadDeElementosSuperaCasillaException;
 import excepciones.DimensionesDeTableroInconsistentesException;
+import misiones.InformeMision;
+import misiones.Mision;
+import misiones.MisionFactory;
 import naves.Nave;
 import naves.NaveFactory;
 import tripulacion.CargoFactory;
@@ -43,6 +47,8 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        Destino.init(tablero);
+
         AsistenteComando asistente = new AsistenteComando(bitacora, nave1, tablero);
 
         //CARGA DE TRIPULACIÓN
@@ -64,6 +70,18 @@ public class Main {
         asistente.solicitarEjecucionSaltoWarp();
         System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
         asistente.solicitarEjecucionSaltoWarp();
+
+        Mision mision1 = MisionFactory.crearMision("M01", asistente);
+        InformeMision informe1 = mision1.comenzar();
+        System.out.println(informe1);
+
+        Mision mision2 = MisionFactory.crearMision("M02", asistente);
+        InformeMision informe2 = mision2.comenzar();
+        System.out.println(informe2);
+
+        Mision mision3 = MisionFactory.crearMision("M03", asistente);
+        InformeMision informe3 = mision3.comenzar();
+        System.out.println(informe3);
 
         bitacora.mostrarBitacora();
     }
