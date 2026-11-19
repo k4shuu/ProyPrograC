@@ -110,11 +110,11 @@ public class MisionIntercep extends Mision {
 
         // 3. Verificación en destino
         // Solo se llega aquí si el bucle terminó porque alcanzó el destino y sigue viva.
-        if (!recursosAdicionales()) {
-            fallarMision("Fallo: La nave no conservó los recursos exigidos para la entrega.");
-        } else {
-            completarMisionExitosamente();
-        }
+        //if (!recursosAdicionales()) {
+          //  fallarMision("Fallo: La nave no conservó los recursos exigidos para la entrega.");
+        //} else {
+          //  completarMisionExitosamente();
+        //}
     }
 
     @Override

@@ -15,8 +15,6 @@ public class Main {
         ControladorLogin controlador=new ControladorLogin(vistaLogin);
         vistaLogin.setVisible(true);
 
-
-
         Tripulante capitanVulcano1=OrigenFactory.crear(CargoFactory.crear("Capitan","Julia",5,0),"Vulcano");
         Tripulante consejeroMarciano2= OrigenFactory.crear(CargoFactory.crear("Consejero","Lucia",20,3),"Marciano");
 
