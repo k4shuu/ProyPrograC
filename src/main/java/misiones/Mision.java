@@ -179,7 +179,7 @@ public abstract class Mision {
             alcanzoDestino = alcanzoObjetivo();
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(3000);
             } catch (InterruptedException exception) {
                 Thread.currentThread().interrupt();
                 cancelarMision("La misión fue interrumpida");

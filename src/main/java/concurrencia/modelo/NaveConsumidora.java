@@ -1,3 +1,6 @@
+package concurrencia.modelo;
+import concurrencia.observer.Observador;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 

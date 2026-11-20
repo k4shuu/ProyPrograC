@@ -1,3 +1,11 @@
+package concurrencia.controlador;
+
+import concurrencia.modelo.GeneradoraDeEnergia;
+import concurrencia.modelo.NaveConsumidora;
+import concurrencia.modelo.PlataformaDeCarga;
+import concurrencia.vista.IVistaPrincipal;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,11 +17,13 @@ public class Controlador implements ActionListener {
     private PlataformaDeCarga plataforma;
     private int numGenerador=0;
     private int numNave=0;
+    private JFrame vistaPrincipal;
 
-    public Controlador(IVistaPrincipal vista,PlataformaDeCarga plataforma){
+    public Controlador(IVistaPrincipal vista,PlataformaDeCarga plataforma, JFrame vistaPrincipal){
         this.vista=vista;
         this.vista.setActionListener(this);
         this.plataforma=plataforma;
+        this.vistaPrincipal=vistaPrincipal;
     }
 
     @Override
@@ -24,6 +34,10 @@ public class Controlador implements ActionListener {
             break;
             case IVistaPrincipal.CREARGENERADOR: this.crearGenerador();
             break;
+            case IVistaPrincipal.VOLVER: // <-- NUEVO
+                ((JFrame) this.vista).setVisible(false); // Oculta concurrencia
+                this.vistaPrincipal.setVisible(true);      // Muestra el tablero principal
+                break;
         }
     }
     public void crearNave(){
