@@ -47,8 +47,6 @@ public class RecursosYBitacora implements IObservable {
         notificarObservadores();
     }
 
-    // --- Getters que la Vista usará para leer tus objetos ---
-    // Nota: Asegúrate de tener estos getters (o similares) creados en tu clase Nave
     public int getEnergia() { return nave.getEnergia(); }
     public int getDesgaste() { return nave.getDesgaste(); }
     public int getCombustible() { return nave.getCombustible(); }

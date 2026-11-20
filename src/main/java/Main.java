@@ -1,5 +1,5 @@
-import Controlador.ControladorLogin;
-import Vista.VistaLogin;
+import MVC.RegistroLogin.Controlador.ControladorLogin;
+import MVC.RegistroLogin.Vista.VistaLogin;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
 import destinoytablero.Destino;
@@ -41,12 +41,12 @@ public class Main {
         Tablero tablero;
         ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
 
-        try {
-            tablero = new Tablero(20, 20, elementos);
-        } catch (DimensionesDeTableroInconsistentesException | CantidadDeElementosSuperaCasillaException e) {
-            throw new RuntimeException(e);
-        }
+        //try {
 
+       // } catch (DimensionesDeTableroInconsistentesException | CantidadDeElementosSuperaCasillaException e) {
+       //     throw new RuntimeException(e);
+      //  }
+        tablero = new Tablero(20, 20, elementos);
         Destino.init(tablero);
 
         AsistenteComando asistente = new AsistenteComando(bitacora, nave1, tablero);

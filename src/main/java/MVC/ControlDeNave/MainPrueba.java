@@ -1,49 +1,76 @@
 package MVC.ControlDeNave;
 
+import MVC.ControlDeNave.Controlador.ControladorTablero;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.CrearMision.Controlador.ControladorMision;
+import MVC.CrearMision.Vista.VistaGameOver;
+import MVC.CrearMision.Vista.VistaMision;
+import asistente.AsistenteComando;
+import bitacora.Bitacora;
+import concurrencia.controlador.Controlador;
 import concurrencia.modelo.PlataformaDeCarga;
 import concurrencia.observer.Observador;
 import concurrencia.vista.VistaConcurrencia;
 import destinoytablero.Destino;
 import destinoytablero.ElementoDelUniverso;
 import destinoytablero.Tablero;
-import naves.Nave;
-import bitacora.Bitacora;
-import MVC.ControlDeNave.Controlador.ControladorTablero;
-import naves.NaveFactory;
+import elementos.Asteroide;
+
+import elementos.EstacionesDeCarga;
+import naves.*;
 
 import java.util.ArrayList;
 
+
 public class MainPrueba {
 
-    public static void main(String[] args) {
-        try {
-            // 1. Crear la lista de elementos (asteroides, planetas, etc.)
-            ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
+        public static void main(String[] args) {
+            try {
+                // 1. Modelos base
+                ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
+                // Asteroides
+                for (int i = 0; i < 6; i++) {
+                    elementos.add(new Asteroide());
+                }
 
-            Tablero tablero = new Tablero(20, 20, elementos);
-            Destino destino = new Destino(tablero);
-            Nave nave = NaveFactory.crearNave("carguero","nave01",100,60,0);
-            Bitacora bitacora = new Bitacora();
+                // Estaciones de carga
+                for (int i = 0; i < 3; i++) {
+                    elementos.add(new EstacionesDeCarga());
+                }
 
-            PlataformaDeCarga plataforma = new PlataformaDeCarga(3);
+                // Naves enemigas (respetando las precondiciones de Nave: valores > 0 y <= 100)
+                elementos.add(new NaveCombate("Enemigo-C1", 100, 100, 10));
+                elementos.add(new NaveCarguero("Enemigo-G1", 100, 100, 10));
+                elementos.add(new NaveExploradora("Enemigo-E1", 100, 100, 10));
 
-            VistaPrincipal vistaPrincipal = new VistaPrincipal(tablero, nave, bitacora);
-            VistaConcurrencia vistaConcurrencia = new VistaConcurrencia();
-            plataforma.agregarObservador((Observador) vistaConcurrencia);
+                Tablero tablero = new Tablero(20, 20, elementos, null);
+                Destino.init(tablero);
+                Nave nave = NaveFactory.crearNave("carguero", "nave01", 100, 60, 0);
+                Bitacora bitacora = new Bitacora();
+                PlataformaDeCarga plataforma = new PlataformaDeCarga(3);
 
-            ControladorTablero ctrlTablero = new ControladorTablero(tablero, destino, vistaPrincipal, vistaConcurrencia);
+                // Ajusta el orden/cantidad de parámetros según tu constructor real de AsistenteComando
+                AsistenteComando asistente = new AsistenteComando(bitacora,nave,tablero);
 
-            // El controlador de concurrencia necesita conocer la vista principal para volver a ella
-            concurrencia.controlador.Controlador ctrlConcurrencia = new concurrencia.controlador.Controlador(vistaConcurrencia, plataforma, vistaPrincipal);
+                // 2. Vistas
+                VistaPrincipal vistaPrincipal = new VistaPrincipal(asistente, tablero, nave, bitacora);
+                VistaConcurrencia vistaConcurrencia = new VistaConcurrencia();
+                VistaMision vistaMision = new VistaMision();
+                VistaGameOver vistaGameOver = new VistaGameOver();
 
-            // 4. Iniciar
-            ctrlTablero.iniciar();
+                plataforma.agregarObservador((Observador) vistaConcurrencia);
 
-        } catch (Exception e) {
-            // Captura las excepciones de dimensiones o cantidad de elementos del tablero
-            System.err.println("Error al iniciar el tablero: " + e.getMessage());
-            e.printStackTrace();
+                // 3. Controladores
+                ControladorTablero ctrlTablero = new ControladorTablero(vistaPrincipal, vistaConcurrencia);
+                Controlador ctrlConcurrencia = new Controlador(vistaConcurrencia, plataforma, vistaPrincipal);
+                ControladorMision ctrlMision = new ControladorMision(vistaMision, vistaPrincipal, vistaGameOver, asistente);
+
+                // 4. Iniciar desde el selector de misiones
+                ctrlMision.iniciar();
+
+            } catch (Exception e) {
+                System.err.println("Error al iniciar la aplicación: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
-}
