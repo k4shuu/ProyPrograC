@@ -12,33 +12,19 @@ import java.util.*;
  * comienzan en 0. Cada casilla admite un elemento.
  */
 public class Tablero extends Observable {
-    /**
-     * Cantidad de filas del tablero.
-     */
+    /** Cantidad de filas del tablero. */
     private final int x;
-    /**
-     * Cantidad de columnas del tablero.
-     */
+    /** Cantidad de columnas del tablero. */
     private final int y;
-    /**
-     * Copia de las entradas originales que se redistribuyen.
-     */
+    /** Copia de las entradas originales que se redistribuyen. */
     private final ArrayList<ElementoDelUniverso> elementos;
-    /**
-     * Asociación entre cada casilla ocupada y su elemento.
-     */
+    /** Asociación entre cada casilla ocupada y su elemento. */
     private final HashMap<Posicion, ElementoDelUniverso> ocupacion = new HashMap<Posicion, ElementoDelUniverso>();
-    /**
-     * Generador para distribuir elementos y elegir objetivos.
-     */
+    /** Generador para distribuir elementos y elegir objetivos. */
     private final Random azar = new Random();
-    /**
-     * Ubicación actual de la nave.
-     */
+    /** Ubicación actual de la nave. */
     private Posicion posicionNave;
-    /**
-     * Objetivo actual, o nulo si todavía no se eligió.
-     */
+    /** Objetivo actual, o nulo si todavía no se eligió. */
     private Posicion objetivo;
 
     /**
@@ -48,15 +34,14 @@ public class Tablero extends Observable {
      * <p><b>Postcondiciones:</b> conserva una copia de la lista. Cada entrada
      * ocupa una casilla distinta dentro del tablero. La nave comienza en el
      * centro del tablero y el objetivo comienza en {@code null}.</p>
-     *
-     * @param x         cantidad de filas, entre 5 y 100 inclusive
-     * @param y         cantidad de columnas, entre 5 y 100 inclusive
+     * @param x cantidad de filas, entre 5 y 100 inclusive
+     * @param y cantidad de columnas, entre 5 y 100 inclusive
      * @param elementos elementos que se ubicarán en el tablero
      * @throws DimensionesDeTableroInconsistentesException si una dimensión está fuera del rango
-     * @throws CantidadDeElementosSuperaCasillaException   si la cantidad supera
-     *                                                     {@code x * y / 4 * 3}, con división entera
+     * @throws CantidadDeElementosSuperaCasillaException si la cantidad supera
+     *         {@code x * y / 4 * 3}, con división entera
      */
-    public Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos, Posicion destino) throws DimensionesDeTableroInconsistentesException, CantidadDeElementosSuperaCasillaException {
+    public Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) throws DimensionesDeTableroInconsistentesException, CantidadDeElementosSuperaCasillaException {
         if (x < 5 || y < 5) {
             throw new DimensionesDeTableroInconsistentesException("tamaño mínimo 5x5");
         }
@@ -74,16 +59,8 @@ public class Tablero extends Observable {
         distribuirObjetos();
     }
 
-    public Tablero(int x, int y, ArrayList<ElementoDelUniverso> elementos) {
-        super();
-        this.x = x;
-        this.y = y;
-        this.elementos = elementos;
-    }
-
     /**
      * Consulta la cantidad de filas.
-     *
      * @return cantidad de filas (tamaño del eje x)
      */
     public int getX() {
@@ -92,7 +69,6 @@ public class Tablero extends Observable {
 
     /**
      * Consulta la cantidad de columnas.
-     *
      * @return cantidad de columnas (tamaño del eje y)
      */
     public int getY() {
@@ -103,7 +79,6 @@ public class Tablero extends Observable {
      * Consulta la posición actual de la nave.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> el estado del tablero permanece igual.</p>
-     *
      * @return posición actual de la nave
      */
     public Posicion getPosicionNave() {
@@ -138,11 +113,10 @@ public class Tablero extends Observable {
      * <p><b>Postcondiciones:</b> devuelve una casilla sin elemento y distinta
      * del objetivo. No altera la ocupación, la nave ni el objetivo.
      * Los empates no se resuelven necesariamente con probabilidad uniforme.</p>
-     *
      * @param actual posición inicial de la búsqueda
      * @return posición disponible más cercana, o la inicial si ya está disponible
      * @throws IllegalStateException si no existe ninguna casilla disponible
-     * @throws NullPointerException  si la posición inicial es nula
+     * @throws NullPointerException si la posición inicial es nula
      */
     private Posicion buscarLibre(Posicion actual) {
         if (estaLibre(actual)) {
@@ -173,7 +147,6 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> la posición no es nula y pertenece al tablero.</p>
      * <p><b>Postcondiciones:</b> devuelve una lista nueva de hasta ocho posiciones,
      * sin incluir el centro ni coordenadas fuera del tablero. No modifica el estado.</p>
-     *
      * @param posicion centro del vecindario
      * @return posiciones vecinas dentro de los límites
      * @throws NullPointerException si la posición es nula
@@ -197,10 +170,9 @@ public class Tablero extends Observable {
     /**
      * Comprueba si unas coordenadas pertenecen al tablero.
      * <p><b>Precondiciones:</b> la posición no es nula.</p>
-     *
      * @param posicion coordenadas por comprobar
      * @return {@code true} si {@code 0 <= x < cantidad de filas} y
-     * {@code 0 <= y < cantidad de columnas}
+     *         {@code 0 <= y < cantidad de columnas}
      * @throws NullPointerException si la posición es nula
      */
     protected boolean estaDentro(Posicion posicion) {
@@ -212,7 +184,6 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> la posición no es nula y está dentro del tablero.
      * Este método no comprueba los límites.</p>
      * <p><b>Postcondiciones:</b> el estado permanece igual.</p>
-     *
      * @param posicion casilla por consultar
      * @return {@code true} si no hay elemento y no coincide con el objetivo
      */
@@ -225,29 +196,27 @@ public class Tablero extends Observable {
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> devuelve una lista nueva, ordenada por fila
      * y luego por columna. Puede incluir el objetivo. No modifica el estado.</p>
-     *
      * @return todas las casillas sin elementos, o una lista vacía si no hay ninguna
      */
     private ArrayList<Posicion> casillasLibres() {
-        ArrayList<Posicion> libres = new ArrayList<Posicion>();
-        for (int fila = 0; fila < x; fila++) {
-            for (int columna = 0; columna < y; columna++) {
-                Posicion posicion = new Posicion(fila, columna);
-                if (!ocupacion.containsKey(posicion)) {
-                    libres.add(posicion);
-                }
-            }
-        }
-        return libres;
-    }
-
-    /**
+      ArrayList<Posicion> libres = new ArrayList<Posicion>();
+       for (int fila = 0; fila < x; fila++) {
+           for (int columna = 0; columna < y; columna++) {
+               Posicion posicion = new Posicion(fila, columna);
+               if (!ocupacion.containsKey(posicion)) {
+                   libres.add(posicion);
+               }
+           }
+       }
+       return libres;
+   }
+ 
+   /**
      * Obtiene una copia de la ocupación actual.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> modificar las entradas del mapa devuelto no altera
      * el tablero. Las posiciones y los elementos se comparten por referencia.
      * No se clonan. La nave y el objetivo no se agregan al mapa.</p>
-     *
      * @return copia del mapa de posiciones ocupadas y sus elementos
      */
     protected HashMap<Posicion, ElementoDelUniverso> obtenerElementos() {
@@ -261,19 +230,17 @@ public class Tablero extends Observable {
      * <p><b>Postcondiciones:</b> la nave queda en la posición recibida, incluso
      * si contiene un elemento. La ocupación y el objetivo permanecen iguales.
      * al terminar, notifica a los observadores registrados en este tablero.</p>
-     *
      * @param posicion nueva ubicación de la nave
      */
     public void moverNave(Posicion posicion) {
         posicionNave = posicion;
         notificarObservadores();
-    }
+    } 
 
     /**
      * Consulta el elemento ubicado en la posición actual de la nave.
      * <p><b>Postcondiciones:</b> no modifica el tablero ni la posición de la
      * nave.</p>
-     *
      * @return elemento en la posición de la nave, o {@code null} si está vacía
      */
     public ElementoDelUniverso inspeccionarPosicion() {
@@ -292,7 +259,6 @@ public class Tablero extends Observable {
      * <p><b>Postcondiciones:</b> devuelve una matriz nueva de tamaño 3 por 3,
      * con la ocupación observada al momento de la llamada. Modificar la matriz
      * no modifica el tablero. Los elementos se comparten por referencia.</p>
-     *
      * @return matriz del vecindario, con la posición de la nave en [1][1]
      */
     public ElementoDelUniverso[][] observarAlrededores() {
@@ -309,15 +275,15 @@ public class Tablero extends Observable {
         return alrededores;
     }
 
+    
 
     /**
      * Consulta el objetivo actual sin volver a elegirlo.
      * <p><b>Precondiciones:</b> ninguna.</p>
      * <p><b>Postcondiciones:</b> el estado permanece igual.</p>
-     *
      * @return objetivo actual, o {@code null} si todavía no se eligió uno
      */
-    public Posicion getObjetivo() {
+    protected Posicion getObjetivo() {
         return objetivo;
     }
 
@@ -328,7 +294,6 @@ public class Tablero extends Observable {
      * La posición de referencia es la posición actual de la nave.</p>
      * <p><b>Postcondiciones:</b> el objetivo guardado coincide con el resultado.
      * Puede ser igual al anterior. No cambia la ocupación ni la nave.</p>
-     *
      * @return nueva posición del objetivo
      */
     public Posicion obtenerObjetivo() {
@@ -337,7 +302,7 @@ public class Tablero extends Observable {
         ArrayList<Posicion> libres = casillasLibres();
         Collections.shuffle(libres, azar);
         int i = 0;
-        while (i < libres.size() && libre == null) {
+        while(i < libres.size() && libre == null){
             Posicion posicion = libres.get(i);
             int distancia = Math.max(Math.abs(posicion.getX() - referencia.getX()), Math.abs(posicion.getY() - referencia.getY()));
             if (distancia >= 2) {
@@ -345,7 +310,7 @@ public class Tablero extends Observable {
             }
             i++;
         }
-        if (libre == null) {
+        if (libre == null){
             libre = libres.get(azar.nextInt(libres.size()));
         }
         this.objetivo = libre;
@@ -361,9 +326,8 @@ public class Tablero extends Observable {
      * <p><b>Postcondiciones:</b> el origen queda libre y el mismo elemento queda
      * asociado al destino. Se conserva la cantidad de elementos y no cambian
      * la nave ni el objetivo.</p>
-     *
      * @param posActual posición ocupada por el elemento
-     * @param posNueva  destino del elemento
+     * @param posNueva destino del elemento
      */
     protected void moverElemento(Posicion posActual, Posicion posNueva) {
         ElementoDelUniverso elemento = ocupacion.remove(posActual);
@@ -378,7 +342,7 @@ public class Tablero extends Observable {
      * sus observadores. No altera dimensiones, ocupación, nave ni objetivo.</p>
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
      */
-    protected void notificarActualizacion() {
+    protected void notificarActualizacion(){
         notificarObservadores();
     }
 
@@ -395,9 +359,8 @@ public class Tablero extends Observable {
      * contenidos se comparten por referencia. No incluye la nave ni el
      * objetivo.</p>
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
-     *
      * @return matriz de elementos indexada como {@code matriz[fila][columna]},
-     * con {@code null} en las casillas vacías
+     *         con {@code null} en las casillas vacías
      */
     public ElementoDelUniverso[][] verTablero() {
         ElementoDelUniverso[][] tablero = new ElementoDelUniverso[x][y];
@@ -410,41 +373,4 @@ public class Tablero extends Observable {
         return tablero;
     }
 
-    public List<Posicion> calcularRuta(Posicion inicio, Posicion fin) {
-        Queue<Posicion> cola = new LinkedList<>();
-        Map<Posicion, Posicion> padres = new HashMap<>();
-        cola.add(inicio);
-        padres.put(inicio, null);
-
-        int[][] direcciones = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Arriba, Abajo, Izq, Der
-
-        while (!cola.isEmpty()) {
-            Posicion actual = cola.poll();
-            if (actual.equals(fin)) break;
-
-            for (int[] dir : direcciones) {
-                int nx = actual.getX() + dir[0];
-                int ny = actual.getY() + dir[1];
-
-                if (nx >= 0 && nx < getX() && ny >= 0 && ny < getY()) {
-                    Posicion vecina = new Posicion(nx, ny);
-                    // Entramos si no ha sido visitada y (está vacía o es el objetivo)
-                    if (!padres.containsKey(vecina) &&
-                            (inspeccionarPosicion(vecina) == null || vecina.equals(fin))) {
-                        padres.put(vecina, actual);
-                        cola.add(vecina);
-                    }
-                }
-            }
-        }
-        List<Posicion> ruta = new ArrayList<>();
-        Posicion paso = fin;
-        if (padres.containsKey(fin)) {
-            while (paso != null && !paso.equals(inicio)) {
-                ruta.add(0, paso);
-                paso = padres.get(paso);
-            }
-        }
-        return ruta;
-    }
 }

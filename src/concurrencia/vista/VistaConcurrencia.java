@@ -1,12 +1,7 @@
-package concurrencia.vista;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
-import concurrencia.observer.*;
-import concurrencia.vista.IVistaPrincipal;
 
 public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observador {
 
@@ -14,7 +9,6 @@ public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observ
     private JButton btnCrearGeneradora;
     private JTextArea txtConsola;
     private JLabel lblError; // Componente para notificar errores
-    private JButton btnVolver;
 
     public VistaConcurrencia() {
         // Configuración de la ventana
@@ -68,20 +62,13 @@ public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observ
         lblError.setFont(new Font("SansSerif", Font.BOLD, 12));
         lblError.setHorizontalAlignment(SwingConstants.CENTER);
 
-        //boton volver
-        btnVolver = new JButton("Volver al Tablero Principal");
-
-        JPanel panelSur = new JPanel(new BorderLayout());
-        panelSur.add(lblError, BorderLayout.NORTH);
-        panelSur.add(btnVolver, BorderLayout.SOUTH);
         // Ensamblaje final
         contentPane.add(panelControles, BorderLayout.NORTH);
         contentPane.add(scrollConsola, BorderLayout.CENTER);
-        contentPane.add(panelSur, BorderLayout.SOUTH);
+        contentPane.add(lblError, BorderLayout.SOUTH);
 
         this.btnCrearGeneradora.setActionCommand(CREARGENERADOR);
         this.btnCrearNave.setActionCommand(CREARNAVE);
-        this.btnVolver.setActionCommand(VOLVER);
     }
 
     public JButton getBtnCrearNave() {
@@ -100,7 +87,6 @@ public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observ
     public void setActionListener(ActionListener listener) {
         this.btnCrearNave.addActionListener(listener);
         this.btnCrearGeneradora.addActionListener(listener);
-        this.btnVolver.addActionListener(listener);
     }
 
     // Métodos para gestionar la visualización de errores

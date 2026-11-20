@@ -1,4 +1,3 @@
-package concurrencia.observer;
 public interface Observable {
     public void agregarObservador(Observador observador);
     public void quitarObservador(Observador observador);

@@ -1,4 +1,3 @@
-package concurrencia.modelo;
 
 import java.util.concurrent.ThreadLocalRandom;
 

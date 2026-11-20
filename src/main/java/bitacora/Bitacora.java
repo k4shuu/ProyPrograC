@@ -42,17 +42,9 @@ public class Bitacora { //LISTA DE EVENTOS REGISTRABLES
         return Collections.unmodifiableList(entradas); //NO MODIFICAREMOS, SOLO CARGAREMOS
     }
 
-    public List<String> mostrarBitacora() {
+    public void mostrarBitacora() {
         for (Entrada entrada : entradas)
             System.out.println(entrada.toString());
-        return null;
-    }
-
-    public String getHistorialBitacora() {
-        String cad = null;
-        for (Entrada entrada : entradas)
-            cad = cad + entrada.getMensaje() + "\n" ;
-        return cad;
     }
 
     public Entrada getUltimaEntrada(){

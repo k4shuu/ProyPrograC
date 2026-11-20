@@ -103,7 +103,9 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     public Tablero getTablero() {
         return tablero;
     }
-    public RadarLargoAlcance getRadarLA() { return radarLA; }
+    public RadarLargoAlcance getRadarLA() {
+        return radarLA;
+    }
     public RadarCortoAlcance getRadarCA() {
         return radarCA;
     }
