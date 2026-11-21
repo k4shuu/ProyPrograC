@@ -2,8 +2,7 @@ package asistente;
 
 import bitacora.Bitacora;
 import bitacora.Entrada;
-import excepciones.FaltaCombustibleException;
-import excepciones.TransicionMotorInvalidaException;
+import excepciones.*;
 import naves.Nave;
 import destinoytablero.*;
 
@@ -69,25 +68,47 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
     }
 
     //ÓRDENES PARA EL MOTOR WARP
-    public void solicitarEjecucionSaltoComun() {
-        Posicion p = ruta.getFirst();
-        nave.getMotorWarp().ejecutarSaltoComun();
-        tablero.moverNave(p);
-        bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
+    public void solicitarEjecucionSaltoComun() throws NaveDestruidaException {
+        try {
+            Posicion p = ruta.getFirst();
+            nave.getMotorWarp().ejecutarSaltoComun();
+            tablero.moverNave(p);
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
+        }
+        catch(FaltaCombustibleException e){
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
+            throw new NaveDestruidaException("Nave destruida por falta de combustible para ejecutar salto comun");
+        }
     }
 
     /**
      * pre-cond: nave != null
      * post-cond: El motor warp de la nave cambiará de estado a En Warp
      */
-    public void solicitarEjecucionSaltoWarp() {
+    public void solicitarEjecucionSaltoWarp() throws NaveDestruidaException{
         try {
-            Posicion p = ruta.get(1);
+            int combAnt=nave.getCombustible();
+            Posicion p;
             nave.getMotorWarp().ejecutarSaltoWarp();
+            if (combAnt==(nave.getCombustible()+1) ){
+                 p = ruta.getFirst();
+            }
+            else{
+                 p = ruta.get(1);
+            }
             tablero.moverNave(p);
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
-        }catch (TransicionMotorInvalidaException e){
+        }catch (FaltaCombustibleException e){
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
+            throw new NaveDestruidaException("Nave destruida por falta de combustible para ejecutar saltoWarp");
+        }
+        catch (FaltaEnergiaException e){
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
+            throw new NaveDestruidaException("Nave destruida por falta de energia para ejecutar saltoWarp");
+        }
+        catch (ExcesoDesgasteException e){
+            bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: " + e.getMessage() + ".");
+            throw new NaveDestruidaException("Nave destruida por exceso de desgaste para ejecutar saltoWarp");
         }
     }
     /**

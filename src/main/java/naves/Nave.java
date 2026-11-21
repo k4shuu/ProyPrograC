@@ -24,12 +24,8 @@ public abstract class Nave implements ElementoDelUniverso  {
     public boolean estaViva(){
         return !this.destruida && energia>0 && desgaste<100 && combustible>0;
     }
-    public void colisionConAsteroide(int energia){
-        if ((this.energia-energia)<0)
-            this.energia=0;
-        else
-            this.energia-=energia;
-    }
+
+
 
     public void ayudaEstacion(int energia){
         this.cargarEnerg(energia);

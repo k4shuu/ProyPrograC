@@ -1,11 +1,13 @@
 package naves;
 
+import excepciones.NaveDestruidaException;
+
 public class NaveCarguero extends Nave{
 
     @Override
-    public void interactuar(Nave nave) {
+    public void interactuar(Nave nave) throws NaveDestruidaException {
         if(nave.atacadoPorCarguero()==Resultado.PIERDE)
-            this.destruida=true;
+            throw new NaveDestruidaException("Nave destruida por ataque de otra nave");
     }
 
     @Override

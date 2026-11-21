@@ -1,6 +1,8 @@
 package concurrencia.observer;
 
 
+import java.util.ArrayList;
+
 public abstract class Observable {
 
     /** Observadores que reciben las actualizaciones de este objeto. */

@@ -1,7 +1,8 @@
 package destinoytablero;
 
+import excepciones.NaveDestruidaException;
 import naves.Nave;
 
 public interface ElementoDelUniverso {
-    public void interactuar(Nave nave);
+    void interactuar(Nave nave) throws NaveDestruidaException;
 }

@@ -2,6 +2,7 @@ package warp;
 
 import excepciones.FaltaCombustibleException;
 import excepciones.FaltaEnergiaException;
+import excepciones.NaveDestruidaException;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoPreparandoSalto implements EstadoWarp {
@@ -17,24 +18,19 @@ public class EstadoPreparandoSalto implements EstadoWarp {
         this.motor = motor;
     }
 
-    public void ejecutarSaltoComun() {
-        try {
-            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
-        }catch(FaltaCombustibleException e){
-            //System.out.println(e.getMessage());
-        }
+    public void ejecutarSaltoComun() throws FaltaCombustibleException {
+        if (this.motor.getNave().getEnergia() >= 5)
+                this.motor.setEstado(new EstadoEnWarp(motor));
+        motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+
     }
 
     @Override
-    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException {   //TRANSICIÓN VÁLIDA
-        try{
-            motor.getNave().usarEnergia(motor.ENERGIA_NECESARIA_WARP);
-            motor.setEstado(new EstadoEnWarp(motor));
-        }catch(FaltaEnergiaException e){
-            //System.out.println(e.getMessage());
-            ejecutarSaltoComun();
-            throw new TransicionMotorInvalidaException(e.getMessage(), this.getNombreEstado(), "ENWARP");
-        }
+    public void ejecutarSaltoWarp() throws FaltaCombustibleException {   //TRANSICIÓN VÁLIDA
+            if (this.motor.getNave().getEnergia() >= 5)
+                this.motor.setEstado(new EstadoEnWarp(motor));
+            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+
     }
 
     @Override

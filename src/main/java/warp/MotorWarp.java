@@ -2,9 +2,10 @@ package warp;
 
 import bitacora.Bitacora;
 import destinoytablero.Posicion;
-import excepciones.FaltaCombustibleException;
-import excepciones.TransicionMotorInvalidaException;
+import excepciones.*;
 import naves.Nave;
+
+import java.util.List;
 
 public class MotorWarp {
     final int COMBUSTIBLE_NECESARIO_COMUN = 2;
@@ -19,13 +20,13 @@ public class MotorWarp {
         this.nave = nave;
     }
 
-    public void ejecutarSaltoComun() {
+    public void ejecutarSaltoComun() throws FaltaCombustibleException {
         estadoActual.ejecutarSaltoComun();
     }
 
 
     //DELEGAMOS CADA ACCIONAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
-    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException{
+    public void ejecutarSaltoWarp() throws FaltaCombustibleException, FaltaEnergiaException, ExcesoDesgasteException {
         estadoActual.ejecutarSaltoWarp();
     }
 

@@ -1,8 +1,9 @@
 package concurrencia.vista;
-import javax.swing.*;
+import concurrencia.observer.Observador;
+
 import java.awt.event.ActionListener;
 
-public interface IVistaPrincipal extends Observador {
+public interface IVistaConcurrencia extends Observador {
     String CREARNAVE="CREARNAVE";
     String CREARGENERADOR="CREARGENERADOR";
     String VOLVER="VOLVER";
@@ -11,5 +12,6 @@ public interface IVistaPrincipal extends Observador {
     void limpiarError();
     void setError(String mensaje);
     void registrarEvento(String mensaje);
+    void setVisible(boolean b);
 
 }

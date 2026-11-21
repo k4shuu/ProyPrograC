@@ -3,15 +3,15 @@ package concurrencia.controlador;
 import concurrencia.modelo.GeneradoraDeEnergia;
 import concurrencia.modelo.NaveConsumidora;
 import concurrencia.modelo.PlataformaDeCarga;
-import concurrencia.vista.IVistaPrincipal;
+import concurrencia.vista.IVistaConcurrencia;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Controlador implements ActionListener {
-    private IVistaPrincipal vista;
+public class ControladorConcurrencia implements ActionListener {
+    private IVistaConcurrencia vista;
     private ArrayList<GeneradoraDeEnergia> generadores=new ArrayList<>();
     private ArrayList<NaveConsumidora> naves=new ArrayList<>();
     private PlataformaDeCarga plataforma;
@@ -19,7 +19,7 @@ public class Controlador implements ActionListener {
     private int numNave=0;
     private JFrame vistaPrincipal;
 
-    public Controlador(IVistaPrincipal vista,PlataformaDeCarga plataforma, JFrame vistaPrincipal){
+    public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, JFrame vistaPrincipal){
         this.vista=vista;
         this.vista.setActionListener(this);
         this.plataforma=plataforma;
@@ -31,12 +31,12 @@ public class Controlador implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         this.vista.limpiarError();
         switch (e.getActionCommand()){
-            case IVistaPrincipal.CREARNAVE: this.crearNave();
+            case IVistaConcurrencia.CREARNAVE: this.crearNave();
             break;
-            case IVistaPrincipal.CREARGENERADOR: this.crearGenerador();
+            case IVistaConcurrencia.CREARGENERADOR: this.crearGenerador();
             break;
-            case IVistaPrincipal.VOLVER: // <-- NUEVO
-                ((JFrame) this.vista).setVisible(false); // Oculta concurrencia
+            case IVistaConcurrencia.VOLVER: // <-- NUEVO
+                this.vista.setVisible(false); // Oculta concurrencia
                 this.vistaPrincipal.setVisible(true);      // Muestra el tablero principal
                 break;
         }

@@ -3,7 +3,6 @@ package misiones;
 import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import excepciones.ExcesoEnergiaException;
 
 public class MisionRecolec extends Mision{
 
@@ -23,7 +22,7 @@ public class MisionRecolec extends Mision{
     }
 
     @Override
-    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException , ExcesoEnergiaException{
+    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException {
         this.obj = asistente.getTablero().obtenerObjetivo();
         if(this.asistente.getNave().tieneCombustible(combConsumido))
             if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
@@ -31,7 +30,7 @@ public class MisionRecolec extends Mision{
                     initRuta(obj);
                 }else {
                     this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
-                    throw new ExcesoEnergiaException("No será posible completar la carga de energia porque excede la capacidad de la nave", asistente.getNave().getEnergia(), energCargada);
+
                 }
             }
             else{
