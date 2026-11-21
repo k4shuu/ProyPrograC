@@ -91,7 +91,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             int combAnt=nave.getCombustible();
             Posicion p;
-            nave.getMotorWarp().ejecutarSaltoWarp();
+            int paso=nave.getMotorWarp().ejecutarSaltoWarp();
 
             if(nave.getEnergia()==0)
                 throw new NaveDestruidaException("Nave destruida por no tener energia al haber ejecutado salto warp con exito");
@@ -100,7 +100,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             if(nave.getDesgaste()==100)
                 throw new NaveDestruidaException("Nave destruida por tener desgaste 100 al haber ejecutado con exito salto warp");
 
-            if (combAnt==(nave.getCombustible()+1) ){
+            if (paso==1){
                  p = ruta.getFirst();
             }
             else{

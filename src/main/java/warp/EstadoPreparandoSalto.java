@@ -26,10 +26,12 @@ public class EstadoPreparandoSalto implements EstadoWarp {
     }
 
     @Override
-    public void ejecutarSaltoWarp() throws FaltaCombustibleException {   //TRANSICIÓN VÁLIDA
+    public int ejecutarSaltoWarp() throws FaltaCombustibleException {   //TRANSICIÓN VÁLIDA
             if (this.motor.getNave().getEnergia() >= 5)
                 this.motor.setEstado(new EstadoEnWarp(motor));
+
             motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+            return 1;
 
     }
 
