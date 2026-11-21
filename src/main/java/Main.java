@@ -1,13 +1,15 @@
-import Controlador.ControladorCreacion;
-import Vista.IVistaLogin;
-import Vista.VistaCreacionNaveTripulacion;
-import Vista.VistaLogin;
+import MVC.RegistroLogin.Controlador.ControladorLogin;
+import MVC.RegistroLogin.Vista.VistaLogin;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import destinoytablero.Destino;
 import destinoytablero.ElementoDelUniverso;
 import destinoytablero.Tablero;
 import excepciones.CantidadDeElementosSuperaCasillaException;
 import excepciones.DimensionesDeTableroInconsistentesException;
+import misiones.InformeMision;
+import misiones.Mision;
+import misiones.MisionFactory;
 import naves.Nave;
 import naves.NaveFactory;
 import tripulacion.CargoFactory;
@@ -48,11 +50,13 @@ public class Main {
         Tablero tablero;
         ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
 
-        try {
-            tablero = new Tablero(20, 20, elementos);
-        } catch (DimensionesDeTableroInconsistentesException | CantidadDeElementosSuperaCasillaException e) {
-            throw new RuntimeException(e);
-        }
+        //try {
+
+       // } catch (DimensionesDeTableroInconsistentesException | CantidadDeElementosSuperaCasillaException e) {
+       //     throw new RuntimeException(e);
+      //  }
+        tablero = new Tablero(20, 20, elementos);
+        Destino.init(tablero);
 
         AsistenteComando asistente = new AsistenteComando(bitacora, nave1, tablero);
 
@@ -82,6 +86,19 @@ public class Main {
 
 
 
+        Mision mision1 = MisionFactory.crearMision("M01", asistente);
+        InformeMision informe1 = mision1.comenzar();
+        System.out.println(informe1);
+
+        Mision mision2 = MisionFactory.crearMision("M02", asistente);
+        InformeMision informe2 = mision2.comenzar();
+        System.out.println(informe2);
+
+        Mision mision3 = MisionFactory.crearMision("M03", asistente);
+        InformeMision informe3 = mision3.comenzar();
+        System.out.println(informe3);
+
+        bitacora.mostrarBitacora();
         //ESCENARIO B
         /*
         Bitacora bitacoraB=new Bitacora();

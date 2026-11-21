@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package concurrencia.observer;
+
 
 public abstract class Observable {
 
