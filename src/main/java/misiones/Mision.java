@@ -160,11 +160,6 @@ public abstract class Mision {
 
                 realizarMovimiento();
 
-                //ahora veo que onda con lo de motor
-                if (!asistente.estaVivaNave()) {
-                    fallarMision("La nave agotó sus recursos durante el movimiento");
-                    return false;
-                }
 
                 Destino.getInstance().turnoDestino();
 

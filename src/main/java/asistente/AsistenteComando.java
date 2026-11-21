@@ -72,6 +72,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         try {
             Posicion p = ruta.getFirst();
             nave.getMotorWarp().ejecutarSaltoComun();
+            if(nave.getCombustible()==0)
+                throw new NaveDestruidaException("Nave destruida por no tener combustible al haber ejecutado salto comun con exito");
             tablero.moverNave(p);
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Común con éxito.");
         }
@@ -90,6 +92,14 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             int combAnt=nave.getCombustible();
             Posicion p;
             nave.getMotorWarp().ejecutarSaltoWarp();
+
+            if(nave.getEnergia()==0)
+                throw new NaveDestruidaException("Nave destruida por no tener energia al haber ejecutado salto warp con exito");
+            if(nave.getCombustible()==0)
+                throw new NaveDestruidaException("Nave destruida por no tener combustible al haber ejecutado salto warp con exito");
+            if(nave.getDesgaste()==100)
+                throw new NaveDestruidaException("Nave destruida por tener desgaste 100 al haber ejecutado con exito salto warp");
+
             if (combAnt==(nave.getCombustible()+1) ){
                  p = ruta.getFirst();
             }
