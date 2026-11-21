@@ -1,10 +1,13 @@
 package warp;
 
-import excepciones.TransicionMotorInvalidaException;
+import destinoytablero.Posicion;
+import excepciones.*;
+
+import java.util.List;
 
 public interface EstadoWarp { //DEFINIRÁ LA PLANTILLA PARA LOS ESTADOS DEL MOTOR
-    void ejecutarSaltoComun();
-    void ejecutarSaltoWarp() throws TransicionMotorInvalidaException;
+    void ejecutarSaltoComun() throws FaltaCombustibleException;
+    void ejecutarSaltoWarp() throws FaltaCombustibleException, ExcesoDesgasteException, FaltaEnergiaException;
 
     String getNombreEstado();
 }

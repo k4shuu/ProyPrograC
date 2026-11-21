@@ -5,10 +5,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import concurrencia.observer.*;
-import concurrencia.vista.IVistaPrincipal;
 
-public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observador {
+public class VistaConcurrencia extends JFrame implements IVistaConcurrencia {
 
     private JButton btnCrearNave;
     private JButton btnCrearGeneradora;

@@ -7,8 +7,9 @@ import warp.MotorWarp;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observer;
 
-public abstract class Nave implements ElementoDelUniverso {
+public abstract class Nave implements ElementoDelUniverso  {
     protected String identidad;
     protected int combustible;
     protected int energia;
@@ -17,17 +18,14 @@ public abstract class Nave implements ElementoDelUniverso {
     protected boolean destruida=false;
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
+    protected ArrayList<Observer> observadores=new ArrayList<>();
 
 
     public boolean estaViva(){
         return !this.destruida && energia>0 && desgaste<100 && combustible>0;
     }
-    public void colisionConAsteroide(int energia){
-        if ((this.energia-energia)<0)
-            this.energia=0;
-        else
-            this.energia-=energia;
-    }
+
+
 
     public void ayudaEstacion(int energia){
         this.cargarEnerg(energia);
@@ -177,6 +175,14 @@ public abstract class Nave implements ElementoDelUniverso {
     public void agregarTripulante(Tripulante tripulante){
         assert tripulante!=null:"El tripulante debe ser distinto de null";
         tripulacion.add(tripulante);
+
+    }
+    public double calcularTotalHaberes(){
+        double aux=0;
+        for(Tripulante tripulante: this.tripulacion){
+            aux+=tripulante.getSueldo();
+        }
+        return aux;
     }
 
     //GETTERS
