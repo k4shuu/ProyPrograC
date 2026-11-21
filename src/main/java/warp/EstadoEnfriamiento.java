@@ -2,6 +2,7 @@ package warp;
 
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
+import excepciones.NaveDestruidaException;
 import excepciones.TransicionMotorInvalidaException;
 
 public class EstadoEnfriamiento implements EstadoWarp {
@@ -17,25 +18,17 @@ public class EstadoEnfriamiento implements EstadoWarp {
         this.motor = motor;
     }
 
-    public void ejecutarSaltoComun() {
-        try {
-            motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
-        }catch(FaltaCombustibleException e){
-            //System.out.println(e.getMessage());
-        }
+    public void ejecutarSaltoComun() throws FaltaCombustibleException {
+
+            motor.setEstado(new EstadoDisponible(motor));
+            this.motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+
     }
 
     @Override
-    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException{
-        try {
-            motor.getNave().realizarDesgaste(motor.DESGASTE_MECANICO_WARP);
+    public void ejecutarSaltoWarp() throws FaltaCombustibleException {
             motor.setEstado(new EstadoDisponible(motor));
-            ejecutarSaltoComun();
-            throw new TransicionMotorInvalidaException("Error: Transición Inválida", getNombreEstado(), "En Warp");
-        } catch (ExcesoDesgasteException e){
-            System.out.println(e.getMessage());
-            throw new TransicionMotorInvalidaException(e.getMessage(), this.getNombreEstado(), "En Warp");
-        }
+            this.motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
     }
 
     @Override

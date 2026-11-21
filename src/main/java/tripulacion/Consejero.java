@@ -23,7 +23,9 @@ public class Consejero extends Cargo {
         assert cantConsejos>=0:"La cantidad de consejos del consejero debe ser mayor a cero";
         this.cantConsejos=cantConsejos;
     }
-
+    public String getInfo(){
+        return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Consejero ";
+    }
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad)+cantConsejos*bonoConsejos;
     }

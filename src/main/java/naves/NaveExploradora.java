@@ -1,25 +1,29 @@
 package naves;
 
+import excepciones.NaveDestruidaException;
+
 public class NaveExploradora extends Nave {
 
 
-    public Resultado atacar(Nave nave) {
-        return null;
-    }
+    @Override
+    public void interactuar(Nave nave) throws NaveDestruidaException {
+        if(nave.atacadoPorExploradora()==Resultado.PIERDE)
+            throw new NaveDestruidaException("Nave destruida por ataque de otra nave");
 
+    }
     @Override
     public Resultado atacadoPorExploradora() {
-        return null;
+        return Resultado.PAZ;
     }
 
     @Override
     public Resultado atacadoPorCarguero() {
-        return null;
+        return Resultado.PIERDE;
     }
 
     @Override
     public Resultado atacadoPorCombate() {
-        return null;
+        return Resultado.GANA;
     }
 
     /**
@@ -46,8 +50,6 @@ public class NaveExploradora extends Nave {
         return "Nave Exploradora" + super.toString();
     }
 
-    @Override
-    public void interactuar(Nave nave) {
 
-    }
+
 }

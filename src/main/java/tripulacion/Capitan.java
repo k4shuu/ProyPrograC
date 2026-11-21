@@ -17,7 +17,9 @@ public class Capitan extends Cargo {
         assert identidad!=null && !identidad.isEmpty() :"La identidad de Capitan ingresada debe ser distinta de null y de cadena vacia";
         assert antiguedad>=0:"La antiguedad de Capitan debe ser mayor o igual a cero";
     }
-
+    public String getInfo(){
+        return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Capitan ";
+    }
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad);
     }

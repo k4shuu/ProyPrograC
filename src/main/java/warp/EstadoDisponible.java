@@ -3,7 +3,11 @@ package warp;
 import destinoytablero.Posicion;
 import destinoytablero.Tablero;
 import excepciones.FaltaCombustibleException;
+import excepciones.NaveDestruidaException;
 import excepciones.TransicionMotorInvalidaException;
+import naves.Nave;
+
+import java.util.List;
 
 public class EstadoDisponible implements EstadoWarp {
     private MotorWarp motor;
@@ -18,28 +22,21 @@ public class EstadoDisponible implements EstadoWarp {
         this.motor = motor;
     }
 
-    public void ejecutarSaltoComun(Posicion p) {
-        try {
+
+
+    @Override
+    public void ejecutarSaltoComun() throws FaltaCombustibleException {
+
+            motor.setEstado(new EstadoPreparandoSalto(this.motor));
             motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
-        }catch(FaltaCombustibleException e){
-            //System.out.println(e.getMessage());
-        }
+
     }
 
     @Override
-    public void ejecutarSaltoComun() {
-        try {
+    public void ejecutarSaltoWarp() throws FaltaCombustibleException {
+            this.motor.setEstado(new EstadoPreparandoSalto(this.motor));
             motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
-        }catch(FaltaCombustibleException e){
-            //System.out.println(e.getMessage());
-        }
-    }
 
-    @Override
-    public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException {
-        ejecutarSaltoComun();
-        motor.setEstado(new EstadoPreparandoSalto(motor));
-        throw new TransicionMotorInvalidaException("Error: Transición Inválida", getNombreEstado(), "En Warp");
     }
 
     @Override

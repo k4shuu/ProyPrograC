@@ -13,7 +13,9 @@ public class Marciano extends DecoratorOrigen{
         super(tripulante);
         assert tripulante!=null:"Tripulante ingresado para el constructor de Marciano debe ser distinto de null";
     }
-
+    public String getInfo(){
+        return this.tripulante.getInfo()+" Origen: Marciano ";
+    }
     public double getSueldo(){
         return this.tripulante.getSueldo()+18;
     }

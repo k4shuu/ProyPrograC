@@ -2,8 +2,8 @@ package misiones;
 import asistente.AsistenteComando;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
-import excepciones.ExcesoEnergiaException;
 import destinoytablero.*;
+import excepciones.NaveDestruidaException;
 import naves.Nave;
 
 import java.util.List;
@@ -52,8 +52,6 @@ public abstract class Mision {
             cancelarMision("La nave no tiene combustible suficiente");
         } catch (ExcesoDesgasteException exception) {
             cancelarMision("El desgaste inicial supera el máximo permitido");
-        } catch (ExcesoEnergiaException exception) {
-            cancelarMision("La energía de la misión excede la capacidad");
         }
         evaluar();
         return cerrar();
@@ -87,16 +85,15 @@ public abstract class Mision {
         return asistente.getTablero().getPosicionNave().equals(obj);
     }
 
-    public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException;
+    public abstract void preparar() throws FaltaCombustibleException, ExcesoDesgasteException;
 
     /**
      * precond: mision debe estar preparada
      * postcond: la nave del asistente gasto recursos
      * @throws FaltaCombustibleException
      * @throws ExcesoDesgasteException
-     * @throws ExcesoEnergiaException
      */
-    public final void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException {
+    public final void ejecutar() throws FaltaCombustibleException, ExcesoDesgasteException {
         consumirRecursosIniciales();
 
         boolean recorridoCompletado = realizarViaje();
@@ -115,7 +112,7 @@ public abstract class Mision {
         completarMisionExitosamente();
     }
 
-    private void realizarMovimiento() {
+    private void realizarMovimiento() throws NaveDestruidaException {
         ElementoDelUniverso siguienteElemento = asistente.getRadarCA().analizarPasoSig(getRuta());
 
         if (siguienteElemento != null && getRuta().size() >= 2) {
@@ -148,51 +145,46 @@ public abstract class Mision {
     }
 
     private boolean realizarViaje() {
-        boolean naveViva = asistente.estaVivaNave();
+
         boolean alcanzoDestino = alcanzoObjetivo();
 
-        while (naveViva && !alcanzoDestino && !getRuta().isEmpty()) {
+        try {
+            while (!alcanzoDestino && !getRuta().isEmpty()) {
 
-            ElementoDelUniverso elemento =
-                    asistente.getTablero().inspeccionarPosicion();
+                ElementoDelUniverso elemento =
+                        asistente.getTablero().inspeccionarPosicion();
 
-            if (elemento != null) {
-                elemento.interactuar(getNave());
+                if (elemento != null) {
+                    elemento.interactuar(getNave());
+                }
+
+                realizarMovimiento();
+
+
+                Destino.getInstance().turnoDestino();
+
+                alcanzoDestino = alcanzoObjetivo();
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                    cancelarMision("La misión fue interrumpida");
+                    return false;
+                }
             }
 
-            naveViva = asistente.estaVivaNave();
-
-            if (!naveViva) {
-                fallarMision("La nave fue destruida durante el recorrido");
+            if (!alcanzoDestino) {
+                fallarMision("No fue posible alcanzar el objetivo");
                 return false;
             }
 
-            realizarMovimiento();
+            return true;
 
-            if (!asistente.estaVivaNave()) {
-                fallarMision("La nave agotó sus recursos durante el movimiento");
-                return false;
-            }
-
-            Destino.getInstance().turnoDestino();
-
-            alcanzoDestino = alcanzoObjetivo();
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException exception) {
-                Thread.currentThread().interrupt();
-                cancelarMision("La misión fue interrumpida");
-                return false;
-            }
-        }
-
-        if (!alcanzoDestino) {
-            fallarMision("No fue posible alcanzar el objetivo");
+        } catch (NaveDestruidaException e) {
+            fallarMision(e.getMessage());
             return false;
         }
-
-        return true;
     }
 
     /**

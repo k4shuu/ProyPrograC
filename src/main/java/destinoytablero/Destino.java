@@ -18,7 +18,7 @@ public class Destino {
      * <p><b>Excepciones declaradas:</b> ninguna.</p>
      * @param tablero tablero cuyos elementos coordinará
      */
-    private Destino(Tablero tablero){
+    public Destino(Tablero tablero){
         this.tablero = tablero;
     }
 

@@ -1,3 +1,6 @@
+package concurrencia.modelo;
+import concurrencia.observer.Observador;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,10 +15,7 @@ public class NaveConsumidora implements Runnable{
         this.plataforma=plataforma;
 
     }
-    public void solicitaConsumo() throws InterruptedException {
-        System.out.println("Nave "+this.nombre+" solicitando batería.");
-        this.plataforma.Consumir(this);
-    }
+
     public String getNombre(){
         return  this.nombre;
     }
@@ -25,7 +25,7 @@ public class NaveConsumidora implements Runnable{
             // Genera un tiempo de espera aleatorio entre 2000 ms (1 segundo) y 4000 ms (3 segundos)
             int tiempoAleatorio = ThreadLocalRandom.current().nextInt(2000, 4001);
             Thread.sleep(tiempoAleatorio);
-            solicitaConsumo();
+            this.plataforma.consumir(this);
         }
         catch(InterruptedException e){
 

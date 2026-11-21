@@ -16,9 +16,12 @@ public class Teniente extends Cargo {
         assert identidad!=null && !identidad.isEmpty() :"La identidad de Teniente ingresada debe ser distinta de null y de cadena vacia";
         assert antiguedad>=0:"La antiguedad de Teniente debe ser mayor o igual a cero";
     }
-
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad);
+    }
+
+    public String getInfo(){
+        return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Teniente ";
     }
 
     public String getConceptoSueldo(){
