@@ -14,6 +14,7 @@ public class Controlador implements ActionListener {
         this.vista=vista;
         this.vista.setActionListener(this);
         this.plataforma=plataforma;
+        this.plataforma.agregarObservador(vista);
     }
 
     @Override

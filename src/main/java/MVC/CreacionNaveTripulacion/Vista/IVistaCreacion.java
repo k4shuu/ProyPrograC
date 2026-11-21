@@ -1,10 +1,9 @@
 package Vista;
 
-import observer.Observador;
-
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public interface IVistaCreacion extends Observador {
+public interface IVistaCreacion {
     String CREARNAVE="CREARNAVE";
     String CREARTRIPULANTE="CREARTRIPULANTE";
     String IRALCOMANDO="IRALCOMANDO";
@@ -17,6 +16,9 @@ public interface IVistaCreacion extends Observador {
     String getAntiguedadNueva();
     String getOrigenNuevoTripulante();
     String getCargoNuevoTripulante();
-    public String getCantConsejos();
+    String getCantConsejos();
     void clearError();
+    void limpiarFormularioTripulante();
+    void agregarMensaje(String mensaje);
+    void actualizarNomina(double total);
 }

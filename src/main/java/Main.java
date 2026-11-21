@@ -25,6 +25,14 @@ public class Main {
         vistaLogin.setVisible(true);
          */
 
+        VistaConcurrencia vistaConcurrencia=new VistaConcurrencia();
+        Controlador controlador=new Controlador(vistaConcurrencia, new PlataformaDeCarga(5));
+        vistaConcurrencia.setVisible(true);
+        /*
+        VistaCreacionNaveTripulacion vista=new VistaCreacionNaveTripulacion();
+        ControladorCreacion con=new ControladorCreacion(vista);
+        vista.setVisible(true);
+
         Tripulante capitanVulcano1    = OrigenFactory.crear(CargoFactory.crear("Capitan","Julia",5,0),"Vulcano");
         Tripulante consejeroMarciano2 = OrigenFactory.crear(CargoFactory.crear("Consejero","Lucia",20,3),"Marciano");
 
@@ -54,23 +62,25 @@ public class Main {
         nave1.agregarTripulante(alferezTerricola3);
         nave1.agregarTripulante(tenienteVulcano4);
 
+         */
+
         //TEST SALTOS
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoComun();
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoWarp();
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoWarp();
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoWarp();
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoWarp();
-        System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
-        asistente.solicitarEjecucionSaltoWarp();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoComun();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoWarp();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoWarp();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoWarp();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoWarp();
+        //System.out.println(nave1.getMotorWarp().getEstadoActual().getNombreEstado());
+        //asistente.solicitarEjecucionSaltoWarp();
 
-        bitacora.mostrarBitacora();
+        //bitacora.mostrarBitacora();
 
-        */
+
 
         //ESCENARIO B
         /*

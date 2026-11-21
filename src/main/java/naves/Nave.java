@@ -4,12 +4,12 @@ import destinoytablero.ElementoDelUniverso;
 import excepciones.*;
 import tripulacion.Tripulante;
 import warp.MotorWarp;
-import observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observer;
 
-public abstract class Nave extends Observable implements ElementoDelUniverso  {
+public abstract class Nave implements ElementoDelUniverso  {
     protected String identidad;
     protected int combustible;
     protected int energia;
@@ -18,7 +18,7 @@ public abstract class Nave extends Observable implements ElementoDelUniverso  {
     protected boolean destruida=false;
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
-    protected ArrayList<Observador> observadores=new ArrayList<>();
+    protected ArrayList<Observer> observadores=new ArrayList<>();
 
 
     public boolean estaViva(){
@@ -179,7 +179,6 @@ public abstract class Nave extends Observable implements ElementoDelUniverso  {
     public void agregarTripulante(Tripulante tripulante){
         assert tripulante!=null:"El tripulante debe ser distinto de null";
         tripulacion.add(tripulante);
-        notificarObservadores("AGREGAR-TRIPULANTE");
 
     }
     public double calcularTotalHaberes(){

@@ -23,6 +23,7 @@ public class MotorWarp {
         estadoActual.ejecutarSaltoComun();
     }
 
+
     //DELEGAMOS CADA ACCIONAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
     public void ejecutarSaltoWarp() throws TransicionMotorInvalidaException{
         estadoActual.ejecutarSaltoWarp();

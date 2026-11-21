@@ -21,8 +21,8 @@ public class CargoFactory {
         assert cantConsejos>=0: "La cantidad de consejos debe ser mayor o igual a cero";
 
         return switch (cargo.toUpperCase()) {
-            case "ALFÉREZ"   -> new Alferez(id, ant);
-            case "CAPITÁN"   -> new Capitan(id, ant);
+            case "ALFEREZ"   -> new Alferez(id, ant);
+            case "CAPITAN"   -> new Capitan(id, ant);
             case "CONSEJERO" -> new Consejero(id, ant,cantConsejos);
             case "TENIENTE"  -> new Teniente(id, ant);
 

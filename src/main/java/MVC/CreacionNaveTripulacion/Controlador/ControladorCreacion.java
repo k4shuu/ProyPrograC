@@ -1,6 +1,5 @@
 package Controlador;
 
-
 import Vista.IVistaCreacion;
 import naves.Nave;
 import naves.NaveFactory;
@@ -116,9 +115,12 @@ public class ControladorCreacion implements ActionListener {
 
         Tripulante tripulante = OrigenFactory.crear(CargoFactory.crear(cargo, nombre, antiguedad, cantConsejos), origen);
         this.nave.agregarTripulante(tripulante);
+        this.vista.agregarMensaje(tripulante.getInfo()+tripulante.getConceptoSueldo());
+        this.vista.actualizarNomina(this.nave.calcularTotalHaberes());
 
     }
     public void crearNave(){
+        this.vista.clearError();
         String nombreNave=this.vista.getNombreNave();
         if(nombreNave==null || nombreNave.isEmpty()){
             this.vista.setError("Ingrese un nombre de nave valido");
@@ -126,7 +128,7 @@ public class ControladorCreacion implements ActionListener {
         String tipoNave=this.vista.getTipoNaveSeleccionada();
         Nave nave= NaveFactory.crearNave(tipoNave,nombreNave,100,100,0);
         this.nave=nave;
-        this.nave.agregarObservador(this.vista);
+        this.vista.limpiarFormularioTripulante();
     }
 
 }

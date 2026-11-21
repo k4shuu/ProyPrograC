@@ -3,7 +3,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class VistaConcurrencia extends JFrame implements IVistaPrincipal, Observador {
+public class VistaConcurrencia extends JFrame implements IVistaPrincipal {
 
     private JButton btnCrearNave;
     private JButton btnCrearGeneradora;

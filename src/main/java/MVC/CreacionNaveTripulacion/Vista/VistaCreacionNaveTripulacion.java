@@ -1,17 +1,11 @@
 package Vista;
 
-import naves.Nave;
-import observer.Observable;
-import observer.Observador;
-import tripulacion.Tripulante;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 
-public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreacion, Observador {
+public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreacion {
 
     // --- Componentes de la Columna Izquierda (Creación) ---
     private JTextField txtNombreNave;
@@ -95,7 +89,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Planeta/Ciudad de Origen:"));
-        comboOrigenTripulante = new JComboBox<>(new String[]{"Vulcano", "Terrícola", "Marciano"});
+        comboOrigenTripulante = new JComboBox<>(new String[]{"Vulcano", "Terricola", "Marciano"});
         panel.add(comboOrigenTripulante);
         panel.add(Box.createVerticalStrut(10));
 
@@ -106,7 +100,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Cargo asignado:"));
-        comboCargoTripulante = new JComboBox<>(new String[]{"Capitán", "Consejero", "Alférez", "Teniente"});
+        comboCargoTripulante = new JComboBox<>(new String[]{"Capitan", "Consejero", "Alferez", "Teniente"});
         panel.add(comboCargoTripulante);
 
         // Campos dinámicos para el Consejero
@@ -214,11 +208,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         lblTotalNomina.setText("Total Nómina: $ " + totalSalario);
     }
 
-    // Método nuevo para imprimir los carteles en el JTextArea
-    public void agregarMensaje(String mensaje) {
-        txtAreaMensajes.append("• " + mensaje + "\n");
-        txtAreaMensajes.setCaretPosition(txtAreaMensajes.getDocument().getLength());
-    }
+
 
     public void setError(String mensaje) {
         lblMensajeError.setText(mensaje);
@@ -228,6 +218,8 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
     public void clearError(){
         lblMensajeError.setText(" ");
     }
+
+
 
     public void marcarComoConfirmado() {
         btnIrAlComando.setEnabled(true);
@@ -244,30 +236,16 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
     }
 
     @Override
+    public void agregarMensaje(String mensaje){
+        this.txtAreaMensajes.append(mensaje + "\n");
+    }
+
+    @Override
     public void setActionListener(ActionListener a) {
         this.btnInstanciarNave.addActionListener(a);
         this.btnAgregarTripulante.addActionListener(a);
         this.btnIrAlComando.addActionListener(a);
     }
 
-    // =========================================================================
-    // MÉTODO ACTUALIZAR INTACTO
-    // =========================================================================
-    @Override
-    public void actualizar(Observable o, String mensaje) {
-        switch (mensaje){
-            case "AGREGAR-TRIPULANTE":{
-                Nave nave=(Nave)o;
-                Tripulante ultimoTripulante = null;
-                Iterator<Tripulante> tripulacion = nave.getTripulacion();
 
-                while (tripulacion.hasNext()) {
-                    ultimoTripulante = tripulacion.next();
-                }
-                this.agregarMensaje(ultimoTripulante.getInfo()+ultimoTripulante.getConceptoSueldo());
-                this.limpiarFormularioTripulante();
-                this.actualizarNomina(nave.calcularTotalHaberes());
-            }
-        }
-    }
 }
