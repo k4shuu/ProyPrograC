@@ -3,7 +3,7 @@ package destinoytablero;
 
 import excepciones.CantidadDeElementosSuperaCasillaException;
 import excepciones.DimensionesDeTableroInconsistentesException;
-
+import observer.Observable;
 import java.util.*;
 
 /**

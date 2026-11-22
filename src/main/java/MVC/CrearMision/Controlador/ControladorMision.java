@@ -13,6 +13,7 @@ import misiones.MisionFactory;
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 
 public class ControladorMision implements ActionListener {
     private IVistaMision vistaMision;
@@ -75,10 +76,13 @@ public class ControladorMision implements ActionListener {
     }
 
     private void transicionarAlLogin() {
-        // Se instancia y muestra el Login, y se destruye Game Over
         VistaLogin vistaLogin = new VistaLogin();
-        new ControladorLogin(vistaLogin);
+        Path rutaBD = Path.of("usuarios.db");
+        new ControladorLogin(vistaLogin, rutaBD);
         vistaLogin.setVisible(true);
-        vistaGameOver.dispose();
+        // 4. Se destruye la ventana de Game Over
+        if (this.vistaGameOver != null) {
+            this.vistaGameOver.dispose();
+        }
     }
 }

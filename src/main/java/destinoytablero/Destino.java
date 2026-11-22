@@ -23,7 +23,7 @@ public class Destino {
     }
 
     public static Destino init(Tablero t){
-        if(instance == null) instance = new Destino(t);
+        instance = new Destino(t);
         return instance;
     }
 

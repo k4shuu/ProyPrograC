@@ -2,7 +2,7 @@ package concurrencia.prueba;
 
 import concurrencia.vista.*;
 import concurrencia.modelo.PlataformaDeCarga;
-import concurrencia.observer.Observador;
+import observer.Observador;
 
 public class MainC {
     public static void main(String[] args) {

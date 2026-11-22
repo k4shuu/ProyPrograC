@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class VistaGameOver extends JFrame {
-    public static final String VOLVER_INICIO = "VOLVER_INICIO";
+public class VistaGameOver extends JFrame implements IVistaGameOver {
 
     private JLabel lblTitulo;
     private JTextArea txtInforme;
@@ -40,6 +39,7 @@ public class VistaGameOver extends JFrame {
         add(panelBoton, BorderLayout.SOUTH);
     }
 
+    @Override
     public void mostrarInforme(InformeMision informe) {
         if (informe != null) {
             if (informe.getResult() == Resultado.EXITOSA) {
@@ -54,7 +54,7 @@ public class VistaGameOver extends JFrame {
             txtInforme.setText("La misión falló antes de generar un informe.");
         }
     }
-
+    @Override
     public void setControlador(ActionListener c) {
         btnVolverInicio.addActionListener(c);
     }
