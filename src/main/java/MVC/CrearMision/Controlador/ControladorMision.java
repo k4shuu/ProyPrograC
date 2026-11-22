@@ -1,6 +1,8 @@
 package MVC.CrearMision.Controlador;
 
+import MVC.ControlDeNave.Controlador.ControladorTablero;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.CrearMision.Vista.IVistaGameOver;
 import MVC.CrearMision.Vista.IVistaMision;
 import MVC.CrearMision.Vista.VistaGameOver;
 import MVC.RegistroLogin.Controlador.ControladorLogin;
@@ -17,11 +19,10 @@ import java.nio.file.Path;
 
 public class ControladorMision implements ActionListener {
     private IVistaMision vistaMision;
-    private VistaPrincipal vistaTablero;
-    private VistaGameOver vistaGameOver;
     private AsistenteComando asistente;
+    private ControladorTablero controladorTablero; // Solo referencia al controlador, no a la vista
 
-    public ControladorMision(IVistaMision vistaMision, VistaPrincipal vistaTablero, VistaGameOver vistaGameOver, AsistenteComando asistente) {
+    public ControladorMision(IVistaMision vistaMision, AsistenteComando asistente) {
         this.vistaMision = vistaMision;
         this.vistaTablero = vistaTablero;
         this.vistaGameOver = vistaGameOver;
@@ -39,9 +40,7 @@ public class ControladorMision implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String comando = e.getActionCommand();
-
-        if (IVistaMision.INICIAR_MISION.equals(comando)) {
+        if (IVistaMision.INICIAR_MISION.equals(e.getActionCommand())) {
             transicionarAlTablero();
         } else if (VistaGameOver.VOLVER_INICIO.equals(comando)) {
             transicionarAlLogin();
@@ -54,8 +53,13 @@ public class ControladorMision implements ActionListener {
         try {
             Mision misionActual = MisionFactory.crearMision(codigo, asistente);
 
+            // Se crea el Tablero recién ahora
+            VistaPrincipal vistaTablero = new VistaPrincipal(asistente);
+
             // Actualizamos el panel de "Misiones" en la VistaPrincipal
             vistaTablero.mostrarMisionActual(codigo);
+            this.controladorTablero = new ControladorTablero(vistaTablero);
+            this.controladorTablero.mostrar();
 
             // Se hace visible el tablero y se destruye la ventana de selección de misión
             vistaTablero.setVisible(true);
@@ -71,20 +75,25 @@ public class ControladorMision implements ActionListener {
     }
 
     public void transicionarAGameOver(InformeMision informe) {
-        // Se carga el informe, se muestra Game Over y se destruye el tablero
+        if (this.controladorTablero != null) {
+            this.controladorTablero.cerrar();
+        }
+
+        // Se crea Game Over recién ahora
+        IVistaGameOver vistaGameOver = new VistaGameOver();
         vistaGameOver.mostrarInforme(informe);
+        vistaGameOver.setControlador(e -> {
+            if (IVistaGameOver.VOLVER_INICIO.equals(e.getActionCommand())) {
+                vistaGameOver.dispose();
+                transicionarAlLogin();
+            }
+        });
         vistaGameOver.setVisible(true);
-        vistaTablero.dispose();
     }
 
     private void transicionarAlLogin() {
         VistaLogin vistaLogin = new VistaLogin();
-        Path rutaBD = Path.of("usuarios.db");
-        new ControladorLogin(vistaLogin, rutaBD);
+        new ControladorLogin(vistaLogin, Path.of("usuarios.db"));
         vistaLogin.setVisible(true);
-        // 4. Se destruye la ventana de Game Over
-        if (this.vistaGameOver != null) {
-            this.vistaGameOver.dispose();
-        }
     }
 }
