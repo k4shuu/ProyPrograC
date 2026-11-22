@@ -57,7 +57,7 @@ public class ControladorLogin {
 
             //ACÁ IRÁ EL CÓDIGO UNA VEZ AUTENTICADO EL USUARIO! - INICIO
 
-            IVistaCreacion vistaCreacion = new Vista.VistaCreacionNaveTripulacion();
+            IVistaCreacion vistaCreacion = new VistaCreacionNaveTripulacion();
 
             vistaCreacion.setVisible(true);
             ControladorCreacion controlador=new ControladorCreacion(vistaCreacion);
