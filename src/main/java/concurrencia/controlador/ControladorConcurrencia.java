@@ -1,5 +1,6 @@
 package concurrencia.controlador;
 
+import MVC.ControlDeNave.Vista.VistaPrincipal;
 import concurrencia.modelo.GeneradoraDeEnergia;
 import concurrencia.modelo.NaveConsumidora;
 import concurrencia.modelo.PlataformaDeCarga;
@@ -12,21 +13,17 @@ import java.util.ArrayList;
 public class ControladorConcurrencia implements ActionListener {
     private IVistaConcurrencia vista;
     private PlataformaDeCarga plataforma;
-    private Runnable alVolver;
+    private VistaPrincipal vistaPrincipal;
     private ArrayList<Thread> hilos = new ArrayList<>();
     private int numGenerador = 0;
     private int numNave = 0;
 
-    public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, Runnable alVolver) {
+    public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, VistaPrincipal vistaPrincipal) {
         this.vista = vista;
-        this.vista.setActionListener(this);
         this.plataforma = plataforma;
-        this.alVolver = alVolver;
+        this.vistaPrincipal = vistaPrincipal;
+        this.vista.setActionListener(this);
         this.plataforma.agregarObservador(vista);
-    }
-
-    public void mostrar() {
-        this.vista.setVisible(true);
     }
 
     @Override
@@ -40,10 +37,8 @@ public class ControladorConcurrencia implements ActionListener {
                 this.crearGenerador();
                 break;
             case IVistaConcurrencia.VOLVER:
-                this.cerrar();
-                if (this.alVolver != null) {
-                    this.alVolver.run();
-                }
+                this.vista.setVisible(false);
+                this.vistaPrincipal.setVisible(true);
                 break;
         }
     }
@@ -66,14 +61,11 @@ public class ControladorConcurrencia implements ActionListener {
         h.start();
     }
 
-    private void detenerHilos() {
+    public void cerrar() {
         for (Thread h : this.hilos) {
             h.interrupt();
         }
         this.hilos.clear();
-    }
-    public void cerrar() {
-        this.detenerHilos();
         this.plataforma.quitarObservador(this.vista);
         this.vista.dispose();
     }
