@@ -5,22 +5,23 @@ import Controlador.ControladorCreacion;
 import Vista.IVistaCreacion;
 import Vista.IVistaLogin;
 import MVC.RegistroLogin.Vista.VistaLogin;
-import persistencia.UsuarioDAO;
-import persistencia.UsuarioDTO;
+import excepciones.PersistenciaException;
+import excepciones.UsuarioYaExisteException;
+import persistencia.*;
 import excepciones.CredencialesInvalidasException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 
 public class ControladorLogin {
     private IVistaLogin vista;
-    private UsuarioDAO usuarioDAO;
+    private Servicio servicio;
 
-    public ControladorLogin(IVistaLogin vista) {
+    public ControladorLogin(IVistaLogin vista, Path archivo) {
         this.vista = vista;
-        this.usuarioDAO = new UsuarioDAO();
+        this.servicio = new Servicio(new UsuarioDAOSQL(archivo));
 
-        if (vista instanceof VistaLogin) {
             VistaLogin v = (VistaLogin) vista;
 
             v.setLoginListener(new ActionListener() {
@@ -36,7 +37,7 @@ public class ControladorLogin {
                     intentarRegistro();
                 }
             });
-        }
+
     }
 
     private void intentarLogin() {
@@ -49,7 +50,7 @@ public class ControladorLogin {
         }
 
         try {
-            UsuarioDTO usuarioLogueado = usuarioDAO.validarCredenciales(user, pass);
+            Usuario usuarioLogueado = servicio.validarCredenciales(user, pass);
             vista.mostrarMensaje("¡Acceso concedido! Bienvenido, " + usuarioLogueado.getUsername());
             vista.cerrarVentana();
 
@@ -64,6 +65,9 @@ public class ControladorLogin {
         } catch (CredencialesInvalidasException e) {
             vista.mostrarMensaje("Error de autenticación: " + e.getMessage());
         }
+        catch(PersistenciaException e){
+            vista.mostrarMensaje("Error de persistencia: " + e.getMessage());
+        }
     }
 
     private void intentarRegistro() {
@@ -75,13 +79,18 @@ public class ControladorLogin {
             return;
         }
 
-        UsuarioDTO nuevoUsuario = new UsuarioDTO(user, pass);
-        boolean registrado = usuarioDAO.registrarUsuario(nuevoUsuario);
+        Usuario nuevoUsuario = new Usuario(user, pass);
 
-        if (registrado) {
+        try {
+            Usuario u=servicio.registrarUsuario(nuevoUsuario);
             vista.mostrarMensaje("¡Usuario registrado con éxito! Ya puede iniciar sesión.");
             vista.limpiarCampos();
-        } else
+        } catch (UsuarioYaExisteException e) {
             vista.mostrarMensaje("El nombre de usuario ya existe en la base de datos.");
+        } catch (PersistenciaException e) {
+            vista.mostrarMensaje(e.getMessage());
+        }
+
+
     }
 }

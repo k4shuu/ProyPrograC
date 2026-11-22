@@ -16,15 +16,15 @@ public abstract class DecoratorOrigen extends Tripulante{
         this.tripulante=tripulante;
     }
     @Override
+    public int hashCode() {
+        return Objects.hash(tripulante);
+    }
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!(o instanceof DecoratorOrigen)) return false;
         DecoratorOrigen otro = (DecoratorOrigen) o;
         return Objects.equals(this.tripulante, otro.tripulante);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getClass(), this.tripulante);
-    }
 }

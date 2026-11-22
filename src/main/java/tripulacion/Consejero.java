@@ -26,7 +26,13 @@ public class Consejero extends Cargo {
     public String getInfo(){
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Consejero ";
     }
-
+    // En Capitan:
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Consejero)) return false;
+        return super.equals(o);
+    }
     @Override
     public String getCargo() {
         return "Consejero";

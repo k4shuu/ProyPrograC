@@ -20,6 +20,13 @@ public class Capitan extends Cargo {
     public String getInfo(){
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Capitan ";
     }
+    // En Capitan:
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Capitan)) return false;
+        return super.equals(o);
+    }
 
     @Override
     public String getCargo() {
