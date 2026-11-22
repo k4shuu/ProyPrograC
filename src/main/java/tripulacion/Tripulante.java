@@ -22,15 +22,17 @@ public abstract class Tripulante {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!(o instanceof Tripulante)) return false;
         Tripulante otro = (Tripulante) o;
         return this.antiguedad == otro.antiguedad &&
                 Objects.equals(this.identidad, otro.identidad);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(this.getClass(), identidad, antiguedad);
+        return Objects.hash(identidad, antiguedad);
     }
+
     public  abstract String getInfo();
 
     public String getIdentidad(){
