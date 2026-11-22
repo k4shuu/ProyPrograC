@@ -45,7 +45,6 @@ public class ControladorCreacion implements ActionListener {
 
     private void transicionarAlComando() {
         try {
-            // 1. Se instancian los modelos del universo necesarios para las misiones
             ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
             for (int i = 0; i < 50; i++) elementos.add(new Asteroide());
             for (int i = 0; i < 5; i++) elementos.add(new EstacionesDeCarga());
@@ -59,27 +58,14 @@ public class ControladorCreacion implements ActionListener {
             Tablero tablero = new Tablero(20, 20, elementos, null);
             Destino.init(tablero);
             Bitacora bitacora = new Bitacora();
-            AsistenteComando asistente = new AsistenteComando(bitacora,this.nave, tablero);
+            AsistenteComando asistente = new AsistenteComando(bitacora, this.nave, tablero);
 
-            // 2. Se instancian las vistas y el módulo de concurrencia
+            // Solo crea la siguiente pantalla: Misión
             VistaMision vistaMision = new VistaMision();
-            VistaPrincipal vistaTablero = new VistaPrincipal(asistente);
-            VistaGameOver vistaGameOver = new VistaGameOver();
-            IVistaConcurrencia vistaConcurrencia = new VistaConcurrencia();
-
-            PlataformaDeCarga plataforma = new PlataformaDeCarga(3);
-            plataforma.agregarObservador(vistaConcurrencia);
-            // 3. Se crean los controladores con el constructor exacto
-            new ControladorTablero(vistaTablero, vistaConcurrencia);
-            new ControladorConcurrencia(vistaConcurrencia, plataforma, vistaTablero);
-            ControladorMision cMision = new ControladorMision(vistaMision, vistaTablero, vistaGameOver, asistente);
-
-            // 4. Se inicia el flujo de misiones (hace visible VistaMision y oculta las otras)
+            ControladorMision cMision = new ControladorMision(vistaMision, asistente);
             cMision.iniciar();
 
-            // 5. Se destruye la ventana actual de creación
             ((JFrame) this.vista).dispose();
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al iniciar el entorno: " + e.getMessage());
             e.printStackTrace();
