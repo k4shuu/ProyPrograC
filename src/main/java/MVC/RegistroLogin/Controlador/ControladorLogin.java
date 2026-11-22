@@ -1,6 +1,5 @@
 package MVC.RegistroLogin.Controlador;
 
-
 import MVC.CreacionNaveTripulacion.Vista.VistaCreacionNaveTripulacion;
 import MVC.RegistroLogin.Vista.IVistaLogin;
 import MVC.CreacionNaveTripulacion.Controlador.ControladorCreacion;
@@ -20,12 +19,22 @@ public class ControladorLogin {
     private IVistaLogin vista;
     private Servicio servicio;
 
+    /**
+     - pre-cond: vista!=null y archivo!=null
+     - post-cond: el controlador queda inicializado con su servicio de persistencia y los listeners registrados en la vista
+     - @param vista
+     - @param archivo
+     */
     public ControladorLogin(IVistaLogin vista, Path archivo) {
+        assert vista != null : "La vista no puede ser nula";
+        assert archivo != null : "El archivo no puede ser nulo";
+
         this.vista = vista;
         this.servicio = new Servicio(new UsuarioDAOSQL(archivo));
 
-            VistaLogin v = (VistaLogin) vista;
+        assert this.servicio != null : "El servicio no puede ser nulo";
 
+        if (vista instanceof VistaLogin v) {
             v.setLoginListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -39,12 +48,21 @@ public class ControladorLogin {
                     intentarRegistro();
                 }
             });
-
+        }
     }
 
+    /**
+     - pre-cond: vista!=null y servicio!=null
+     - post-cond: si las credenciales son válidas, se cierra la vista de login y se abre la vista de creación; si fallan, se muestra el mensaje correspondiente
+     */
     private void intentarLogin() {
+        assert vista != null : "La vista no puede ser nula";
+        assert servicio != null : "El servicio no puede ser nulo";
+
         String user = vista.getUsuario();
         String pass = vista.getPassword();
+
+        assert user != null && pass != null : "Usuario y contraseña no pueden ser nulos";
 
         if (user.isEmpty() || pass.isEmpty()) {
             vista.mostrarMensaje("Por favor, complete todos los campos.");
@@ -53,6 +71,8 @@ public class ControladorLogin {
 
         try {
             Usuario usuarioLogueado = servicio.validarCredenciales(user, pass);
+            assert usuarioLogueado != null : "El usuario autenticado no puede ser nulo";
+
             vista.mostrarMensaje("¡Acceso concedido! Bienvenido, " + usuarioLogueado.getUsername());
             vista.cerrarVentana();
 
@@ -61,21 +81,28 @@ public class ControladorLogin {
             IVistaCreacion vistaCreacion = new VistaCreacionNaveTripulacion();
 
             vistaCreacion.setVisible(true);
-            ControladorCreacion controlador=new ControladorCreacion(vistaCreacion);
-            this.vista.dispose();
+            ControladorCreacion controlador = new ControladorCreacion(vistaCreacion);
             //FIN
 
         } catch (CredencialesInvalidasException e) {
             vista.mostrarMensaje("Error de autenticación: " + e.getMessage());
-        }
-        catch(PersistenciaException e){
+        } catch (PersistenciaException e) {
             vista.mostrarMensaje("Error de persistencia: " + e.getMessage());
         }
     }
 
+    /**
+     - pre-cond: vista!=null y servicio!=null
+     - post-cond: si el usuario no existe, queda registrado en la base de datos y se limpian los campos; si ya existe o hay error, se informa en la vista
+     */
     private void intentarRegistro() {
+        assert vista != null : "La vista no puede ser nula";
+        assert servicio != null : "El servicio no puede ser nulo";
+
         String user = vista.getUsuario();
         String pass = vista.getPassword();
+
+        assert user != null && pass != null : "Usuario y contraseña no pueden ser nulos";
 
         if (user.isEmpty() || pass.isEmpty()) {
             vista.mostrarMensaje("Por favor, complete los campos para registrarse.");
@@ -85,7 +112,9 @@ public class ControladorLogin {
         Usuario nuevoUsuario = new Usuario(user, pass);
 
         try {
-            Usuario u=servicio.registrarUsuario(nuevoUsuario);
+            Usuario u = servicio.registrarUsuario(nuevoUsuario);
+            assert u != null : "El usuario registrado no puede ser nulo";
+
             vista.mostrarMensaje("¡Usuario registrado con éxito! Ya puede iniciar sesión.");
             vista.limpiarCampos();
         } catch (UsuarioYaExisteException e) {
@@ -93,7 +122,5 @@ public class ControladorLogin {
         } catch (PersistenciaException e) {
             vista.mostrarMensaje(e.getMessage());
         }
-
-
     }
 }
