@@ -67,46 +67,22 @@ public class ControladorConcurrencia implements ActionListener {
                 break;
         }
     }
+    public void cerrar(){
 
+    }
     public void crearNave() {
-        String nombre = "N" + (++this.numNave);
-        NaveConsumidora nave = new NaveConsumidora(nombre, plataforma);
+
+        NaveConsumidora nave = new NaveConsumidora( plataforma);
         this.vista.registrarEvento("¡Ingresó una nueva Nave: " + nave.getNombre() + " al universo paralelo!");
         Thread h = new Thread(nave);
         this.hilos.add(h);
-    public void crearNave(){
-
-        NaveConsumidora nave=new NaveConsumidora(plataforma);
-        this.naves.add(nave);
-        this.vista.registrarEvento("¡Ingresó una nueva Nave: "+nave.getNombre()+" al universo paralelo!");
-        Thread h=new Thread(nave);
-        h.start();
     }
 
     public void crearGenerador() {
-        String nombre = "G" + (++this.numGenerador);
-        GeneradoraDeEnergia generador = new GeneradoraDeEnergia(nombre, plataforma);
+        GeneradoraDeEnergia generador = new GeneradoraDeEnergia(plataforma);
         this.vista.registrarEvento("¡Ingresó un nuevo Generador: " + generador.getNombre() + " al universo paralelo!");
         Thread h = new Thread(generador);
         this.hilos.add(h);
-    public void crearGenerador(){
 
-        GeneradoraDeEnergia generador=new GeneradoraDeEnergia(plataforma);
-        this.generadores.add(generador);
-        this.vista.registrarEvento("¡Ingresó un nuevo Generador: "+generador.getNombre()+" al universo paralelo!");
-        Thread h=new Thread(generador);
-        h.start();
-    }
-
-    private void detenerHilos() {
-        for (Thread h : this.hilos) {
-            h.interrupt();
-        }
-        this.hilos.clear();
-    }
-    public void cerrar() {
-        this.detenerHilos();
-        this.plataforma.quitarObservador(this.vista);
-        this.vista.dispose();
     }
 }

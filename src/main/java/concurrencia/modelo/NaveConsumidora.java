@@ -7,10 +7,7 @@ public class NaveConsumidora implements Runnable {
     private static int aux=0;
     private PlataformaDeCarga plataforma;
 
-    public NaveConsumidora(String nombre, PlataformaDeCarga plataforma) {
-        this.nombre = nombre;
-        this.plataforma = plataforma;
-    private ArrayList<Observador> observadores=new ArrayList<>();
+
 
     /**
      * pre-cond: plataforma!=Null
@@ -37,9 +34,7 @@ public class NaveConsumidora implements Runnable {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        catch(InterruptedException e){
 
-        }
     }
 
 }
