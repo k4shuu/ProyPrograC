@@ -2,22 +2,29 @@ package MVC.CrearMision.Controlador;
 
 import MVC.ControlDeNave.Controlador.ControladorTablero;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.CrearMision.Vista.IVistaGameOver;
 import MVC.CrearMision.Vista.IVistaMision;
+import MVC.CrearMision.Vista.VistaGameOver;
+import MVC.RegistroLogin.Controlador.ControladorLogin;
+import MVC.RegistroLogin.Vista.VistaLogin;
 import asistente.AsistenteComando;
 import concurrencia.controlador.ControladorConcurrencia;
 import concurrencia.modelo.PlataformaDeCarga;
 import concurrencia.vista.IVistaConcurrencia;
 import concurrencia.vista.VistaConcurrencia;
+import misiones.InformeMision;
 import misiones.Mision;
 import misiones.MisionFactory;
 
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 
 public class ControladorMision implements ActionListener {
     private IVistaMision vistaMision;
     private AsistenteComando asistente;
+    private ControladorTablero controladorTablero; // Solo referencia al controlador, no a la vista
 
     public ControladorMision(IVistaMision vistaMision, AsistenteComando asistente) {
         this.vistaMision = vistaMision;
@@ -41,6 +48,7 @@ public class ControladorMision implements ActionListener {
         try {
             Mision misionActual = MisionFactory.crearMision(codigo, asistente);
 
+            // Se crea el Tablero recién ahora
             VistaPrincipal vistaTablero = new VistaPrincipal(asistente);
             vistaTablero.mostrarMisionActual(codigo);
 
@@ -57,4 +65,5 @@ public class ControladorMision implements ActionListener {
             vistaMision.mostrarMensaje("Error al iniciar misión: " + ex.getMessage());
         }
     }
+
 }

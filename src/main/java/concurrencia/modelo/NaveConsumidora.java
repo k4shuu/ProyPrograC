@@ -4,11 +4,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class NaveConsumidora implements Runnable {
     private String nombre;
+    private static int aux=0;
     private PlataformaDeCarga plataforma;
 
-    public NaveConsumidora(String nombre, PlataformaDeCarga plataforma) {
-        this.nombre = nombre;
-        this.plataforma = plataforma;
+
+
+    /**
+     * pre-cond: plataforma!=Null
+     * post-cond: el atributo plataforma se le asigna el valor dado por parametro
+     * @param plataforma
+     */
+    public NaveConsumidora(PlataformaDeCarga plataforma){
+        aux++;
+        this.nombre="N"+aux;
+        this.plataforma=plataforma;
+
     }
 
     public String getNombre() {
@@ -24,5 +34,7 @@ public class NaveConsumidora implements Runnable {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+
     }
+
 }

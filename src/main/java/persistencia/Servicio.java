@@ -2,6 +2,7 @@ package persistencia;
 
 import excepciones.CredencialesInvalidasException;
 import excepciones.PersistenciaException;
+import excepciones.UsuarioInvalidoException;
 import excepciones.UsuarioYaExisteException;
 
 public class Servicio {
@@ -20,14 +21,14 @@ public class Servicio {
         return usuario;
     }
     public Usuario registrarUsuario(Usuario usuario)
-            throws UsuarioYaExisteException, PersistenciaException {
+            throws UsuarioInvalidoException, PersistenciaException {
         String username=usuario.getUsername();
         String password=usuario.getPassword();
         if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("El nombre de usuario no puede estar vacío.");
+            throw new UsuarioInvalidoException("El nombre de usuario no puede estar vacío.");
         }
         if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("La contraseña no puede estar vacía.");
+            throw new UsuarioInvalidoException("La contraseña no puede estar vacía.");
         }
         String userLimpio = username.trim();
         if (usuarioDao.buscarPorUsername(userLimpio) != null) {

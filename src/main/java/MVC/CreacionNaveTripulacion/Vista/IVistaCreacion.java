@@ -23,5 +23,6 @@ public interface IVistaCreacion {
     void actualizarNomina(double total);
     void habilitarIrAlComando(boolean habilitar);
     void setVisible(boolean b);
-
+    void mostrarNaveActual(String nombreNave);
+    void limpiarListaTripulantes();
 }

@@ -5,9 +5,17 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GeneradoraDeEnergia implements Runnable{
     private String nombre;
     private PlataformaDeCarga plataforma;
+    private static int aux=0;
 
-    public GeneradoraDeEnergia(String nombre,PlataformaDeCarga plataforma){
-        this.nombre=nombre;
+    /**
+     * pre-cond: plataforma!=null
+     * post-cond: atributo plataforma se le asigna el valor dado por parametro
+     * @param plataforma
+     */
+    public GeneradoraDeEnergia(PlataformaDeCarga plataforma){
+        assert plataforma!=null:"La plataforma debe ser distinta ded null";
+        aux++;
+        this.nombre="G"+aux;
         this.plataforma=plataforma;
     }
     public String getNombre(){
