@@ -1,4 +1,4 @@
-package Vista;
+package MVC.CreacionNaveTripulacion.Vista;
 
 import javax.swing.*;
 import java.awt.*;
@@ -169,8 +169,8 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panelEstado.add(Box.createVerticalStrut(10));
 
         btnIrAlComando = new JButton("IR AL COMANDO");
-        btnIrAlComando.setActionCommand("IR-AL-COMANDO");
-        btnIrAlComando.setEnabled(false);
+        btnIrAlComando.setActionCommand(IVistaCreacion.IRALCOMANDO);
+
 
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));

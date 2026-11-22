@@ -1,4 +1,4 @@
-package Vista;
+package MVC.CreacionNaveTripulacion.Vista;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public interface IVistaCreacion {
     String CREARNAVE="CREARNAVE";
     String CREARTRIPULANTE="CREARTRIPULANTE";
-    String IRALCOMANDO="IRALCOMANDO";
+    String IRALCOMANDO="IR-AL-COMANDO";
 
     void setActionListener(ActionListener a);
     String getNombreNave();
@@ -22,4 +22,5 @@ public interface IVistaCreacion {
     void agregarMensaje(String mensaje);
     void actualizarNomina(double total);
     void setVisible(boolean b);
+    void dispose();
 }

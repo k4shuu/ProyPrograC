@@ -1,5 +1,5 @@
-package MVC.ControlDeNave;
 
+package MVC.ControlDeNave;
 import MVC.ControlDeNave.Controlador.ControladorTablero;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
 import MVC.CrearMision.Controlador.ControladorMision;
@@ -7,7 +7,7 @@ import MVC.CrearMision.Vista.VistaGameOver;
 import MVC.CrearMision.Vista.VistaMision;
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
-import concurrencia.controlador.Controlador;
+import concurrencia.controlador.ControladorConcurrencia;
 import concurrencia.modelo.PlataformaDeCarga;
 import concurrencia.observer.Observador;
 import concurrencia.vista.VistaConcurrencia;
@@ -62,7 +62,7 @@ public class MainPrueba {
 
                 // 3. Controladores
                 ControladorTablero ctrlTablero = new ControladorTablero(vistaPrincipal, vistaConcurrencia);
-                Controlador ctrlConcurrencia = new Controlador(vistaConcurrencia, plataforma, vistaPrincipal);
+                ControladorConcurrencia ctrlConcurrencia = new ControladorConcurrencia(vistaConcurrencia, plataforma, vistaPrincipal);
                 ControladorMision ctrlMision = new ControladorMision(vistaMision, vistaPrincipal, vistaGameOver, asistente);
 
                 // 4. Iniciar desde el selector de misiones

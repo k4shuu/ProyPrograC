@@ -1,14 +1,30 @@
-package Controlador;
+package MVC.CreacionNaveTripulacion.Controlador;
 
-import Vista.IVistaCreacion;
-import naves.Nave;
-import naves.NaveFactory;
+import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.CrearMision.Controlador.ControladorMision;
+import MVC.CrearMision.Vista.VistaGameOver;
+import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
+import MVC.CrearMision.Vista.VistaMision;
+import MVC.CrearMision.Vista.IVistaMision;
+
+import asistente.AsistenteComando;
+import bitacora.Bitacora;
+import concurrencia.modelo.PlataformaDeCarga;
+import destinoytablero.Destino;
+import destinoytablero.ElementoDelUniverso;
+import destinoytablero.Tablero;
+import elementos.Asteroide;
+import elementos.EstacionesDeCarga;
+import excepciones.CantidadDeElementosSuperaCasillaException;
+import excepciones.DimensionesDeTableroInconsistentesException;
+import naves.*;
 import tripulacion.CargoFactory;
 import tripulacion.OrigenFactory;
 import tripulacion.Tripulante;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ControladorCreacion implements ActionListener {
 
@@ -27,6 +43,52 @@ public class ControladorCreacion implements ActionListener {
     private void transicionarAlComando() {
         // 1. Se instancia la vista de la siguiente sección (Control de la Nave)
         //VistaCentroComando vistaComando = new VistaCentroComando();
+        System.out.println("CLICK EN IR AL COMANDO");
+
+
+        // 1. Modelos base
+        ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
+        // Asteroides
+        for (int i = 0; i < 6; i++) {
+            elementos.add(new Asteroide());
+        }
+
+        // Estaciones de carga
+        for (int i = 0; i < 3; i++) {
+            elementos.add(new EstacionesDeCarga());
+        }
+
+        // Naves enemigas (respetando las precondiciones de Nave: valores > 0 y <= 100)
+        elementos.add(new NaveCombate("Enemigo-C1", 100, 100, 10));
+        elementos.add(new NaveCarguero("Enemigo-G1", 100, 100, 10));
+        elementos.add(new NaveExploradora("Enemigo-E1", 100, 100, 10));
+
+        Tablero tablero = null;
+        try {
+            tablero = new Tablero(20, 20, elementos, null);
+        } catch (DimensionesDeTableroInconsistentesException e) {
+            throw new RuntimeException(e);
+        } catch (CantidadDeElementosSuperaCasillaException e) {
+            throw new RuntimeException(e);
+        }
+        Destino.init(tablero);
+
+        Bitacora bitacora = new Bitacora();
+
+
+        // Ajusta el orden/cantidad de parámetros según tu constructor real de AsistenteComando
+        AsistenteComando asistente = new AsistenteComando(bitacora,nave,tablero);
+
+        VistaMision vistaM=new VistaMision();
+        VistaPrincipal vistaP=new VistaPrincipal(asistente,tablero,this.nave,bitacora);
+        VistaGameOver vistaG=new VistaGameOver();
+        ControladorMision controlM=new ControladorMision(vistaM,vistaP,vistaG,asistente);
+
+        vistaM.setVisible(true);
+        this.vista.dispose();
+
+
+
 
         // 2. Se instancia el entorno/tablero (si tu arquitectura lo requiere aquí)
         //Tablero tablero = new Tablero();

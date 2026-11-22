@@ -12,6 +12,7 @@ import misiones.MisionFactory;
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 
 public class ControladorMision implements ActionListener {
     private IVistaMision vistaMision;
@@ -72,7 +73,7 @@ public class ControladorMision implements ActionListener {
         vistaTablero.dispose();
 
         VistaLogin vistaLogin = new VistaLogin();
-        new ControladorLogin(vistaLogin);
+        new ControladorLogin(vistaLogin, Path.of("usuarios.db"));
         vistaLogin.setVisible(true);
     }
 }
