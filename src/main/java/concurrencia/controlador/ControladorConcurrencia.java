@@ -1,6 +1,6 @@
 package concurrencia.controlador;
 
-import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.ControlDeNave.Vista.IVista;
 import concurrencia.modelo.GeneradoraDeEnergia;
 import concurrencia.modelo.NaveConsumidora;
 import concurrencia.modelo.PlataformaDeCarga;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class ControladorConcurrencia implements ActionListener {
     private IVistaConcurrencia vista;
     private PlataformaDeCarga plataforma;
-    private VistaPrincipal vistaPrincipal;
+    private IVista vistaPrincipal;
     private ArrayList<Thread> hilos = new ArrayList<>();
     private int numGenerador = 0;
     private int numNave = 0;
 
-    public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, VistaPrincipal vistaPrincipal) {
+    public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, IVista vistaPrincipal) {
         this.vista = vista;
         this.plataforma = plataforma;
         this.vistaPrincipal = vistaPrincipal;
