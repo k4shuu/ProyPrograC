@@ -1,5 +1,7 @@
 package tripulacion;
 
+import java.util.Objects;
+
 public class Terricola extends DecoratorOrigen {
     private static double subsidio = 20;
 
@@ -16,7 +18,18 @@ public class Terricola extends DecoratorOrigen {
     public String getInfo(){
         return this.tripulante.getInfo()+" Origen: Terricola ";
     }
+    @Override
 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Terricola)) return false;
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.tripulante);
+    }
     @Override
     public String getCargo() {
         return this.tripulante.getCargo();

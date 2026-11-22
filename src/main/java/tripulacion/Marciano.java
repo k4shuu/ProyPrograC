@@ -1,5 +1,7 @@
 package tripulacion;
 
+import java.util.Objects;
+
 public class Marciano extends DecoratorOrigen{
     private static double subsidio = 18;
 
@@ -16,7 +18,18 @@ public class Marciano extends DecoratorOrigen{
     public String getInfo(){
         return this.tripulante.getInfo()+" Origen: Marciano ";
     }
+    @Override
 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Marciano)) return false;
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.tripulante);
+    }
     @Override
     public String getCargo() {
         return this.tripulante.getCargo();

@@ -5,13 +5,18 @@ import misiones.InformeMision;
 import misiones.Mision;
 import misiones.MisionFactory;
 
+import java.nio.file.Path;
+
 public class Main {
     public static void main(String[] args) {
 
         //LOGIN - VENTANA
+
         MVC.RegistroLogin.Vista.VistaLogin vistaLogin = new MVC.RegistroLogin.Vista.VistaLogin();
-        MVC.RegistroLogin.Controlador.ControladorLogin controlador = new MVC.RegistroLogin.Controlador.ControladorLogin(vistaLogin);
+        MVC.RegistroLogin.Controlador.ControladorLogin controlador = new MVC.RegistroLogin.Controlador.ControladorLogin(vistaLogin, Path.of("usuarios.db"));
         vistaLogin.setVisible(true);
+
+
 
 
 
