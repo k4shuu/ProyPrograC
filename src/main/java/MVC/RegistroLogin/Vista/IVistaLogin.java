@@ -1,5 +1,7 @@
 package Vista;
 
+import java.awt.event.ActionListener;
+
 public interface IVistaLogin {
     String getUsuario();
     String getPassword();
@@ -7,4 +9,6 @@ public interface IVistaLogin {
     void limpiarCampos();
     void cerrarVentana();
     void dispose();
+    void setLoginListener(ActionListener listener);
+    void setRegistroListener(ActionListener listener);
 }
