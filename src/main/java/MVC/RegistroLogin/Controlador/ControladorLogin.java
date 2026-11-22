@@ -3,6 +3,9 @@ package MVC.RegistroLogin.Controlador;
 
 import MVC.CreacionNaveTripulacion.Vista.VistaCreacionNaveTripulacion;
 import MVC.RegistroLogin.Vista.IVistaLogin;
+import MVC.CreacionNaveTripulacion.Controlador.ControladorCreacion;
+import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
+
 import MVC.RegistroLogin.Vista.VistaLogin;
 import persistencia.UsuarioDAO;
 import persistencia.UsuarioDTO;
@@ -53,8 +56,12 @@ public class ControladorLogin {
             vista.cerrarVentana();
 
             //ACÁ IRÁ EL CÓDIGO UNA VEZ AUTENTICADO EL USUARIO! - INICIO
-            VistaCreacionNaveTripulacion vistaCreacion = new VistaCreacionNaveTripulacion();
+
+            IVistaCreacion vistaCreacion = new Vista.VistaCreacionNaveTripulacion();
+
             vistaCreacion.setVisible(true);
+            ControladorCreacion controlador=new ControladorCreacion(vistaCreacion);
+            this.vista.dispose();
             //FIN
 
         } catch (CredencialesInvalidasException e) {

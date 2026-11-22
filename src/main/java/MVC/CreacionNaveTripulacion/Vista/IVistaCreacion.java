@@ -22,4 +22,6 @@ public interface IVistaCreacion {
     void agregarMensaje(String mensaje);
     void actualizarNomina(double total);
 
+    void setVisible(boolean b);
+
 }

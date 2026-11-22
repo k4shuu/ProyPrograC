@@ -6,4 +6,5 @@ public interface IVistaLogin {
     void mostrarMensaje(String mensaje);
     void limpiarCampos();
     void cerrarVentana();
+    void dispose();
 }

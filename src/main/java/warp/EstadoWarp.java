@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EstadoWarp { //DEFINIRÁ LA PLANTILLA PARA LOS ESTADOS DEL MOTOR
     void ejecutarSaltoComun() throws FaltaCombustibleException;
-    void ejecutarSaltoWarp() throws FaltaCombustibleException, ExcesoDesgasteException, FaltaEnergiaException;
+    int ejecutarSaltoWarp() throws FaltaCombustibleException, ExcesoDesgasteException, FaltaEnergiaException;
 
     String getNombreEstado();
 }

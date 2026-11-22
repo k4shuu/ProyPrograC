@@ -26,8 +26,8 @@ public class MotorWarp {
 
 
     //DELEGAMOS CADA ACCIONAR SEGÚN EL ESTADO ACTUAL DEL MOTOR
-    public void ejecutarSaltoWarp() throws FaltaCombustibleException, FaltaEnergiaException, ExcesoDesgasteException {
-        estadoActual.ejecutarSaltoWarp();
+    public int ejecutarSaltoWarp() throws FaltaCombustibleException, FaltaEnergiaException, ExcesoDesgasteException {
+       return estadoActual.ejecutarSaltoWarp();
     }
 
     //GETTERS & SETTERS

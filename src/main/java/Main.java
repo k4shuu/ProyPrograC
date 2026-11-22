@@ -9,10 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
         //LOGIN - VENTANA
-        /*VistaLogin vistaLogin = new VistaLogin();
-        ControladorLogin controlador = new ControladorLogin(vistaLogin);
+        MVC.RegistroLogin.Vista.VistaLogin vistaLogin = new MVC.RegistroLogin.Vista.VistaLogin();
+        MVC.RegistroLogin.Controlador.ControladorLogin controlador = new MVC.RegistroLogin.Controlador.ControladorLogin(vistaLogin);
         vistaLogin.setVisible(true);
-         */
+
 
 
         //INICIALIZACIÓN TABLERO

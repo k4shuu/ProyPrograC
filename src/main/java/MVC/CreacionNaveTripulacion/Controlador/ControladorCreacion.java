@@ -140,7 +140,7 @@ public class ControladorCreacion implements ActionListener {
         }
 
         // 5. Validar y parsear Consejos (Solo si aplica)
-        int cantConsejos=0;
+        int cantConsejos = 0;
         if ("Consejero".equals(cargo)) { // Escrito al revés para evitar NullPointerException
             try {
                 cantConsejos = Integer.parseInt(this.vista.getCantConsejos());
@@ -155,6 +155,15 @@ public class ControladorCreacion implements ActionListener {
         }
 
         Tripulante tripulante = OrigenFactory.crear(CargoFactory.crear(cargo, nombre, antiguedad, cantConsejos), origen);
+        if (nave.tieneCapitan() && tripulante.getCargo().equals("Capitan")){
+            this.vista.setError("No puede haber mas de un capitan");
+            return ;
+        }
+        if(this.nave.buscaTripulante(tripulante)){
+            this.vista.setError("No puede haber un tripulante duplicado");
+            return;
+        }
+
         this.nave.agregarTripulante(tripulante);
         this.vista.agregarMensaje(tripulante.getInfo()+tripulante.getConceptoSueldo());
         this.vista.actualizarNomina(this.nave.calcularTotalHaberes());

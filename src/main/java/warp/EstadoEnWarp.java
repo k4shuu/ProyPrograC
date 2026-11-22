@@ -23,11 +23,12 @@ public class EstadoEnWarp implements EstadoWarp {
     }
 
     @Override
-    public void ejecutarSaltoWarp() throws FaltaEnergiaException,ExcesoDesgasteException{
+    public int ejecutarSaltoWarp() throws FaltaEnergiaException,ExcesoDesgasteException{
 
             motor.getNave().usarEnergia(this.motor.ENERGIA_NECESARIA_WARP);
             motor.getNave().realizarDesgaste(this.motor.DESGASTE_MECANICO_WARP);
             motor.setEstado(new EstadoEnfriamiento(motor));
+            return 2;
 
 
     }
