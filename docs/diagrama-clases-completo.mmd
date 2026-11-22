@@ -1,0 +1,530 @@
+classDiagram
+direction LR
+
+namespace naves {
+  class Nave {
+    <<abstract>>
+    #String identidad
+    #int combustible
+    #int energia
+    #int desgaste
+    #int gemas
+    #boolean destruida
+    +estaViva() boolean
+    +usarEnergia(int)
+    +cargarComb(int)
+    +cargarEnerg(int)
+    +usarCombustible(int)
+    +realizarDesgaste(int)
+    +mantenimiento()
+    +agregarTripulante(Tripulante)
+    +calcularTotalHaberes() double
+  }
+  class NaveExploradora
+  class NaveCarguero
+  class NaveCombate
+  class NaveFactory {
+    <<Factory>>
+    +crearNave(String, String, int, int, int)$ Nave
+  }
+}
+
+namespace tripulacion {
+  class Tripulante {
+    <<abstract>>
+    #String identidad
+    #int antiguedad
+    +getInfo()* String
+    +getSueldo()* double
+    +getConceptoSueldo()* String
+  }
+  class Cargo {
+    <<abstract>>
+  }
+  class Capitan
+  class Consejero {
+    -int cantConsejos
+  }
+  class Alferez
+  class Teniente
+  class DecoratorOrigen {
+    <<abstract>>
+    <<Decorator>>
+    #Tripulante tripulante
+  }
+  class Vulcano
+  class Terricola
+  class Marciano
+  class CargoFactory {
+    <<Factory>>
+    +crear(String, String, int, int)$ Cargo
+  }
+  class OrigenFactory {
+    <<Factory>>
+    +crear(Tripulante, String)$ DecoratorOrigen
+  }
+}
+
+namespace misiones {
+  class Mision {
+    <<abstract>>
+    #String cod
+    #int combConsumido
+    #int energCargada
+    #int desgaste
+    #Posicion obj
+    #Estado estado
+    +Resultado result
+    +comenzar() InformeMision
+    +preparar()
+    +ejecutar()
+    +evaluar()
+    +cerrar() InformeMision
+    #aplicarResultadoExitoso()*
+  }
+  class MisionIntercep
+  class MisionRecolec
+  class MisionRetorno
+  class MisionFactory {
+    <<Factory>>
+    +crearMision(String, AsistenteComando)$ Mision
+  }
+  class InformeMision {
+    -String cod
+    -Resultado result
+    -Estado lastState
+    -int balanceCombustible
+    -int balanceEnergia
+    -int balanceDesgaste
+    -int balanceGemas
+    +finalizar(Nave, Resultado, Estado)
+    +actualizarBalances(Nave)
+  }
+  class Estado {
+    <<enumeration>>
+    CREADA
+    PREPARADA
+    EJECUTADA
+    EVALUADA
+    CERRADA
+  }
+  class ResultadoMisiones["Resultado"] {
+    <<enumeration>>
+    EXITOSA
+    FALLIDA
+    CANCELADA
+  }
+}
+
+namespace warp {
+  class MotorWarp {
+    <<Context>>
+    -EstadoWarp estadoActual
+    -Nave nave
+    +ejecutarSaltoComun()
+    +ejecutarSaltoWarp()
+    +setEstado(EstadoWarp)
+  }
+  class EstadoWarp {
+    <<interface>>
+    <<State>>
+    +ejecutarSaltoComun()
+    +ejecutarSaltoWarp()
+    +getNombreEstado() String
+  }
+  class EstadoDisponible
+  class EstadoPreparandoSalto
+  class EstadoEnWarp
+  class EstadoEnfriamiento
+}
+
+namespace destinoytablero {
+  class ElementoDelUniverso {
+    <<interface>>
+    +interactuar(Nave)
+  }
+  class Posicion {
+    -int x
+    -int y
+  }
+  class Tablero {
+    -int x
+    -int y
+    -ArrayList~ElementoDelUniverso~ elementos
+    -HashMap~Posicion, ElementoDelUniverso~ ocupacion
+    -Posicion posicionNave
+    -Posicion objetivo
+    +moverNave(Posicion)
+    +inspeccionarPosicion() ElementoDelUniverso
+    +observarAlrededores() ElementoDelUniverso[][]
+    +obtenerObjetivo() Posicion
+    +calcularRuta(Posicion, Posicion) List~Posicion~
+  }
+  class Destino {
+    <<Singleton>>
+    -Destino instance$
+    -Tablero tablero
+    +init(Tablero)$ Destino
+    +getInstance()$ Destino
+    +turnoDestino()
+  }
+  class ObservableTab["Observable"] {
+    <<abstract>>
+    -ArrayList~Observador~ observadores
+    +agregarObservador(Observador)
+    +quitarObservador(Observador)
+    +notificarObservadores()
+  }
+  class ObservadorTab["Observador"] {
+    <<interface>>
+    +actualizar()
+  }
+}
+
+namespace elementos {
+  class Asteroide
+  class EstacionesDeCarga
+}
+
+namespace asistente {
+  class AsistenteComando {
+    -Bitacora bitacora
+    -Nave nave
+    -Tablero tablero
+    -RadarLargoAlcance radarLA
+    -RadarCortoAlcance radarCA
+    -List~Posicion~ ruta
+    +escribirBitacora(String, String)
+    +solicitarEjecucionSaltoComun()
+    +solicitarEjecucionSaltoWarp()
+    +calcRuta(Posicion)
+  }
+  class RadarCortoAlcance {
+    -Tablero tablero
+    +analizarPasoSig(List~Posicion~) ElementoDelUniverso
+  }
+  class RadarLargoAlcance {
+    -Tablero tablero
+    +calcRuta(Posicion) List~Posicion~
+  }
+}
+
+namespace bitacora {
+  class Bitacora {
+    -List~Entrada~ entradas
+    +registrar(String, String)
+    +registrar(Entrada)
+    +mostrarBitacora() List~String~
+    +getHistorialBitacora() String
+    +limpiar()
+  }
+  class Entrada {
+    -LocalDateTime fechaHora
+    -String mensaje
+    -String origen
+  }
+}
+
+namespace persistencia {
+  class ConexionBD {
+    -String URL$
+    +conectar()$ Connection
+  }
+  class UsuarioDAO {
+    <<DAO>>
+    +registrarUsuario(UsuarioDTO) boolean
+    +validarCredenciales(String, String) UsuarioDTO
+  }
+  class UsuarioDTO {
+    -String username
+    -String password
+  }
+}
+
+namespace concurrencia {
+  class PlataformaDeCarga {
+    -ArrayList~Bateria~ baterias
+    -int limite
+    +depositar(GeneradoraDeEnergia, Bateria)
+    +consumir(NaveConsumidora)
+  }
+  class Bateria
+  class GeneradoraDeEnergia {
+    -String nombre
+    -PlataformaDeCarga plataforma
+    +crearBateria() Bateria
+    +run()
+  }
+  class NaveConsumidora {
+    -String nombre
+    -PlataformaDeCarga plataforma
+    +run()
+  }
+  class ObservableConcurrencia["Observable"] {
+    <<abstract>>
+    -ArrayList~Observador~ observadores
+    +agregarObservador(Observador)
+    +quitarObservador(Observador)
+    +notificarObservadores(String)
+  }
+  class ObservadorConcurrencia["Observador"] {
+    <<interface>>
+    +actualizar(String)
+  }
+  class IVistaConcurrencia {
+    <<interface>>
+    +setActionListener(ActionListener)
+    +registrarEvento(String)
+  }
+  class VistaConcurrencia
+  class ControladorConcurrencia {
+    -IVistaConcurrencia vista
+    -ArrayList~GeneradoraDeEnergia~ generadores
+    -ArrayList~NaveConsumidora~ naves
+    -PlataformaDeCarga plataforma
+    +crearNave()
+    +crearGenerador()
+  }
+}
+
+namespace excepciones {
+  class CantidadDeElementosSuperaCasillaException {
+    <<exception>>
+    -int cantidadMaxima
+  }
+  class CredencialesInvalidasException {
+    <<exception>>
+  }
+  class DimensionesDeTableroInconsistentesException {
+    <<exception>>
+  }
+  class ExcesoCombException {
+    <<exception>>
+    -int combAct
+    -int combCargar
+  }
+  class ExcesoDesgasteException {
+    <<exception>>
+    -int desgasteExigido
+    -int desgasteActual
+  }
+  class FaltaCombustibleException {
+    <<exception>>
+    -int combustibleRequerido
+    -int combustibleDisponible
+  }
+  class FaltaEnergiaException {
+    <<exception>>
+    -int energiaRequerida
+    -int energiaDisponible
+  }
+  class NaveDestruidaException {
+    <<exception>>
+  }
+  class TipoCargoInvalidoException {
+    <<exception>>
+    -String tipo
+  }
+  class TipoMisionInvalidaException {
+    <<exception>>
+    -String tipo
+  }
+  class TipoOrigenInvalidoException {
+    <<exception>>
+    -String tipo
+  }
+  class TransicionMotorInvalidaException {
+    <<exception>>
+    -String estadoOrigen
+    -String estadoDestino
+  }
+}
+
+namespace MVC {
+  class IVista {
+    <<interface>>
+    +setVisible(boolean)
+    +setControlador(ActionListener)
+  }
+  class VistaPrincipal {
+    -Tablero tablero
+    -Nave nave
+    -Bitacora bitacora
+    -AsistenteComando asistente
+    +actualizar()
+    +mostrarCamino(List~Posicion~)
+    +mostrarMisionActual(String)
+  }
+  class ControladorTablero
+  class IObservable {
+    <<interface>>
+    +agregarObservador(IObservador)
+    +notificarObservadores()
+  }
+  class IObservador {
+    <<interface>>
+    +actualizar()
+  }
+  class RecursosYBitacora {
+    -List~IObservador~ observadores
+    -Nave nave
+    -Bitacora bitacora
+    -String estadoTablero
+    +forzarActualizacionVista()
+    +setEstadoTablero(String)
+  }
+  class IVistaMision {
+    <<interface>>
+    +setControlador(ActionListener)
+    +getCodigoMisionSeleccionada() String
+    +mostrarMensaje(String)
+  }
+  class VistaMision
+  class VistaGameOver {
+    +mostrarInforme(InformeMision)
+    +setControlador(ActionListener)
+  }
+  class ControladorMision
+  class EjecutorMision {
+    -Mision mision
+    -VistaGameOver vistaGameOver
+    +run()
+  }
+  class VistaLogin
+  class ControladorLogin
+}
+
+namespace Vista {
+  class IVistaLogin {
+    <<interface>>
+    +getUsuario() String
+    +getPassword() String
+    +mostrarMensaje(String)
+    +cerrarVentana()
+  }
+  class IVistaCreacion {
+    <<interface>>
+    +getNombreNave() String
+    +getTipoNaveSeleccionada() String
+    +getNombreNuevoTripulante() String
+    +getOrigenNuevoTripulante() String
+    +getCargoNuevoTripulante() String
+  }
+  class VistaCreacionNaveTripulacion
+}
+
+namespace Controlador {
+  class ControladorCreacion {
+    -IVistaCreacion vista
+    -Nave nave
+    +crearTripulante()
+    +crearNave()
+  }
+}
+
+%% Herencia e implementacion
+ElementoDelUniverso <|.. Nave
+Nave <|-- NaveExploradora
+Nave <|-- NaveCarguero
+Nave <|-- NaveCombate
+
+Tripulante <|-- Cargo
+Cargo <|-- Capitan
+Cargo <|-- Consejero
+Cargo <|-- Alferez
+Cargo <|-- Teniente
+Tripulante <|-- DecoratorOrigen
+DecoratorOrigen <|-- Vulcano
+DecoratorOrigen <|-- Terricola
+DecoratorOrigen <|-- Marciano
+
+Mision <|-- MisionIntercep
+Mision <|-- MisionRecolec
+Mision <|-- MisionRetorno
+
+EstadoWarp <|.. EstadoDisponible
+EstadoWarp <|.. EstadoPreparandoSalto
+EstadoWarp <|.. EstadoEnWarp
+EstadoWarp <|.. EstadoEnfriamiento
+
+ObservableTab <|-- Tablero
+ElementoDelUniverso <|.. Asteroide
+ElementoDelUniverso <|.. EstacionesDeCarga
+
+IVista <|.. VistaPrincipal
+ObservadorTab <|.. VistaPrincipal
+IObservable <|.. RecursosYBitacora
+IVistaMision <|.. VistaMision
+IVistaLogin <|.. VistaLogin
+IVistaCreacion <|.. VistaCreacionNaveTripulacion
+
+ObservableConcurrencia <|-- PlataformaDeCarga
+ObservadorConcurrencia <|-- IVistaConcurrencia
+IVistaConcurrencia <|.. VistaConcurrencia
+
+%% Composicion y agregacion
+Nave "1" *-- "1" MotorWarp : motorWarp
+Nave "1" o-- "0..*" Tripulante : tripulacion
+DecoratorOrigen "1" o-- "1" Tripulante : tripulante
+Mision "1" *-- "0..1" InformeMision : informe
+Tablero "1" o-- "0..*" ElementoDelUniverso : elementos
+Tablero "1" *-- "1..2" Posicion : posiciones
+ObservableTab "1" o-- "0..*" ObservadorTab : observadores
+AsistenteComando "1" *-- "1" RadarCortoAlcance : radarCA
+AsistenteComando "1" *-- "1" RadarLargoAlcance : radarLA
+Bitacora "1" *-- "0..*" Entrada : entradas
+RecursosYBitacora "1" o-- "0..*" IObservador : observadores
+PlataformaDeCarga "1" o-- "0..*" Bateria : baterias
+ObservableConcurrencia "1" o-- "0..*" ObservadorConcurrencia : observadores
+ControladorConcurrencia "1" o-- "0..*" GeneradoraDeEnergia : generadores
+ControladorConcurrencia "1" o-- "0..*" NaveConsumidora : naves
+
+%% Asociaciones estructurales
+MotorWarp --> EstadoWarp : estadoActual
+Mision --> AsistenteComando : asistente
+Mision --> Estado : estado
+Mision --> ResultadoMisiones : result
+Destino --> Tablero : tablero
+AsistenteComando --> Nave : nave
+AsistenteComando --> Tablero : tablero
+AsistenteComando --> Bitacora : bitacora
+RadarCortoAlcance --> Tablero : tablero
+RadarLargoAlcance --> Tablero : tablero
+
+VistaPrincipal --> Tablero : tablero
+VistaPrincipal --> Nave : nave
+VistaPrincipal --> Bitacora : bitacora
+VistaPrincipal --> AsistenteComando : asistente
+ControladorTablero --> VistaPrincipal : vista
+RecursosYBitacora --> Nave : nave
+RecursosYBitacora --> Bitacora : bitacora
+ControladorMision --> IVistaMision : vistaMision
+ControladorMision --> AsistenteComando : asistente
+EjecutorMision --> Mision : mision
+EjecutorMision --> VistaGameOver : vistaGameOver
+ControladorLogin --> IVistaLogin : vista
+ControladorLogin --> UsuarioDAO : usuarioDAO
+ControladorCreacion --> IVistaCreacion : vista
+ControladorCreacion --> Nave : nave
+
+GeneradoraDeEnergia --> PlataformaDeCarga : plataforma
+NaveConsumidora --> PlataformaDeCarga : plataforma
+ControladorConcurrencia --> IVistaConcurrencia : vista
+ControladorConcurrencia --> PlataformaDeCarga : plataforma
+
+%% Dependencias de creacion y patrones Factory
+NaveFactory ..> Nave : crea
+CargoFactory ..> Cargo : crea
+OrigenFactory ..> DecoratorOrigen : crea
+MisionFactory ..> Mision : crea
+ControladorMision ..> EjecutorMision : crea
+ControladorMision ..> ControladorLogin : crea
+ControladorLogin ..> VistaCreacionNaveTripulacion : crea
+
+%% Dependencias de uso sin relacion estructural equivalente
+UsuarioDAO ..> ConexionBD : usa
+UsuarioDAO ..> UsuarioDTO : mapea
+ControladorCreacion ..> NaveFactory : usa
+ControladorCreacion ..> CargoFactory : usa
+ControladorCreacion ..> OrigenFactory : usa
+ControladorMision ..> MisionFactory : usa

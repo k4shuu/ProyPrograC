@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class VistaLogin extends JFrame implements Vista.IVistaLogin {
+public class VistaLogin extends JFrame implements IVistaLogin {
     private JTextField txtUsuario;
     private JPasswordField txtPassword;
     private JButton btnIniciarSesion;

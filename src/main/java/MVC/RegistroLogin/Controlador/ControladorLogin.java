@@ -1,7 +1,8 @@
 package MVC.RegistroLogin.Controlador;
 
 
-import Vista.IVistaLogin;
+import MVC.CreacionNaveTripulacion.Vista.VistaCreacionNaveTripulacion;
+import MVC.RegistroLogin.Vista.IVistaLogin;
 import MVC.RegistroLogin.Vista.VistaLogin;
 import persistencia.UsuarioDAO;
 import persistencia.UsuarioDTO;
@@ -52,7 +53,7 @@ public class ControladorLogin {
             vista.cerrarVentana();
 
             //ACÁ IRÁ EL CÓDIGO UNA VEZ AUTENTICADO EL USUARIO! - INICIO
-            Vista.VistaCreacionNaveTripulacion vistaCreacion = new Vista.VistaCreacionNaveTripulacion();
+            VistaCreacionNaveTripulacion vistaCreacion = new VistaCreacionNaveTripulacion();
             vistaCreacion.setVisible(true);
             //FIN
 

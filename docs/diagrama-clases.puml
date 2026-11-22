@@ -1,0 +1,1087 @@
+@startuml
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide circle
+left to right direction
+
+package "(default)" {
+  class "Main" as T_Main {
+    {static} + main(args: String[]): void
+  }
+
+}
+
+package "Controlador" {
+  class "ControladorCreacion" as T_Controlador_ControladorCreacion {
+    - vista: IVistaCreacion
+    - nave: Nave
+    + ControladorCreacion(vista: IVistaCreacion)
+    - transicionarAlComando(): void
+    + actionPerformed(e: ActionEvent): void
+    + crearTripulante(): void
+    + crearNave(): void
+  }
+
+}
+
+package "MVC.ControlDeNave.Controlador" {
+  class "ControladorTablero" as T_MVC_ControlDeNave_Controlador_ControladorTablero {
+    - vista: VistaPrincipal
+    - vistaConcurrencia: IVistaPrincipal
+    + ControladorTablero(vista: VistaPrincipal, vistaConcurrencia: IVistaPrincipal)
+    + actionPerformed(e: ActionEvent): void
+  }
+
+}
+
+package "MVC.ControlDeNave.Modelo" {
+  class "RecursosYBitacora" as T_MVC_ControlDeNave_Modelo_RecursosYBitacora {
+    - observadores: List<IObservador>
+    - nave: Nave
+    - bitacora: Bitacora
+    - estadoTablero: String
+    + RecursosYBitacora(nave: Nave, bitacora: Bitacora)
+    + agregarObservador(observador: IObservador): void
+    + notificarObservadores(): void
+    + forzarActualizacionVista(): void
+    + setEstadoTablero(estado: String): void
+    + getEnergia(): int
+    + getDesgaste(): int
+    + getCombustible(): int
+    + getRegistrosBitacora(): List<String>
+    + getEstadoTablero(): String
+  }
+
+}
+
+package "MVC.ControlDeNave.Vista" {
+  interface "IObservable" as T_MVC_ControlDeNave_Vista_IObservable {
+    ~ agregarObservador(observador: IObservador): void
+    ~ notificarObservadores(): void
+  }
+
+  interface "IObservador" as T_MVC_ControlDeNave_Vista_IObservador {
+    ~ actualizar(): void
+  }
+
+  interface "IVista" as T_MVC_ControlDeNave_Vista_IVista {
+    ~ IR_CONCURRENCIA: String
+    ~ setVisible(visible: boolean): void
+    ~ setControlador(c: ActionListener): void
+  }
+
+  class "VistaPrincipal" as T_MVC_ControlDeNave_Vista_VistaPrincipal {
+    - tablero: Tablero
+    - nave: Nave
+    - bitacora: Bitacora
+    - asistente: AsistenteComando
+    - vistaTablero: VistaTablero
+    - barEnergia: JProgressBar
+    - barDesgaste: JProgressBar
+    - barCombustible: JProgressBar
+    - txtBitacora: JTextArea
+    - txtMisiones: JTextArea
+    - btnConcurrencia: JButton
+    + VistaPrincipal(asistente: AsistenteComando, tablero: Tablero, nave: Nave, bitacora: Bitacora)
+    - configurarVentana(): void
+    + mostrarCamino(camino: List<Posicion>): void
+    - inicializarComponentes(): void
+    + actualizar(): void
+    + setControlador(c: ActionListener): void
+    + mostrarMisionActual(codigoMision: String): void
+  }
+
+  class "VistaTablero" as T_MVC_ControlDeNave_Vista_VistaTablero {
+    - tablero: Tablero
+    - caminoNave: List<Posicion>
+    - imagenes: Map<String, Image>
+    + VistaTablero(tablero: Tablero)
+    - cargarImagenes(): void
+    + setCamino(camino: List<Posicion>): void
+    # paintComponent(g: Graphics): void
+    - dibujarElemento(g2: Graphics2D, elem: ElementoDelUniverso, px: int, py: int, w: int, h: int): void
+  }
+
+}
+
+package "MVC.CrearMision.Controlador" {
+  class "ControladorMision" as T_MVC_CrearMision_Controlador_ControladorMision {
+    - vistaMision: IVistaMision
+    - vistaTablero: VistaPrincipal
+    - vistaGameOver: VistaGameOver
+    - asistente: AsistenteComando
+    + ControladorMision(vistaMision: IVistaMision, vistaTablero: VistaPrincipal, vistaGameOver: VistaGameOver, asistente: AsistenteComando)
+    + iniciar(): void
+    + actionPerformed(e: ActionEvent): void
+    - iniciarMisionLogica(): void
+    - volverAlLogin(): void
+  }
+
+  class "EjecutorMision" as T_MVC_CrearMision_Controlador_EjecutorMision {
+    - mision: Mision
+    - vistaTablero: JFrame
+    - vistaGameOver: VistaGameOver
+    + EjecutorMision(mision: Mision, vistaTablero: JFrame, vistaGameOver: VistaGameOver)
+    + run(): void
+  }
+
+}
+
+package "MVC.CrearMision.Vista" {
+  interface "IVistaMision" as T_MVC_CrearMision_Vista_IVistaMision {
+    ~ INICIAR_MISION: String
+    ~ setVisible(visible: boolean): void
+    ~ setControlador(c: ActionListener): void
+    ~ getCodigoMisionSeleccionada(): String
+    ~ mostrarMensaje(mensaje: String): void
+  }
+
+  class "VistaGameOver" as T_MVC_CrearMision_Vista_VistaGameOver {
+    {static} + VOLVER_INICIO: String
+    - lblTitulo: JLabel
+    - txtInforme: JTextArea
+    - btnVolverInicio: JButton
+    + VistaGameOver()
+    + mostrarInforme(informe: InformeMision): void
+    + setControlador(c: ActionListener): void
+  }
+
+  class "VistaMision" as T_MVC_CrearMision_Vista_VistaMision {
+    - comboMisiones: JComboBox<String>
+    - btnComenzar: JButton
+    + VistaMision()
+    + getCodigoMisionSeleccionada(): String
+    + setControlador(c: ActionListener): void
+    + mostrarMensaje(mensaje: String): void
+  }
+
+}
+
+package "MVC.RegistroLogin.Controlador" {
+  class "ControladorLogin" as T_MVC_RegistroLogin_Controlador_ControladorLogin {
+    - vista: IVistaLogin
+    - usuarioDAO: UsuarioDAO
+    + ControladorLogin(vista: IVistaLogin)
+    - intentarLogin(): void
+    - intentarRegistro(): void
+  }
+
+}
+
+package "MVC.RegistroLogin.Vista" {
+  class "VistaLogin" as T_MVC_RegistroLogin_Vista_VistaLogin {
+    - txtUsuario: JTextField
+    - txtPassword: JPasswordField
+    - btnIniciarSesion: JButton
+    - btnRegistrarse: JButton
+    + VistaLogin()
+    + getUsuario(): String
+    + getPassword(): String
+    + mostrarMensaje(mensaje: String): void
+    + limpiarCampos(): void
+    + cerrarVentana(): void
+    + setLoginListener(listener: ActionListener): void
+    + setRegistroListener(listener: ActionListener): void
+  }
+
+}
+
+package "Vista" {
+  interface "IVistaCreacion" as T_Vista_IVistaCreacion {
+    ~ CREARNAVE: String
+    ~ CREARTRIPULANTE: String
+    ~ IRALCOMANDO: String
+    ~ setActionListener(a: ActionListener): void
+    ~ getNombreNave(): String
+    ~ setError(mensaje: String): void
+    ~ getTipoNaveSeleccionada(): String
+    ~ getNombreNuevoTripulante(): String
+    ~ getAntiguedadNueva(): String
+    ~ getOrigenNuevoTripulante(): String
+    ~ getCargoNuevoTripulante(): String
+    ~ getCantConsejos(): String
+    ~ clearError(): void
+    ~ limpiarFormularioTripulante(): void
+    ~ agregarMensaje(mensaje: String): void
+    ~ actualizarNomina(total: double): void
+  }
+
+  interface "IVistaLogin" as T_Vista_IVistaLogin {
+    ~ getUsuario(): String
+    ~ getPassword(): String
+    ~ mostrarMensaje(mensaje: String): void
+    ~ limpiarCampos(): void
+    ~ cerrarVentana(): void
+  }
+
+  class "VistaCreacionNaveTripulacion" as T_Vista_VistaCreacionNaveTripulacion {
+    - txtNombreNave: JTextField
+    - comboTipoNave: JComboBox<String>
+    - btnInstanciarNave: JButton
+    - txtNombreTripulante: JTextField
+    - comboOrigenTripulante: JComboBox<String>
+    - txtAntiguedad: JTextField
+    - comboCargoTripulante: JComboBox<String>
+    - lblCantConsejos: JLabel
+    - txtCantConsejos: JTextField
+    - btnAgregarTripulante: JButton
+    - txtAreaMensajes: JTextArea
+    - lblTotalNomina: JLabel
+    - lblMensajeError: JLabel
+    - btnIrAlComando: JButton
+    + VistaCreacionNaveTripulacion()
+    - crearPanelIzquierdo(): JPanel
+    - crearPanelDerecho(): JPanel
+    + getBtnInstanciarNave(): JButton
+    + getBtnAgregarTripulante(): JButton
+    + getBtnIrAlComando(): JButton
+    + getNombreNave(): String
+    + getTipoNaveSeleccionada(): String
+    + getNombreNuevoTripulante(): String
+    + getAntiguedadNueva(): String
+    + getOrigenNuevoTripulante(): String
+    + getCargoNuevoTripulante(): String
+    + getCantConsejos(): String
+    + actualizarNomina(totalSalario: double): void
+    + setError(mensaje: String): void
+    + clearError(): void
+    + marcarComoConfirmado(): void
+    + limpiarFormularioTripulante(): void
+    + agregarMensaje(mensaje: String): void
+    + setActionListener(a: ActionListener): void
+  }
+
+}
+
+package "asistente" {
+  class "AsistenteComando" as T_asistente_AsistenteComando {
+    - bitacora: Bitacora
+    - nave: Nave
+    - tablero: Tablero
+    - radarLA: RadarLargoAlcance
+    - radarCA: RadarCortoAlcance
+    - ruta: List<Posicion>
+    + AsistenteComando(bitacora: Bitacora, nave: Nave, t: Tablero)
+    + estaVivaNave(): boolean
+    + getNave(): Nave
+    + escribirBitacora(origen: String, mensaje: String): void
+    + escribirBitacora(entrada: Entrada): void
+    + getBitacora(): Bitacora
+    + solicitarEjecucionSaltoComun(): void
+    + solicitarEjecucionSaltoWarp(): void
+    + mostrarLiquidacionHaberes(): void
+    + getRuta(): List<Posicion>
+    + calcRuta(destino: Posicion): void
+    + getTablero(): Tablero
+    + getRadarLA(): RadarLargoAlcance
+    + getRadarCA(): RadarCortoAlcance
+  }
+
+  class "RadarCortoAlcance" as T_asistente_RadarCortoAlcance {
+    - tablero: Tablero
+    + RadarCortoAlcance(t: Tablero)
+    + analizarPasoSig(ruta: List<Posicion>): ElementoDelUniverso
+  }
+
+  class "RadarLargoAlcance" as T_asistente_RadarLargoAlcance {
+    - tablero: Tablero
+    + RadarLargoAlcance(t: Tablero)
+    + calcRuta(destino: Posicion): List<Posicion>
+  }
+
+}
+
+package "bitacora" {
+  class "Bitacora" as T_bitacora_Bitacora {
+    - entradas: List<Entrada>
+    + Bitacora()
+    + registrar(origen: String, mensaje: String): void
+    + registrar(entrada: Entrada): void
+    + getEntradas(): List<Entrada>
+    + mostrarBitacora(): List<String>
+    + getHistorialBitacora(): String
+    + getUltimaEntrada(): Entrada
+    + limpiar(): void
+  }
+
+  class "Entrada" as T_bitacora_Entrada {
+    - fechaHora: LocalDateTime
+    - mensaje: String
+    - origen: String
+    + Entrada(origen: String, mensaje: String)
+    + getFechaHora(): LocalDateTime
+    + getOrigen(): String
+    + getMensaje(): String
+    + toString(): String
+  }
+
+}
+
+package "concurrencia.controlador" {
+  class "ControladorConcurrencia" as T_concurrencia_controlador_ControladorConcurrencia {
+    - vista: IVistaConcurrencia
+    - generadores: ArrayList<GeneradoraDeEnergia>
+    - naves: ArrayList<NaveConsumidora>
+    - plataforma: PlataformaDeCarga
+    - numGenerador: int
+    - numNave: int
+    - vistaPrincipal: JFrame
+    + ControladorConcurrencia(vista: IVistaConcurrencia, plataforma: PlataformaDeCarga, vistaPrincipal: JFrame)
+    + actionPerformed(e: ActionEvent): void
+    + crearNave(): void
+    + crearGenerador(): void
+  }
+
+}
+
+package "concurrencia.modelo" {
+  class "Bateria" as T_concurrencia_modelo_Bateria {
+    + Bateria()
+  }
+
+  class "GeneradoraDeEnergia" as T_concurrencia_modelo_GeneradoraDeEnergia {
+    - nombre: String
+    - plataforma: PlataformaDeCarga
+    + GeneradoraDeEnergia(nombre: String, plataforma: PlataformaDeCarga)
+    + getNombre(): String
+    + crearBateria(): Bateria
+    + run(): void
+  }
+
+  class "NaveConsumidora" as T_concurrencia_modelo_NaveConsumidora {
+    - nombre: String
+    - plataforma: PlataformaDeCarga
+    - observadores: ArrayList<Observador>
+    + NaveConsumidora(nombre: String, plataforma: PlataformaDeCarga)
+    + getNombre(): String
+    + run(): void
+  }
+
+  class "PlataformaDeCarga" as T_concurrencia_modelo_PlataformaDeCarga {
+    - observadores: ArrayList<Observador>
+    - baterias: ArrayList<Bateria>
+    - limite: int
+    + PlataformaDeCarga(limite: int)
+    + depositar(generador: GeneradoraDeEnergia, bateria: Bateria): void
+    + consumir(nave: NaveConsumidora): void
+    + agregarObservador(observador: Observador): void
+    + quitarObservador(observador: Observador): void
+    + notificarObservadores(mensaje: String): void
+  }
+
+}
+
+package "concurrencia.observer" {
+  abstract class "Observable" as T_concurrencia_observer_Observable {
+    - observadores: ArrayList<Observador>
+    + agregarObservador(observador: Observador): void
+    + quitarObservador(observador: Observador): void
+    + notificarObservadores(mensaje: String): void
+  }
+
+  interface "Observador" as T_concurrencia_observer_Observador {
+    ~ actualizar(mensaje: String): void
+  }
+
+}
+
+package "concurrencia.prueba" {
+  class "MainC" as T_concurrencia_prueba_MainC {
+    {static} + main(args: String[]): void
+  }
+
+}
+
+package "concurrencia.vista" {
+  interface "IVistaConcurrencia" as T_concurrencia_vista_IVistaConcurrencia {
+    ~ CREARNAVE: String
+    ~ CREARGENERADOR: String
+    ~ VOLVER: String
+    ~ setActionListener(listener: ActionListener): void
+    ~ limpiarError(): void
+    ~ setError(mensaje: String): void
+    ~ registrarEvento(mensaje: String): void
+    ~ setVisible(b: boolean): void
+  }
+
+  class "VistaConcurrencia" as T_concurrencia_vista_VistaConcurrencia {
+    - btnCrearNave: JButton
+    - btnCrearGeneradora: JButton
+    - txtConsola: JTextArea
+    - lblError: JLabel
+    - btnVolver: JButton
+    + VistaConcurrencia()
+    + getBtnCrearNave(): JButton
+    + getBtnCrearGeneradora(): JButton
+    + registrarEvento(mensaje: String): void
+    + setActionListener(listener: ActionListener): void
+    + setError(mensaje: String): void
+    + limpiarError(): void
+    + actualizar(mensaje: String): void
+  }
+
+}
+
+package "destinoytablero" {
+  class "Destino" as T_destinoytablero_Destino {
+    - azar: Random
+    - tablero: Tablero
+    {static} - instance: Destino
+    + Destino(tablero: Tablero)
+    {static} + init(t: Tablero): Destino
+    {static} + getInstance(): Destino
+    + turnoDestino(): void
+  }
+
+  interface "ElementoDelUniverso" as T_destinoytablero_ElementoDelUniverso {
+    ~ interactuar(nave: Nave): void
+  }
+
+  abstract class "Observable" as T_destinoytablero_Observable {
+    - observadores: ArrayList<Observador>
+    + agregarObservador(observador: Observador): void
+    + quitarObservador(observador: Observador): void
+    + notificarObservadores(): void
+  }
+
+  interface "Observador" as T_destinoytablero_Observador {
+    ~ actualizar(): void
+  }
+
+  class "Posicion" as T_destinoytablero_Posicion {
+    - x: int
+    - y: int
+    + Posicion(x: int, y: int)
+    + getX(): int
+    + getY(): int
+    + equals(otro: Object): boolean
+    + hashCode(): int
+  }
+
+  class "Tablero" as T_destinoytablero_Tablero {
+    - x: int
+    - y: int
+    - elementos: ArrayList<ElementoDelUniverso>
+    - ocupacion: HashMap<Posicion, ElementoDelUniverso>
+    - azar: Random
+    - posicionNave: Posicion
+    - objetivo: Posicion
+    + Tablero(x: int, y: int, elementos: ArrayList<ElementoDelUniverso>, destino: Posicion)
+    + Tablero(x: int, y: int, elementos: ArrayList<ElementoDelUniverso>)
+    + getX(): int
+    + getY(): int
+    + getPosicionNave(): Posicion
+    - distribuirObjetos(): void
+    - buscarLibre(actual: Posicion): Posicion
+    - vecinasDe(posicion: Posicion): ArrayList<Posicion>
+    # estaDentro(posicion: Posicion): boolean
+    - estaLibre(posicion: Posicion): boolean
+    - casillasLibres(): ArrayList<Posicion>
+    # obtenerElementos(): HashMap<Posicion, ElementoDelUniverso>
+    + moverNave(posicion: Posicion): void
+    + inspeccionarPosicion(): ElementoDelUniverso
+    + inspeccionarPosicion(p: Posicion): ElementoDelUniverso
+    + observarAlrededores(): ElementoDelUniverso[][]
+    + getObjetivo(): Posicion
+    + obtenerObjetivo(): Posicion
+    # moverElemento(posActual: Posicion, posNueva: Posicion): void
+    # notificarActualizacion(): void
+    + verTablero(): ElementoDelUniverso[][]
+    + calcularRuta(inicio: Posicion, fin: Posicion): List<Posicion>
+  }
+
+}
+
+package "elementos" {
+  class "Asteroide" as T_elementos_Asteroide {
+    + interactuar(nave: Nave): void
+  }
+
+  class "EstacionesDeCarga" as T_elementos_EstacionesDeCarga {
+    + interactuar(nave: Nave): void
+  }
+
+}
+
+package "excepciones" {
+  class "CantidadDeElementosSuperaCasillaException" as T_excepciones_CantidadDeElementosSuperaCasillaException {
+    {static} - serialVersionUID: long
+    - cantidadMaxima: int
+    + CantidadDeElementosSuperaCasillaException(mensaje: String, cantidadMaxima: int)
+    + getCantidadMaxima(): int
+  }
+
+  class "CredencialesInvalidasException" as T_excepciones_CredencialesInvalidasException {
+    + CredencialesInvalidasException(mensaje: String)
+  }
+
+  class "DimensionesDeTableroInconsistentesException" as T_excepciones_DimensionesDeTableroInconsistentesException {
+    {static} - serialVersionUID: long
+    + DimensionesDeTableroInconsistentesException(mensaje: String)
+  }
+
+  class "ExcesoCombException" as T_excepciones_ExcesoCombException {
+    - combAct: int
+    - combCargar: int
+    + ExcesoCombException(mensaje: String, combActual: int, combCargar: int)
+    + getCombAct(): int
+    + getCombCargar(): int
+  }
+
+  class "ExcesoDesgasteException" as T_excepciones_ExcesoDesgasteException {
+    - desgasteExigido: int
+    - desgasteActual: int
+    + ExcesoDesgasteException(mensaje: String, desgasteActual: int, desgasteExigido: int)
+    + getDesgasteExigido(): int
+    + getDesgasteActual(): int
+  }
+
+  class "FaltaCombustibleException" as T_excepciones_FaltaCombustibleException {
+    - combustibleRequerido: int
+    - combustibleDisponible: int
+    + FaltaCombustibleException(mensaje: String, combustibleRequerido: int, combustibleDisponible: int)
+    + getCombustibleDisponible(): int
+    + getCombustibleRequerido(): int
+  }
+
+  class "FaltaEnergiaException" as T_excepciones_FaltaEnergiaException {
+    - energiaRequerida: int
+    - energiaDisponible: int
+    + FaltaEnergiaException(mensaje: String, energiaRequerida: int, energiaDisponible: int)
+    + getEnergiaRequerida(): int
+    + getEnergiaDisponible(): int
+  }
+
+  class "NaveDestruidaException" as T_excepciones_NaveDestruidaException {
+    + NaveDestruidaException(motivo: String)
+  }
+
+  class "TipoCargoInvalidoException" as T_excepciones_TipoCargoInvalidoException {
+    - tipo: String
+    + TipoCargoInvalidoException(message: String, tipo: String)
+    + getTipo(): String
+  }
+
+  class "TipoMisionInvalidaException" as T_excepciones_TipoMisionInvalidaException {
+    - tipo: String
+    + TipoMisionInvalidaException(message: String, tipo: String)
+    + getTipo(): String
+  }
+
+  class "TipoOrigenInvalidoException" as T_excepciones_TipoOrigenInvalidoException {
+    - tipo: String
+    + TipoOrigenInvalidoException(message: String, tipo: String)
+    + getTipo(): String
+  }
+
+  class "TransicionMotorInvalidaException" as T_excepciones_TransicionMotorInvalidaException {
+    - estadoOrigen: String
+    - estadoDestino: String
+    + TransicionMotorInvalidaException(mensaje: String, estadoOrigen: String, estadoDestino: String)
+    + getEstadoOrigen(): String
+    + getEstadoDestino(): String
+  }
+
+}
+
+package "misiones" {
+  enum "Estado" as T_misiones_Estado {
+    {static} + CREADA: Estado
+    {static} + PREPARADA: Estado
+    {static} + EJECUTADA: Estado
+    {static} + EVALUADA: Estado
+    {static} + CERRADA: Estado
+  }
+
+  class "InformeMision" as T_misiones_InformeMision {
+    - fechaHora: LocalDateTime
+    - cod: String
+    - result: Resultado
+    - lastState: Estado
+    - combustibleInicial: int
+    - energiaInicial: int
+    - desgasteInicial: int
+    - gemasIniciales: int
+    - balanceCombustible: int
+    - balanceEnergia: int
+    - balanceDesgaste: int
+    - balanceGemas: int
+    + InformeMision(cod: String, nave: Nave)
+    + finalizar(nave: Nave, resultado: Resultado, estado: Estado): void
+    + toString(): String
+    + actualizarBalances(nave: Nave): void
+    - formatoBalance(balance: int): String
+    + getFechaHora(): LocalDateTime
+    + getCod(): String
+    + getResult(): Resultado
+    + getLastState(): Estado
+  }
+
+  abstract class "Mision" as T_misiones_Mision {
+    # cod: String
+    # asistente: AsistenteComando
+    # combConsumido: int
+    # energCargada: int
+    # desgaste: int
+    # obj: Posicion
+    # azar: Random
+    # informe: InformeMision
+    # estado: Estado
+    + result: Resultado
+    + Mision(cod: String, asistente: AsistenteComando)
+    + comenzar(): InformeMision
+    # fallarMision(motivo: String): void
+    # completarMisionExitosamente(): void
+    # cancelarMision(motivo: String): void
+    # alcanzoObjetivo(): boolean
+    + preparar(): void
+    + ejecutar(): void
+    - realizarMovimiento(): void
+    # cumpleCondicionFinal(): boolean
+    - consumirRecursosIniciales(): void
+    - realizarViaje(): boolean
+    + evaluar(): void
+    + cerrar(): InformeMision
+    {abstract} # aplicarResultadoExitoso(): void
+    + getRuta(): List<Posicion>
+    + initRuta(p: Posicion): void
+    + getEstado(): Estado
+    + getResult(): Resultado
+    + getAsistente(): AsistenteComando
+    + getCombConsumido(): int
+    + getDesgaste(): int
+    + getEnergCargada(): int
+    + getCod(): String
+    + setCombConsumido(combConsumido: int): void
+    + setEnergCargada(energCargada: int): void
+    + setDesgaste(desgaste: int): void
+    + setResult(result: Resultado): void
+    + setEstado(estado: Estado): void
+    + getNave(): Nave
+  }
+
+  class "MisionFactory" as T_misiones_MisionFactory {
+    + MisionFactory()
+    {static} + crearMision(cod: String, asistente: AsistenteComando): Mision
+  }
+
+  class "MisionIntercep" as T_misiones_MisionIntercep {
+    - combustibleSolicitado: int
+    - energiaSolicitada: int
+    + MisionIntercep(asistente: AsistenteComando)
+    # aplicarResultadoExitoso(): void
+    # cumpleCondicionFinal(): boolean
+  }
+
+  class "MisionRecolec" as T_misiones_MisionRecolec {
+    + MisionRecolec(asistente: AsistenteComando)
+    # aplicarResultadoExitoso(): void
+  }
+
+  class "MisionRetorno" as T_misiones_MisionRetorno {
+    + MisionRetorno(asistente: AsistenteComando)
+    # aplicarResultadoExitoso(): void
+  }
+
+  enum "Resultado" as T_misiones_Resultado {
+    {static} + EXITOSA: Resultado
+    {static} + FALLIDA: Resultado
+    {static} + CANCELADA: Resultado
+  }
+
+}
+
+package "naves" {
+  abstract class "Nave" as T_naves_Nave {
+    # identidad: String
+    # combustible: int
+    # energia: int
+    # desgaste: int
+    # gemas: int
+    # destruida: boolean
+    # motorWarp: MotorWarp
+    # tripulacion: ArrayList<Tripulante>
+    # observadores: ArrayList<Observer>
+    + estaViva(): boolean
+    + ayudaEstacion(energia: int): void
+    + usarEnergia(energia: int): void
+    {abstract} + atacadoPorExploradora(): Resultado
+    {abstract} + atacadoPorCarguero(): Resultado
+    {abstract} + atacadoPorCombate(): Resultado
+    + Nave(identidad: String, combustible: int, energia: int, desgaste: int)
+    + tieneCombustible(comb: int): boolean
+    + sePuedeDesgastar(desgaste: int): boolean
+    + puedeCargarEnergia(energia: int): boolean
+    + reqMant(): boolean
+    + cargarComb(comb: int): void
+    + cargarEnerg(energ: int): void
+    + mantenimiento(): void
+    + usarCombustible(comb: int): void
+    + realizarDesgaste(desgaste: int): void
+    + agregarTripulante(tripulante: Tripulante): void
+    + calcularTotalHaberes(): double
+    + getIdentidad(): String
+    + getCombustible(): int
+    + getEnergia(): int
+    + getDesgaste(): int
+    + getMotorWarp(): MotorWarp
+    + getTripulacion(): Iterator<Tripulante>
+    + mostrarLiquidacionTripulacion(): void
+    + addGemas(valor: int): void
+    + setCombustible(comb: int): void
+    + setEnergia(energia: int): void
+    + setIdentidad(identidad: String): void
+    + setDesgaste(desgaste: int): void
+    + setTripulacion(tripulacion: ArrayList<Tripulante>): void
+    + toString(): String
+    + getGemas(): int
+  }
+
+  class "NaveCarguero" as T_naves_NaveCarguero {
+    + interactuar(nave: Nave): void
+    + atacadoPorExploradora(): Resultado
+    + atacadoPorCarguero(): Resultado
+    + atacadoPorCombate(): Resultado
+    + NaveCarguero(identidad: String, combustible: int, energia: int, desgaste: int)
+    + toString(): String
+  }
+
+  class "NaveCombate" as T_naves_NaveCombate {
+    + interactuar(nave: Nave): void
+    + atacadoPorExploradora(): Resultado
+    + atacadoPorCarguero(): Resultado
+    + atacadoPorCombate(): Resultado
+    + NaveCombate(identidad: String, combustible: int, energia: int, desgaste: int)
+    + toString(): String
+  }
+
+  class "NaveExploradora" as T_naves_NaveExploradora {
+    + interactuar(nave: Nave): void
+    + atacadoPorExploradora(): Resultado
+    + atacadoPorCarguero(): Resultado
+    + atacadoPorCombate(): Resultado
+    + NaveExploradora(identidad: String, combustible: int, energia: int, desgaste: int)
+    + toString(): String
+  }
+
+  class "NaveFactory" as T_naves_NaveFactory {
+    {static} + crearNave(tipo: String, identidad: String, combustible: int, energia: int, desgaste: int): Nave
+  }
+
+  enum "Resultado" as T_naves_Resultado {
+    {static} + PIERDE: Resultado
+    {static} + GANA: Resultado
+    {static} + PAZ: Resultado
+  }
+
+}
+
+package "persistencia" {
+  class "ConexionBD" as T_persistencia_ConexionBD {
+    {static} - URL: String
+    {static} + conectar(): Connection
+  }
+
+  class "UsuarioDAO" as T_persistencia_UsuarioDAO {
+    + UsuarioDAO()
+    - crearTablaSiNoExiste(): void
+    + registrarUsuario(usuarioDTO: UsuarioDTO): boolean
+    + validarCredenciales(username: String, password: String): UsuarioDTO
+  }
+
+  class "UsuarioDTO" as T_persistencia_UsuarioDTO {
+    - username: String
+    - password: String
+    + UsuarioDTO()
+    + UsuarioDTO(username: String, password: String)
+    + getUsername(): String
+    + setUsername(username: String): void
+    + getPassword(): String
+    + setPassword(password: String): void
+  }
+
+}
+
+package "tripulacion" {
+  class "Alferez" as T_tripulacion_Alferez {
+    {static} - sueldoBase: double
+    {static} - multiplicador: double
+    + Alferez(identidad: String, antiguedad: int)
+    + getInfo(): String
+    + getSueldo(): double
+    + getConceptoSueldo(): String
+  }
+
+  class "Capitan" as T_tripulacion_Capitan {
+    {static} - sueldoBase: double
+    {static} - multiplicador: double
+    + Capitan(identidad: String, antiguedad: int)
+    + getInfo(): String
+    + getSueldo(): double
+    + getConceptoSueldo(): String
+  }
+
+  abstract class "Cargo" as T_tripulacion_Cargo {
+    + Cargo(identidad: String, antiguedad: int)
+  }
+
+  class "CargoFactory" as T_tripulacion_CargoFactory {
+    {static} + crear(cargo: String, id: String, ant: int, cantConsejos: int): Cargo
+  }
+
+  class "Consejero" as T_tripulacion_Consejero {
+    {static} - sueldoBase: double
+    {static} - multiplicador: double
+    {static} - bonoConsejos: double
+    - cantConsejos: int
+    + Consejero(identidad: String, antiguedad: int, cantConsejos: int)
+    + getInfo(): String
+    + getSueldo(): double
+    + getConceptoSueldo(): String
+    + getCantConsejos(): int
+  }
+
+  abstract class "DecoratorOrigen" as T_tripulacion_DecoratorOrigen {
+    # tripulante: Tripulante
+    + DecoratorOrigen(tripulante: Tripulante)
+  }
+
+  class "Marciano" as T_tripulacion_Marciano {
+    {static} - subsidio: double
+    + Marciano(tripulante: Tripulante)
+    + getInfo(): String
+    + getSueldo(): double
+    + getConceptoSueldo(): String
+  }
+
+  class "OrigenFactory" as T_tripulacion_OrigenFactory {
+    {static} + crear(tripulante: Tripulante, origen: String): DecoratorOrigen
+  }
+
+  class "Teniente" as T_tripulacion_Teniente {
+    {static} - sueldoBase: double
+    {static} - multiplicador: double
+    + Teniente(identidad: String, antiguedad: int)
+    + getSueldo(): double
+    + getInfo(): String
+    + getConceptoSueldo(): String
+  }
+
+  class "Terricola" as T_tripulacion_Terricola {
+    {static} - subsidio: double
+    + Terricola(tripulante: Tripulante)
+    + getInfo(): String
+    + getSueldo(): double
+    + getConceptoSueldo(): String
+  }
+
+  abstract class "Tripulante" as T_tripulacion_Tripulante {
+    # identidad: String
+    # antiguedad: int
+    + Tripulante(identidad: String, antiguedad: int)
+    {abstract} + getInfo(): String
+    + getIdentidad(): String
+    + getAntiguedad(): int
+    {abstract} + getSueldo(): double
+    {abstract} + getConceptoSueldo(): String
+  }
+
+  class "Vulcano" as T_tripulacion_Vulcano {
+    {static} - subsidio: double
+    + Vulcano(tripulante: Tripulante)
+    + getSueldo(): double
+    + getInfo(): String
+    + getConceptoSueldo(): String
+  }
+
+}
+
+package "warp" {
+  class "EstadoDisponible" as T_warp_EstadoDisponible {
+    - motor: MotorWarp
+    + EstadoDisponible(motor: MotorWarp)
+    + ejecutarSaltoComun(): void
+    + ejecutarSaltoWarp(): void
+    + getNombreEstado(): String
+  }
+
+  class "EstadoEnWarp" as T_warp_EstadoEnWarp {
+    - motor: MotorWarp
+    + EstadoEnWarp(motor: MotorWarp)
+    + ejecutarSaltoComun(): void
+    + ejecutarSaltoWarp(): void
+    + getNombreEstado(): String
+  }
+
+  class "EstadoEnfriamiento" as T_warp_EstadoEnfriamiento {
+    - motor: MotorWarp
+    + EstadoEnfriamiento(motor: MotorWarp)
+    + ejecutarSaltoComun(): void
+    + ejecutarSaltoWarp(): void
+    + getNombreEstado(): String
+  }
+
+  class "EstadoPreparandoSalto" as T_warp_EstadoPreparandoSalto {
+    - motor: MotorWarp
+    + EstadoPreparandoSalto(motor: MotorWarp)
+    + ejecutarSaltoComun(): void
+    + ejecutarSaltoWarp(): void
+    + getNombreEstado(): String
+  }
+
+  interface "EstadoWarp" as T_warp_EstadoWarp {
+    ~ ejecutarSaltoComun(): void
+    ~ ejecutarSaltoWarp(): void
+    ~ getNombreEstado(): String
+  }
+
+  class "MotorWarp" as T_warp_MotorWarp {
+    ~ COMBUSTIBLE_NECESARIO_COMUN: int
+    ~ ENERGIA_NECESARIA_WARP: int
+    ~ DESGASTE_MECANICO_WARP: int
+    - estadoActual: EstadoWarp
+    - nave: Nave
+    + MotorWarp(nave: Nave)
+    + ejecutarSaltoComun(): void
+    + ejecutarSaltoWarp(): void
+    + getEstadoActual(): EstadoWarp
+    + setEstado(nuevoEstado: EstadoWarp): void
+    + getNombreEstadoActual(): String
+    + getNave(): Nave
+  }
+
+}
+
+T_Controlador_ControladorCreacion --> T_Vista_IVistaCreacion : vista
+T_Controlador_ControladorCreacion --> T_naves_Nave : nave
+T_MVC_ControlDeNave_Controlador_ControladorTablero --> T_MVC_ControlDeNave_Vista_VistaPrincipal : vista
+T_MVC_ControlDeNave_Modelo_RecursosYBitacora --> T_MVC_ControlDeNave_Vista_IObservador : observadores
+T_MVC_ControlDeNave_Modelo_RecursosYBitacora --> T_bitacora_Bitacora : bitacora
+T_MVC_ControlDeNave_Modelo_RecursosYBitacora --> T_naves_Nave : nave
+T_MVC_ControlDeNave_Vista_IObservable ..> T_MVC_ControlDeNave_Vista_IObservador : agregarObservador()
+T_MVC_ControlDeNave_Vista_IObservable <|.. T_MVC_ControlDeNave_Modelo_RecursosYBitacora
+T_MVC_ControlDeNave_Vista_IVista <|.. T_MVC_ControlDeNave_Vista_VistaPrincipal
+T_MVC_ControlDeNave_Vista_VistaPrincipal --> T_MVC_ControlDeNave_Vista_VistaTablero : vistaTablero
+T_MVC_ControlDeNave_Vista_VistaPrincipal --> T_asistente_AsistenteComando : asistente
+T_MVC_ControlDeNave_Vista_VistaPrincipal --> T_bitacora_Bitacora : bitacora
+T_MVC_ControlDeNave_Vista_VistaPrincipal --> T_destinoytablero_Tablero : tablero
+T_MVC_ControlDeNave_Vista_VistaPrincipal --> T_naves_Nave : nave
+T_MVC_ControlDeNave_Vista_VistaPrincipal ..> T_destinoytablero_Posicion : mostrarCamino()
+T_MVC_ControlDeNave_Vista_VistaTablero --> T_destinoytablero_Posicion : caminoNave
+T_MVC_ControlDeNave_Vista_VistaTablero --> T_destinoytablero_Tablero : tablero
+T_MVC_ControlDeNave_Vista_VistaTablero ..> T_destinoytablero_ElementoDelUniverso : dibujarElemento()
+T_MVC_CrearMision_Controlador_ControladorMision --> T_MVC_ControlDeNave_Vista_VistaPrincipal : vistaTablero
+T_MVC_CrearMision_Controlador_ControladorMision --> T_MVC_CrearMision_Vista_IVistaMision : vistaMision
+T_MVC_CrearMision_Controlador_ControladorMision --> T_MVC_CrearMision_Vista_VistaGameOver : vistaGameOver
+T_MVC_CrearMision_Controlador_ControladorMision --> T_asistente_AsistenteComando : asistente
+T_MVC_CrearMision_Controlador_EjecutorMision --> T_MVC_CrearMision_Vista_VistaGameOver : vistaGameOver
+T_MVC_CrearMision_Controlador_EjecutorMision --> T_misiones_Mision : mision
+T_MVC_CrearMision_Vista_IVistaMision <|.. T_MVC_CrearMision_Vista_VistaMision
+T_MVC_CrearMision_Vista_VistaGameOver ..> T_misiones_InformeMision : mostrarInforme()
+T_MVC_RegistroLogin_Controlador_ControladorLogin --> T_Vista_IVistaLogin : vista
+T_MVC_RegistroLogin_Controlador_ControladorLogin --> T_persistencia_UsuarioDAO : usuarioDAO
+T_Vista_IVistaCreacion <|.. T_Vista_VistaCreacionNaveTripulacion
+T_Vista_IVistaLogin <|.. T_MVC_RegistroLogin_Vista_VistaLogin
+T_asistente_AsistenteComando --> T_asistente_RadarCortoAlcance : radarCA
+T_asistente_AsistenteComando --> T_asistente_RadarLargoAlcance : radarLA
+T_asistente_AsistenteComando --> T_bitacora_Bitacora : bitacora
+T_asistente_AsistenteComando --> T_destinoytablero_Posicion : ruta
+T_asistente_AsistenteComando --> T_destinoytablero_Tablero : tablero
+T_asistente_AsistenteComando --> T_naves_Nave : nave
+T_asistente_AsistenteComando ..> T_bitacora_Entrada : escribirBitacora()
+T_asistente_RadarCortoAlcance --> T_destinoytablero_Tablero : tablero
+T_asistente_RadarCortoAlcance ..> T_destinoytablero_ElementoDelUniverso : analizarPasoSig()
+T_asistente_RadarCortoAlcance ..> T_destinoytablero_Posicion : analizarPasoSig()
+T_asistente_RadarLargoAlcance --> T_destinoytablero_Tablero : tablero
+T_asistente_RadarLargoAlcance ..> T_destinoytablero_Posicion : calcRuta()
+T_bitacora_Bitacora --> T_bitacora_Entrada : entradas
+T_concurrencia_controlador_ControladorConcurrencia --> T_concurrencia_modelo_GeneradoraDeEnergia : generadores
+T_concurrencia_controlador_ControladorConcurrencia --> T_concurrencia_modelo_NaveConsumidora : naves
+T_concurrencia_controlador_ControladorConcurrencia --> T_concurrencia_modelo_PlataformaDeCarga : plataforma
+T_concurrencia_controlador_ControladorConcurrencia --> T_concurrencia_vista_IVistaConcurrencia : vista
+T_concurrencia_modelo_GeneradoraDeEnergia --> T_concurrencia_modelo_PlataformaDeCarga : plataforma
+T_concurrencia_modelo_GeneradoraDeEnergia ..> T_concurrencia_modelo_Bateria : crearBateria()
+T_concurrencia_modelo_NaveConsumidora --> T_concurrencia_modelo_PlataformaDeCarga : plataforma
+T_concurrencia_modelo_NaveConsumidora --> T_concurrencia_observer_Observador : observadores
+T_concurrencia_modelo_PlataformaDeCarga --> T_concurrencia_modelo_Bateria : baterias
+T_concurrencia_modelo_PlataformaDeCarga --> T_concurrencia_observer_Observador : observadores
+T_concurrencia_modelo_PlataformaDeCarga ..> T_concurrencia_modelo_GeneradoraDeEnergia : depositar()
+T_concurrencia_modelo_PlataformaDeCarga ..> T_concurrencia_modelo_NaveConsumidora : consumir()
+T_concurrencia_observer_Observable --> T_concurrencia_observer_Observador : observadores
+T_concurrencia_observer_Observable <|-- T_concurrencia_modelo_PlataformaDeCarga
+T_concurrencia_observer_Observador <|.. T_concurrencia_vista_IVistaConcurrencia
+T_concurrencia_vista_IVistaConcurrencia <|.. T_concurrencia_vista_VistaConcurrencia
+T_destinoytablero_Destino --> T_destinoytablero_Tablero : tablero
+T_destinoytablero_ElementoDelUniverso ..> T_naves_Nave : interactuar()
+T_destinoytablero_ElementoDelUniverso <|.. T_elementos_Asteroide
+T_destinoytablero_ElementoDelUniverso <|.. T_elementos_EstacionesDeCarga
+T_destinoytablero_ElementoDelUniverso <|.. T_naves_Nave
+T_destinoytablero_Observable --> T_destinoytablero_Observador : observadores
+T_destinoytablero_Observable <|-- T_destinoytablero_Tablero
+T_destinoytablero_Observador <|.. T_MVC_ControlDeNave_Vista_VistaPrincipal
+T_destinoytablero_Tablero --> T_destinoytablero_ElementoDelUniverso : elementos, ocupacion
+T_destinoytablero_Tablero --> T_destinoytablero_Posicion : objetivo, ocupacion, posicionNave
+T_elementos_Asteroide ..> T_naves_Nave : interactuar()
+T_elementos_EstacionesDeCarga ..> T_naves_Nave : interactuar()
+T_misiones_InformeMision --> T_misiones_Estado : lastState
+T_misiones_InformeMision --> T_misiones_Resultado : result
+T_misiones_InformeMision ..> T_naves_Nave : InformeMision(), actualizarBalances(), finalizar()
+T_misiones_Mision --> T_asistente_AsistenteComando : asistente
+T_misiones_Mision --> T_destinoytablero_Posicion : obj
+T_misiones_Mision --> T_misiones_Estado : estado
+T_misiones_Mision --> T_misiones_InformeMision : informe
+T_misiones_Mision --> T_misiones_Resultado : result
+T_misiones_Mision ..> T_naves_Nave : getNave()
+T_misiones_Mision <|-- T_misiones_MisionIntercep
+T_misiones_Mision <|-- T_misiones_MisionRecolec
+T_misiones_Mision <|-- T_misiones_MisionRetorno
+T_misiones_MisionFactory ..> T_asistente_AsistenteComando : crearMision()
+T_misiones_MisionFactory ..> T_misiones_Mision : crearMision()
+T_misiones_MisionIntercep ..> T_asistente_AsistenteComando : MisionIntercep()
+T_misiones_MisionRecolec ..> T_asistente_AsistenteComando : MisionRecolec()
+T_misiones_MisionRetorno ..> T_asistente_AsistenteComando : MisionRetorno()
+T_naves_Nave --> T_tripulacion_Tripulante : tripulacion
+T_naves_Nave --> T_warp_MotorWarp : motorWarp
+T_naves_Nave ..> T_naves_Resultado : atacadoPorCarguero(), atacadoPorCombate(), atacadoPorExploradora()
+T_naves_Nave <|-- T_naves_NaveCarguero
+T_naves_Nave <|-- T_naves_NaveCombate
+T_naves_Nave <|-- T_naves_NaveExploradora
+T_naves_NaveCarguero ..> T_naves_Nave : interactuar()
+T_naves_NaveCarguero ..> T_naves_Resultado : atacadoPorCarguero(), atacadoPorCombate(), atacadoPorExploradora()
+T_naves_NaveCombate ..> T_naves_Nave : interactuar()
+T_naves_NaveCombate ..> T_naves_Resultado : atacadoPorCarguero(), atacadoPorCombate(), atacadoPorExploradora()
+T_naves_NaveExploradora ..> T_naves_Nave : interactuar()
+T_naves_NaveExploradora ..> T_naves_Resultado : atacadoPorCarguero(), atacadoPorCombate(), atacadoPorExploradora()
+T_naves_NaveFactory ..> T_naves_Nave : crearNave()
+T_persistencia_UsuarioDAO ..> T_persistencia_UsuarioDTO : registrarUsuario(), validarCredenciales()
+T_tripulacion_Cargo <|-- T_tripulacion_Alferez
+T_tripulacion_Cargo <|-- T_tripulacion_Capitan
+T_tripulacion_Cargo <|-- T_tripulacion_Consejero
+T_tripulacion_Cargo <|-- T_tripulacion_Teniente
+T_tripulacion_CargoFactory ..> T_tripulacion_Cargo : crear()
+T_tripulacion_DecoratorOrigen --> T_tripulacion_Tripulante : tripulante
+T_tripulacion_DecoratorOrigen <|-- T_tripulacion_Marciano
+T_tripulacion_DecoratorOrigen <|-- T_tripulacion_Terricola
+T_tripulacion_DecoratorOrigen <|-- T_tripulacion_Vulcano
+T_tripulacion_Marciano ..> T_tripulacion_Tripulante : Marciano()
+T_tripulacion_OrigenFactory ..> T_tripulacion_DecoratorOrigen : crear()
+T_tripulacion_OrigenFactory ..> T_tripulacion_Tripulante : crear()
+T_tripulacion_Terricola ..> T_tripulacion_Tripulante : Terricola()
+T_tripulacion_Tripulante <|-- T_tripulacion_Cargo
+T_tripulacion_Tripulante <|-- T_tripulacion_DecoratorOrigen
+T_tripulacion_Vulcano ..> T_tripulacion_Tripulante : Vulcano()
+T_warp_EstadoDisponible --> T_warp_MotorWarp : motor
+T_warp_EstadoEnWarp --> T_warp_MotorWarp : motor
+T_warp_EstadoEnfriamiento --> T_warp_MotorWarp : motor
+T_warp_EstadoPreparandoSalto --> T_warp_MotorWarp : motor
+T_warp_EstadoWarp <|.. T_warp_EstadoDisponible
+T_warp_EstadoWarp <|.. T_warp_EstadoEnWarp
+T_warp_EstadoWarp <|.. T_warp_EstadoEnfriamiento
+T_warp_EstadoWarp <|.. T_warp_EstadoPreparandoSalto
+T_warp_MotorWarp --> T_naves_Nave : nave
+T_warp_MotorWarp --> T_warp_EstadoWarp : estadoActual
+
+@enduml
+

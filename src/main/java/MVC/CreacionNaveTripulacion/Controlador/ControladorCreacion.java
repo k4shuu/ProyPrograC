@@ -1,6 +1,6 @@
-package Controlador;
+package MVC.CreacionNaveTripulacion.Controlador;
 
-import Vista.IVistaCreacion;
+import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
 import naves.Nave;
 import naves.NaveFactory;
 import tripulacion.CargoFactory;
