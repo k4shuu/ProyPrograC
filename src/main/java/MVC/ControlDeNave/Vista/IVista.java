@@ -9,4 +9,5 @@ public interface IVista {
 
     // Permite al controlador suscribirse a los eventos de la vista
     void setControlador(ActionListener c);
+    void dispose();
 }
