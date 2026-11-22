@@ -1,57 +1,41 @@
 package misiones;
 
 import asistente.AsistenteComando;
-import excepciones.ExcesoDesgasteException;
-import excepciones.FaltaCombustibleException;
 
+/**
+ * Misión de recolección que recompensa a la nave con gemas al llegar al objetivo.
+ */
 public class MisionRecolec extends Mision{
 
     /**
-     * pre-cond: asistente!=null
-     * post-cond: se creo una instancia de MisionRecolec con el asistente dado
-     * post-cond: se definen los recursos a gastar
-     * @param asistente
+     * Crea una misión de recolección y configura sus costos iniciales.
+     * precond: el asistente es válido
+     * postcond: la misión queda creada con código M02 y sus costos definidos
+     * @param asistente asistente que coordina la misión
      */
     public MisionRecolec(AsistenteComando asistente) {
-
-        super("M02",asistente);
-        assert asistente!=null: "El asistente dado para instanciar MisionRecolec no es valido";
+        super("M02", asistente);
+        assert asistente != null : "El asistente no puede ser nulo";
         setCombConsumido(4);
         setEnergCargada(10);
         setDesgaste(4);
-    }
 
-    @Override
-    public void preparar() throws ExcesoDesgasteException, FaltaCombustibleException {
-        this.obj = asistente.getTablero().obtenerObjetivo();
-        if(this.asistente.getNave().tieneCombustible(combConsumido))
-            if(this.asistente.getNave().sePuedeDesgastar(desgaste)){
-                if(this.asistente.getNave().puedeCargarEnergia(energCargada)){
-                    initRuta(obj);
-                }else {
-                    this.asistente.escribirBitacora("M-02","No fue posible completar la carga de energia porque excedia la capacidad de la nave");
-
-                }
-            }
-            else{
-                this.asistente.escribirBitacora("M-02","ERROR: el desgaste de la mision excede lo permitido para la nave ");
-                throw new ExcesoDesgasteException("ERROR: el desgaste de la mision excede lo permitido para la nave",this.asistente.getNave().getDesgaste(),desgaste);
-            }
-        else {
-            this.asistente.escribirBitacora("M-02","ERROR: La nave no tiene el combustible necesario para ejecutar la mision");
-            throw new FaltaCombustibleException("ERROR: La nave no tiene el combustible necesario para ejecutar la mision",combConsumido,this.asistente.getNave().getCombustible());
-        }
-        this.estado = Estado.PREPARADA;
     }
 
     /**
-     * precond: la misión debe haber finalizado con resultado exitoso
-     * postcond: se agregan entre 20 y 100 gemas y se actualizan los balances del informe
+     * Agrega entre 20 y 100 gemas a la nave y actualiza el informe.
+     * precond: la misión finalizó exitosamente
+     * postcond: la nave recibe la recompensa y se actualizan los balances
      */
     @Override
     protected void aplicarResultadoExitoso() {
-        getNave().addGemas(azar.nextInt(20,101));
+        assert result == Resultado.EXITOSA : "Solo una misión exitosa puede otorgar gemas";
+        assert informe != null : "Debe existir un informe para actualizar los balances";
+
+        int recompensa = azar.nextInt(20, 101);
+        getNave().addGemas(recompensa);
         informe.actualizarBalances(getNave());
+
     }
 
 }
