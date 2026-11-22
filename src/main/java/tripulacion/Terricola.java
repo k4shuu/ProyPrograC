@@ -16,6 +16,12 @@ public class Terricola extends DecoratorOrigen {
     public String getInfo(){
         return this.tripulante.getInfo()+" Origen: Terricola ";
     }
+
+    @Override
+    public String getCargo() {
+        return this.tripulante.getCargo();
+    }
+
     public double getSueldo(){
         return this.tripulante.getSueldo()+subsidio;
     }

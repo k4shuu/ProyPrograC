@@ -16,6 +16,12 @@ public class Marciano extends DecoratorOrigen{
     public String getInfo(){
         return this.tripulante.getInfo()+" Origen: Marciano ";
     }
+
+    @Override
+    public String getCargo() {
+        return this.tripulante.getCargo();
+    }
+
     public double getSueldo(){
         return this.tripulante.getSueldo()+18;
     }

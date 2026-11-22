@@ -19,6 +19,12 @@ public class Alferez extends Cargo{
     public String getInfo(){
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Alferez ";
     }
+
+    @Override
+    public String getCargo() {
+        return "Alferez";
+    }
+
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad);
     }

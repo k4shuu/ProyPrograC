@@ -26,9 +26,10 @@ public class EstadoEnfriamiento implements EstadoWarp {
     }
 
     @Override
-    public void ejecutarSaltoWarp() throws FaltaCombustibleException {
+    public int ejecutarSaltoWarp() throws FaltaCombustibleException {
             motor.setEstado(new EstadoDisponible(motor));
             this.motor.getNave().usarCombustible(motor.COMBUSTIBLE_NECESARIO_COMUN);
+            return 1;
     }
 
     @Override

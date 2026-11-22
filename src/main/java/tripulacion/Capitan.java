@@ -20,6 +20,12 @@ public class Capitan extends Cargo {
     public String getInfo(){
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Capitan ";
     }
+
+    @Override
+    public String getCargo() {
+        return "Capitan";
+    }
+
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad);
     }

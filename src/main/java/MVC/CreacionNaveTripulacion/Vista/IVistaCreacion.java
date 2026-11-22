@@ -21,4 +21,5 @@ public interface IVistaCreacion {
     void limpiarFormularioTripulante();
     void agregarMensaje(String mensaje);
     void actualizarNomina(double total);
+    void setVisible(boolean b);
 }

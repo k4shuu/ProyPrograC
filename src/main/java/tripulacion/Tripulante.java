@@ -1,5 +1,7 @@
 package tripulacion;
 
+import java.util.Objects;
+
 public abstract class Tripulante {
     protected String identidad;
     protected int antiguedad;
@@ -17,6 +19,18 @@ public abstract class Tripulante {
         this.identidad=identidad;
         this.antiguedad=antiguedad;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Tripulante otro = (Tripulante) o;
+        return this.antiguedad == otro.antiguedad &&
+                Objects.equals(this.identidad, otro.identidad);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getClass(), identidad, antiguedad);
+    }
     public  abstract String getInfo();
 
     public String getIdentidad(){
@@ -26,7 +40,7 @@ public abstract class Tripulante {
         return this.antiguedad;
     }
 
-
+    public abstract String getCargo();
     public abstract double getSueldo();
 
     public abstract String getConceptoSueldo();

@@ -19,6 +19,12 @@ public class Vulcano extends DecoratorOrigen {
     public String getInfo(){
         return this.tripulante.getInfo()+" Origen: Vulcano ";
     }
+
+    @Override
+    public String getCargo() {
+        return this.tripulante.getCargo();
+    }
+
     public String getConceptoSueldo(){
         return this.tripulante.getConceptoSueldo() + "\t Subsidio Vulcano: " + subsidio + " Sueldo total: " + this.getSueldo();
     }
