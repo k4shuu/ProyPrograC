@@ -12,13 +12,10 @@ import java.util.ArrayList;
 
 public class ControladorConcurrencia implements ActionListener {
     private IVistaConcurrencia vista;
-    private ArrayList<GeneradoraDeEnergia> generadores=new ArrayList<>();
-    private ArrayList<NaveConsumidora> naves=new ArrayList<>();
     private PlataformaDeCarga plataforma;
     private VistaPrincipal vistaPrincipal;
     private ArrayList<Thread> hilos = new ArrayList<>();
-    private int numGenerador = 0;
-    private int numNave = 0;
+
 
     public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, VistaPrincipal vistaPrincipal) {
         this.vista = vista;
@@ -50,8 +47,8 @@ public class ControladorConcurrencia implements ActionListener {
     }
 
     public void crearNave() {
-        String nombre = "N" + (++this.numNave);
-        NaveConsumidora nave = new NaveConsumidora(nombre, plataforma);
+
+        NaveConsumidora nave = new NaveConsumidora( plataforma);
         this.vista.registrarEvento("¡Ingresó una nueva Nave: " + nave.getNombre() + " al universo paralelo!");
         Thread h = new Thread(nave);
         this.hilos.add(h);

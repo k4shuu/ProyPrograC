@@ -12,6 +12,7 @@ import concurrencia.controlador.ControladorConcurrencia;
 import concurrencia.modelo.PlataformaDeCarga;
 import concurrencia.vista.IVistaConcurrencia;
 import concurrencia.vista.VistaConcurrencia;
+import misiones.InformeMision;
 import misiones.Mision;
 import misiones.MisionFactory;
 
@@ -65,26 +66,4 @@ public class ControladorMision implements ActionListener {
         }
     }
 
-    public void transicionarAGameOver(InformeMision informe) {
-        if (this.controladorTablero != null) {
-            this.controladorTablero.cerrar();
-        }
-
-        // Se crea Game Over recién ahora
-        IVistaGameOver vistaGameOver = new VistaGameOver();
-        vistaGameOver.mostrarInforme(informe);
-        vistaGameOver.setControlador(e -> {
-            if (IVistaGameOver.VOLVER_INICIO.equals(e.getActionCommand())) {
-                vistaGameOver.dispose();
-                transicionarAlLogin();
-            }
-        });
-        vistaGameOver.setVisible(true);
-    }
-
-    private void transicionarAlLogin() {
-        VistaLogin vistaLogin = new VistaLogin();
-        new ControladorLogin(vistaLogin, Path.of("usuarios.db"));
-        vistaLogin.setVisible(true);
-    }
 }
