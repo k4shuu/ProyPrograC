@@ -116,30 +116,11 @@ public class InformeMision {
         return balance > 0 ? "+" + balance : String.valueOf(balance);
     }
 
-    /**
-     * Obtiene la fecha y hora de creación.
-     * @return fecha y hora en que se creó el informe
-     */
     public LocalDateTime getFechaHora() {return fechaHora;}
-
-    /**
-     * Obtiene el código informado.
-     * @return código de la misión
-     */
     public String getCod() {return cod;}
-
-    /**
-     * Obtiene el resultado registrado.
-     * @return resultado registrado, o null si el informe no finalizó
-     */
     public Resultado getResult() {
         return result;
     }
-
-    /**
-     * Obtiene el último estado registrado.
-     * @return último estado registrado, o null si el informe no finalizó
-     */
     public Estado getLastState() {
         return lastState;
     }

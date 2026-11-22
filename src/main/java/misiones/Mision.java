@@ -349,115 +349,46 @@ public abstract class Mision {
         this.asistente.calcRuta(p);
     }
 
-    /**
-     * Obtiene el estado actual de la misión.
-     * @return estado actual de la misión
-     */
     public Estado getEstado(){
         return this.estado;
     }
-
-    /**
-     * Obtiene el resultado actual de la misión.
-     * @return resultado de la misión, o null si todavía no terminó
-     */
     public Resultado getResult(){
         return this.result;
     }
-
-    /**
-     * Obtiene el asistente asociado a la misión.
-     * @return asistente asociado a la misión
-     */
     public AsistenteComando getAsistente(){
         return this.asistente;
     }
-
-    /**
-     * Obtiene el consumo inicial de combustible.
-     * @return combustible que la misión consume al comenzar
-     */
     public int getCombConsumido(){
         return this.combConsumido;
     }
-
-    /**
-     * Obtiene el desgaste inicial.
-     * @return desgaste que la misión aplica al comenzar
-     */
     public int getDesgaste(){
         return this.desgaste;
     }
-
-    /**
-     * Obtiene la carga inicial de energía.
-     * @return energía que la misión carga al comenzar
-     */
     public int getEnergCargada(){
         return this.energCargada;
     }
-
-    /**
-     * Obtiene el código identificador.
-     * @return código identificador de la misión
-     */
     public String getCod(){
         return this.cod;
     }
-
-    /**
-     * Configura el consumo inicial de combustible.
-     *
-     * @param combConsumido cantidad positiva de combustible
-     */
     public void setCombConsumido(int combConsumido) {
         assert combConsumido > 0 : "El consumo de combustible debe ser positivo";
         this.combConsumido = combConsumido;
     }
-
-    /**
-     * Configura la energía que se cargará al iniciar la misión.
-     *
-     * @param energCargada cantidad no negativa de energía
-     */
     public void setEnergCargada(int energCargada) {
         assert energCargada >= 0 : "La carga de energía no puede ser negativa";
         this.energCargada = energCargada;
     }
-
-    /**
-     * Configura el desgaste inicial de la misión.
-     *
-     * @param desgaste cantidad positiva de desgaste
-     */
     public void setDesgaste(int desgaste) {
         assert desgaste > 0 : "El desgaste debe ser positivo";
         this.desgaste = desgaste;
     }
-
-    /**
-     * Establece el resultado de la misión.
-     *
-     * @param result resultado no nulo
-     */
     public void setResult(Resultado result) {
         assert result != null : "El resultado no puede ser nulo";
         this.result = result;
     }
-
-    /**
-     * Establece el estado de la misión.
-     *
-     * @param estado estado no nulo
-     */
     public void setEstado(Estado estado) {
         assert estado != null : "El estado no puede ser nulo";
         this.estado = estado;
     }
-
-    /**
-     * Obtiene la nave operada por el asistente.
-     * @return nave operada por el asistente
-     */
     public Nave getNave(){return this.getAsistente().getNave();}
 }
