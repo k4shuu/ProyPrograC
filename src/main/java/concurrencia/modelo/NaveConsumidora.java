@@ -8,10 +8,18 @@ import static java.lang.Thread.sleep;
 
 public class NaveConsumidora implements Runnable{
     private String nombre;
+    private static int aux=0;
     private PlataformaDeCarga plataforma;
     private ArrayList<Observador> observadores=new ArrayList<>();
-    public NaveConsumidora(String nombre,PlataformaDeCarga plataforma){
-        this.nombre=nombre;
+
+    /**
+     * pre-cond: plataforma!=Null
+     * post-cond: el atributo plataforma se le asigna el valor dado por parametro
+     * @param plataforma
+     */
+    public NaveConsumidora(PlataformaDeCarga plataforma){
+        aux++;
+        this.nombre="N"+aux;
         this.plataforma=plataforma;
 
     }

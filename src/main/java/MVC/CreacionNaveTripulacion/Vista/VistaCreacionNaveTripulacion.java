@@ -1,9 +1,12 @@
-package Vista;
+package MVC.CreacionNaveTripulacion.Vista;
+
+import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreacion {
 
@@ -24,6 +27,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
     private JButton btnAgregarTripulante;
 
     // --- Componentes de la Columna Derecha (Mensajes) ---
+    private JLabel lblNombreNaveActual;
     private JTextArea txtAreaMensajes;
     private JLabel lblTotalNomina;
     private JLabel lblMensajeError;
@@ -130,8 +134,8 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         });
 
         btnAgregarTripulante = new JButton("AGREGAR TRIPULANTE");
-        panel.add(btnAgregarTripulante);
         btnAgregarTripulante.setActionCommand(IVistaCreacion.CREARTRIPULANTE);
+        panel.add(btnAgregarTripulante);
 
         return panel;
     }
@@ -140,7 +144,12 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         JPanel panel = new JPanel(new BorderLayout(0, 10));
         panel.setBorder(BorderFactory.createTitledBorder("[3] LISTA DE PRE-EMBARQUE"));
 
-        // Se reemplaza la JTable por un JTextArea para los carteles
+        lblNombreNaveActual = new JLabel("Sin nave asignada", SwingConstants.CENTER);
+        lblNombreNaveActual.setFont(new Font("Arial", Font.BOLD, 22));
+        lblNombreNaveActual.setForeground(new Color(0, 70, 140));
+        lblNombreNaveActual.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        panel.add(lblNombreNaveActual, BorderLayout.NORTH);
+
         txtAreaMensajes = new JTextArea();
         txtAreaMensajes.setEditable(false);
         txtAreaMensajes.setFont(new Font("Monospaced", Font.PLAIN, 13));
@@ -150,7 +159,6 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         JPanel panelEstado = new JPanel();
         panelEstado.setLayout(new BoxLayout(panelEstado, BoxLayout.Y_AXIS));
 
-        // Sub-panel horizontal para la nómina
         JPanel panelNomina = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
 
         lblTotalNomina = new JLabel("Total Nómina: $ 0.0");
@@ -169,10 +177,8 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panelEstado.add(Box.createVerticalStrut(10));
 
         btnIrAlComando = new JButton("IR AL COMANDO");
-        btnIrAlComando = new JButton("IR AL COMANDO");
         btnIrAlComando.setActionCommand(IVistaCreacion.IRALCOMANDO);
         btnIrAlComando.setEnabled(false);
-
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         btnPanel.add(btnIrAlComando);
@@ -205,6 +211,16 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
     // MÉTODOS DE ACTUALIZACIÓN VISUAL
     // =========================================================================
 
+    @Override
+    public void mostrarNaveActual(String nombreNave) {
+        lblNombreNaveActual.setText(nombreNave.toUpperCase());
+
+    }
+    @Override
+    public void limpiarListaTripulantes() {
+        this.txtAreaMensajes.setText("");
+    }
+
     public void actualizarNomina(double totalSalario) {
         lblTotalNomina.setText("Total Nómina: $ " + totalSalario);
     }
@@ -219,11 +235,9 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         lblMensajeError.setForeground(Color.RED);
     }
 
-    public void clearError(){
+    public void clearError() {
         lblMensajeError.setText(" ");
     }
-
-
 
     public void marcarComoConfirmado() {
         btnIrAlComando.setEnabled(true);
@@ -240,7 +254,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
     }
 
     @Override
-    public void agregarMensaje(String mensaje){
+    public void agregarMensaje(String mensaje) {
         this.txtAreaMensajes.append(mensaje + "\n");
     }
 
@@ -250,6 +264,4 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         this.btnAgregarTripulante.addActionListener(a);
         this.btnIrAlComando.addActionListener(a);
     }
-
-
 }

@@ -20,13 +20,14 @@ public abstract class Nave implements ElementoDelUniverso  {
     protected ArrayList<Observer> observadores=new ArrayList<>();
 
 
-
-
-
-    public void ayudaEstacion(int energia){
-        this.cargarEnerg(energia);
-    }
+    /**
+     * pre-cond: energia>0 y energia<100
+     * post-cond: el atributo energia de la nave disminuyo proporcional a lo ingresado por parametro
+     * @param energia
+     * @throws FaltaEnergiaException
+     */
     public void usarEnergia(int energia) throws FaltaEnergiaException {
+        assert energia>0 && energia<=100: "La energia ingresada debe ser mayor a cero y menor o igual a 100" ;
         if((this.energia-energia)<0) {
             this.energia = 0;
             throw new FaltaEnergiaException("La operacion de uso de energía no fue posible porque la energía disponible era menor a la esperada.", energia, this.energia);
@@ -182,6 +183,7 @@ public abstract class Nave implements ElementoDelUniverso  {
     }
 
     //GETTERS
+    public int cantTripulantes(){return this.tripulacion.size();}
     public String getIdentidad() {return identidad;}
     public int getCombustible() {return combustible;}
     public int getEnergia() {return energia;}
@@ -196,7 +198,16 @@ public abstract class Nave implements ElementoDelUniverso  {
         for (Tripulante tripulante : tripulacion)
             System.out.println(tripulante.getConceptoSueldo());
     }
-    public void addGemas(int valor){gemas+=valor;}
+
+    /**
+     * pre-cond: valor>0
+     * post-cond: el atributo gemas incremento de manera proporcional a lo ingresado por parametro
+     * @param valor
+     */
+    public void addGemas(int valor){
+        assert valor>0: "Las gemas ingresadas deben ser mayores a cero" ;
+        gemas+=valor;
+    }
     public void setCombustible(int comb){this.combustible=comb;}
     public void setEnergia(int energia){this.energia=energia;}
     public void setIdentidad(String identidad){this.identidad=identidad;}
@@ -220,7 +231,14 @@ public abstract class Nave implements ElementoDelUniverso  {
         }
         return encontrado;
     }
+
+    /**
+     * pre-cond: tripulante!=null
+     * @param tripulante
+     * @return
+     */
     public boolean buscaTripulante(Tripulante tripulante){
+        assert tripulante!=null: "El tripulante ingresado debe ser distinto de null" ;
         return tripulacion.contains(tripulante);
     }
 }
