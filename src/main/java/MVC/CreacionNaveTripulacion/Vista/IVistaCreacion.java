@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public interface IVistaCreacion {
     String CREARNAVE="CREARNAVE";
     String CREARTRIPULANTE="CREARTRIPULANTE";
-    String IRALCOMANDO="IR-AL-COMANDO";
+    String IRALCOMANDO="IRALCOMANDO";
 
     void setActionListener(ActionListener a);
     String getNombreNave();
@@ -21,6 +21,7 @@ public interface IVistaCreacion {
     void limpiarFormularioTripulante();
     void agregarMensaje(String mensaje);
     void actualizarNomina(double total);
+    void habilitarIrAlComando(boolean habilitar);
     void setVisible(boolean b);
-    void dispose();
+
 }

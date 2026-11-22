@@ -3,7 +3,6 @@ package MVC.ControlDeNave.Controlador;
 import MVC.ControlDeNave.Vista.IVista;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
 import concurrencia.vista.IVistaConcurrencia;
-import concurrencia.vista.IVistaConcurrencia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

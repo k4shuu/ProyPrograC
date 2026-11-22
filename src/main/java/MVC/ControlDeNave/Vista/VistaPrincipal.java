@@ -1,11 +1,8 @@
 package MVC.ControlDeNave.Vista;
 
 import asistente.AsistenteComando;
-import bitacora.Bitacora;
-import destinoytablero.Observador;
+import observer.Observador;
 import destinoytablero.Posicion;
-import destinoytablero.Tablero;
-import naves.Nave;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class VistaPrincipal extends JFrame implements Observador, IVista {
-    private Tablero tablero;
-    private Nave nave;
-    private Bitacora bitacora;
     private AsistenteComando asistente;
 
     // Componentes Gráficos
@@ -27,18 +21,15 @@ public class VistaPrincipal extends JFrame implements Observador, IVista {
     private JTextArea txtMisiones;
     private JButton btnConcurrencia;
 
-    public VistaPrincipal(AsistenteComando asistente, Tablero tablero, Nave nave, Bitacora bitacora) {
-        this.tablero = tablero;
-        this.nave = nave;
-        this.bitacora = bitacora;
+    public VistaPrincipal(AsistenteComando asistente) {
         this.asistente = asistente;
 
         // Observable
-        this.tablero.agregarObservador(this);
+        this.asistente.getTablero().agregarObservador(this);
 
         configurarVentana();
         inicializarComponentes();
-        actualizar(); // Carga inicial
+        actualizar(null); // Carga inicial
     }
 
     private void configurarVentana() {
@@ -57,7 +48,7 @@ public class VistaPrincipal extends JFrame implements Observador, IVista {
 
     private void inicializarComponentes() {
         // --- Mitad Izquierda: Tablero ---
-        vistaTablero = new VistaTablero(tablero);
+        vistaTablero = new VistaTablero(asistente.getTablero());
         JPanel panelIzquierdo = new JPanel(new BorderLayout());
         panelIzquierdo.setBorder(BorderFactory.createTitledBorder("Radar Espacial"));
         panelIzquierdo.add(vistaTablero, BorderLayout.CENTER);
@@ -70,6 +61,7 @@ public class VistaPrincipal extends JFrame implements Observador, IVista {
         );
         lblLeyenda.setFont(new Font("SansSerif", Font.PLAIN, 12));
         panelIzquierdo.add(lblLeyenda, BorderLayout.SOUTH);
+
         // --- Mitad Derecha: Paneles de Estado (4 filas, 1 columna) ---
         JPanel panelDerecho = new JPanel(new GridLayout(4, 1, 5, 5));
 
@@ -114,22 +106,26 @@ public class VistaPrincipal extends JFrame implements Observador, IVista {
     }
 
     @Override
-    public void actualizar() {
+    public void actualizar(String mensaje) {
+        if (asistente == null) return;
+
         // Actualizar ruta restante antes de repintar
-        if (asistente != null && asistente.getRuta() != null) {
+        if (asistente.getRuta() != null) {
             mostrarCamino(asistente.getRuta());
         } else {
             vistaTablero.repaint();
         }
+
         // Actualizar barras leyendo de la Nave
-        if (nave != null) {
-            barEnergia.setValue(nave.getEnergia());
-            barDesgaste.setValue(nave.getDesgaste());
-            barCombustible.setValue(nave.getCombustible());
+        if (asistente.getNave() != null) {
+            barEnergia.setValue(asistente.getNave().getEnergia());
+            barDesgaste.setValue(asistente.getNave().getDesgaste());
+            barCombustible.setValue(asistente.getNave().getCombustible());
         }
+
         // Actualizar textos leyendo de la Bitácora
-        if (bitacora != null) {
-            txtBitacora.setText(bitacora.getHistorialBitacora());
+        if (asistente.getBitacora() != null) {
+            txtBitacora.setText(asistente.getBitacora().getHistorialBitacora());
         }
     }
 

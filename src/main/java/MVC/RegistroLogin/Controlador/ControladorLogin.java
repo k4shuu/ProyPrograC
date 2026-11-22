@@ -1,10 +1,11 @@
 package MVC.RegistroLogin.Controlador;
 
 
+import MVC.CreacionNaveTripulacion.Vista.VistaCreacionNaveTripulacion;
+import MVC.RegistroLogin.Vista.IVistaLogin;
 import MVC.CreacionNaveTripulacion.Controlador.ControladorCreacion;
 import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
-import MVC.CreacionNaveTripulacion.Vista.VistaCreacionNaveTripulacion;
-import Vista.IVistaLogin;
+
 import MVC.RegistroLogin.Vista.VistaLogin;
 import excepciones.PersistenciaException;
 import excepciones.UsuarioYaExisteException;
@@ -58,6 +59,7 @@ public class ControladorLogin {
             //ACÁ IRÁ EL CÓDIGO UNA VEZ AUTENTICADO EL USUARIO! - INICIO
 
             IVistaCreacion vistaCreacion = new VistaCreacionNaveTripulacion();
+
             vistaCreacion.setVisible(true);
             ControladorCreacion controlador=new ControladorCreacion(vistaCreacion);
             this.vista.dispose();

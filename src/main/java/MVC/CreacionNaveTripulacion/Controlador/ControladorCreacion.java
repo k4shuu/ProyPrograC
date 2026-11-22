@@ -1,30 +1,33 @@
 package MVC.CreacionNaveTripulacion.Controlador;
 
+import MVC.ControlDeNave.Controlador.ControladorTablero;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
+import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
 import MVC.CrearMision.Controlador.ControladorMision;
 import MVC.CrearMision.Vista.VistaGameOver;
-import MVC.CreacionNaveTripulacion.Vista.IVistaCreacion;
 import MVC.CrearMision.Vista.VistaMision;
-import MVC.CrearMision.Vista.IVistaMision;
-
 import asistente.AsistenteComando;
 import bitacora.Bitacora;
+import concurrencia.controlador.ControladorConcurrencia;
 import concurrencia.modelo.PlataformaDeCarga;
+import observer.Observador;
+import concurrencia.vista.IVistaConcurrencia;
+import concurrencia.vista.VistaConcurrencia;
 import destinoytablero.Destino;
 import destinoytablero.ElementoDelUniverso;
 import destinoytablero.Tablero;
 import elementos.Asteroide;
 import elementos.EstacionesDeCarga;
-import excepciones.CantidadDeElementosSuperaCasillaException;
-import excepciones.DimensionesDeTableroInconsistentesException;
 import naves.*;
 import tripulacion.CargoFactory;
 import tripulacion.OrigenFactory;
 import tripulacion.Tripulante;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 public class ControladorCreacion implements ActionListener {
 
@@ -41,67 +44,46 @@ public class ControladorCreacion implements ActionListener {
 
 
     private void transicionarAlComando() {
-        // 1. Se instancia la vista de la siguiente sección (Control de la Nave)
-        //VistaCentroComando vistaComando = new VistaCentroComando();
-        System.out.println("CLICK EN IR AL COMANDO");
-
-
-        // 1. Modelos base
-        ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
-        // Asteroides
-        for (int i = 0; i < 6; i++) {
-            elementos.add(new Asteroide());
-        }
-
-        // Estaciones de carga
-        for (int i = 0; i < 3; i++) {
-            elementos.add(new EstacionesDeCarga());
-        }
-
-        // Naves enemigas (respetando las precondiciones de Nave: valores > 0 y <= 100)
-        elementos.add(new NaveCombate("Enemigo-C1", 100, 100, 10));
-        elementos.add(new NaveCarguero("Enemigo-G1", 100, 100, 10));
-        elementos.add(new NaveExploradora("Enemigo-E1", 100, 100, 10));
-
-        Tablero tablero = null;
         try {
-            tablero = new Tablero(20, 20, elementos, null);
-        } catch (DimensionesDeTableroInconsistentesException e) {
-            throw new RuntimeException(e);
-        } catch (CantidadDeElementosSuperaCasillaException e) {
-            throw new RuntimeException(e);
+            // 1. Se instancian los modelos del universo necesarios para las misiones
+            ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
+            for (int i = 0; i < 50; i++) elementos.add(new Asteroide());
+            for (int i = 0; i < 5; i++) elementos.add(new EstacionesDeCarga());
+            elementos.add(new NaveCombate("Enemigo-C1", 100, 100, 10));
+            elementos.add(new NaveCarguero("Enemigo-G1", 100, 100, 10));
+            elementos.add(new NaveExploradora("Enemigo-E1", 100, 100, 10));
+            elementos.add(new NaveCombate("Enemigo-C2", 100, 100, 10));
+            elementos.add(new NaveCarguero("Enemigo-G2", 100, 100, 10));
+            elementos.add(new NaveExploradora("Enemigo-E2", 100, 100, 10));
+
+            Tablero tablero = new Tablero(20, 20, elementos, null);
+            Destino.init(tablero);
+            Bitacora bitacora = new Bitacora();
+            AsistenteComando asistente = new AsistenteComando(bitacora,this.nave, tablero);
+
+            // 2. Se instancian las vistas y el módulo de concurrencia
+            VistaMision vistaMision = new VistaMision();
+            VistaPrincipal vistaTablero = new VistaPrincipal(asistente);
+            VistaGameOver vistaGameOver = new VistaGameOver();
+            IVistaConcurrencia vistaConcurrencia = new VistaConcurrencia();
+
+            PlataformaDeCarga plataforma = new PlataformaDeCarga(3);
+            plataforma.agregarObservador(vistaConcurrencia);
+            // 3. Se crean los controladores con el constructor exacto
+            new ControladorTablero(vistaTablero, vistaConcurrencia);
+            new ControladorConcurrencia(vistaConcurrencia, plataforma, vistaTablero);
+            ControladorMision cMision = new ControladorMision(vistaMision, vistaTablero, vistaGameOver, asistente);
+
+            // 4. Se inicia el flujo de misiones (hace visible VistaMision y oculta las otras)
+            cMision.iniciar();
+
+            // 5. Se destruye la ventana actual de creación
+            ((JFrame) this.vista).dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al iniciar el entorno: " + e.getMessage());
+            e.printStackTrace();
         }
-        Destino.init(tablero);
-
-        Bitacora bitacora = new Bitacora();
-
-
-        // Ajusta el orden/cantidad de parámetros según tu constructor real de AsistenteComando
-        AsistenteComando asistente = new AsistenteComando(bitacora,nave,tablero);
-
-        VistaMision vistaM=new VistaMision();
-        VistaPrincipal vistaP=new VistaPrincipal(asistente,tablero,this.nave,bitacora);
-        VistaGameOver vistaG=new VistaGameOver();
-        ControladorMision controlM=new ControladorMision(vistaM,vistaP,vistaG,asistente);
-
-        vistaM.setVisible(true);
-        this.vista.dispose();
-
-
-
-
-        // 2. Se instancia el entorno/tablero (si tu arquitectura lo requiere aquí)
-        //Tablero tablero = new Tablero();
-
-        // 3. Se crea el controlador de la nueva vista inyectándole la vista y los modelos listos
-        //ControladorCentroComando cComando = new ControladorCentroComando(vistaComando, this.nave, tablero);
-
-        // 4. Se hace visible la nueva ventana
-        //vistaComando.setVisible(true);
-
-        // 5. Se destruye la ventana actual. Esto elimina la interfaz gráfica de creación
-        // de la memoria y finaliza el ciclo de vida de este ControladorCreacion.
-        //this.vista.dispose();
     }
 
     @Override
@@ -186,8 +168,9 @@ public class ControladorCreacion implements ActionListener {
         }
 
         this.nave.agregarTripulante(tripulante);
-        this.vista.agregarMensaje(tripulante.getInfo()+tripulante.getConceptoSueldo());
+        this.vista.agregarMensaje(tripulante.getInfo() + tripulante.getConceptoSueldo());
         this.vista.actualizarNomina(this.nave.calcularTotalHaberes());
+        this.vista.habilitarIrAlComando(this.nave.tieneCapitan());
 
     }
     public void crearNave(){
@@ -195,11 +178,13 @@ public class ControladorCreacion implements ActionListener {
         String nombreNave=this.vista.getNombreNave();
         if(nombreNave==null || nombreNave.isEmpty()){
             this.vista.setError("Ingrese un nombre de nave valido");
+            return;
         }
         String tipoNave=this.vista.getTipoNaveSeleccionada();
         Nave nave= NaveFactory.crearNave(tipoNave,nombreNave,100,100,0);
         this.nave=nave;
         this.vista.limpiarFormularioTripulante();
+        this.vista.habilitarIrAlComando(false);
     }
 
 }

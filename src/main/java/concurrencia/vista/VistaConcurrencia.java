@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-
 public class VistaConcurrencia extends JFrame implements IVistaConcurrencia {
 
     private JButton btnCrearNave;
@@ -114,5 +113,6 @@ public class VistaConcurrencia extends JFrame implements IVistaConcurrencia {
     public void actualizar(String mensaje) {
         // Ejecución obligatoria en el Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> this.registrarEvento(mensaje));
+
     }
 }

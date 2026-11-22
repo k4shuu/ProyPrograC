@@ -1,4 +1,4 @@
-package Vista;
+package MVC.RegistroLogin.Vista;
 
 import java.awt.event.ActionListener;
 
