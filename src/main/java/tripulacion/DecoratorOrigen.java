@@ -1,5 +1,7 @@
 package tripulacion;
 
+import java.util.Objects;
+
 public abstract class DecoratorOrigen extends Tripulante{
     protected Tripulante tripulante;
 
@@ -12,5 +14,17 @@ public abstract class DecoratorOrigen extends Tripulante{
         super(tripulante.getIdentidad(), tripulante.getAntiguedad());
         assert tripulante!=null:"El tripulante ingresado para DecoratorOrigen no debe ser null";
         this.tripulante=tripulante;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        DecoratorOrigen otro = (DecoratorOrigen) o;
+        return Objects.equals(this.tripulante, otro.tripulante);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getClass(), this.tripulante);
     }
 }

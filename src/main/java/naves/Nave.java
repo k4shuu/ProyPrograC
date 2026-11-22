@@ -15,15 +15,11 @@ public abstract class Nave implements ElementoDelUniverso  {
     protected int energia;
     protected int desgaste;
     protected int gemas = 0;
-    protected boolean destruida=false;
     protected final MotorWarp motorWarp;
     protected ArrayList<Tripulante> tripulacion = new ArrayList<>();
     protected ArrayList<Observer> observadores=new ArrayList<>();
 
 
-    public boolean estaViva(){
-        return !this.destruida && energia>0 && desgaste<100 && combustible>0;
-    }
 
 
 
@@ -214,5 +210,17 @@ public abstract class Nave implements ElementoDelUniverso  {
 
     public int getGemas() {
         return gemas;
+    }
+    public boolean tieneCapitan() {
+        boolean encontrado = false;
+        int i = 0;
+        while (i < tripulacion.size() && !encontrado) {
+            encontrado = "Capitan".equals(tripulacion.get(i).getCargo());
+            i++;
+        }
+        return encontrado;
+    }
+    public boolean buscaTripulante(Tripulante tripulante){
+        return tripulacion.contains(tripulante);
     }
 }

@@ -33,9 +33,7 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
         this.radarCA = new RadarCortoAlcance(t);
     }
 
-    public boolean estaVivaNave(){
-        return this.nave.estaViva();
-    }
+
 
     public Nave getNave(){
         return nave;

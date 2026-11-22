@@ -26,6 +26,12 @@ public class Consejero extends Cargo {
     public String getInfo(){
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Consejero ";
     }
+
+    @Override
+    public String getCargo() {
+        return "Consejero";
+    }
+
     public double getSueldo(){
         return sueldoBase*(1 + multiplicador*antiguedad)+cantConsejos*bonoConsejos;
     }

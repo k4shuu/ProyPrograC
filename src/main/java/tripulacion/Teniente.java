@@ -24,6 +24,11 @@ public class Teniente extends Cargo {
         return "Nombre: "+this.getIdentidad()+" Antiguedad: "+this.getAntiguedad()+" Cargo: Teniente ";
     }
 
+    @Override
+    public String getCargo() {
+        return "Teniente";
+    }
+
     public String getConceptoSueldo(){
         return "Sueldo base por Teniente: " + sueldoBase + "\t Adicional antiguedad: " + sueldoBase*multiplicador*antiguedad;
     }
