@@ -1,16 +1,16 @@
 package MVC.CrearMision.Controlador;
 
+import MVC.ControlDeNave.Controlador.ControladorTablero;
 import misiones.Mision;
 import misiones.InformeMision;
-import MVC.CrearMision.Vista.VistaGameOver;
 
 import javax.swing.*;
 
 public class EjecutorMision implements Runnable {
     private Mision mision;
-    private ControladorMision controlador;
+    private ControladorTablero controlador;
 
-    public EjecutorMision(Mision mision, ControladorMision controlador) {
+    public EjecutorMision(Mision mision, ControladorTablero controlador) {
         this.mision = mision;
         this.controlador = controlador;
     }

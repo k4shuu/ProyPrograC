@@ -34,7 +34,7 @@ public class GeneradoraDeEnergia implements Runnable{
             this.plataforma.depositar(this,bateria);
         }
         catch (InterruptedException e){
-
+            Thread.currentThread().interrupt();
         }
     }
 }

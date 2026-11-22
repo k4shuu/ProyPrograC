@@ -8,7 +8,10 @@ import MVC.CrearMision.Vista.VistaGameOver;
 import MVC.RegistroLogin.Controlador.ControladorLogin;
 import MVC.RegistroLogin.Vista.VistaLogin;
 import asistente.AsistenteComando;
-import misiones.InformeMision;
+import concurrencia.controlador.ControladorConcurrencia;
+import concurrencia.modelo.PlataformaDeCarga;
+import concurrencia.vista.IVistaConcurrencia;
+import concurrencia.vista.VistaConcurrencia;
 import misiones.Mision;
 import misiones.MisionFactory;
 
@@ -24,50 +27,38 @@ public class ControladorMision implements ActionListener {
 
     public ControladorMision(IVistaMision vistaMision, AsistenteComando asistente) {
         this.vistaMision = vistaMision;
-        this.vistaTablero = vistaTablero;
-        this.vistaGameOver = vistaGameOver;
         this.asistente = asistente;
-
         this.vistaMision.setControlador(this);
-        this.vistaGameOver.setControlador(this);
     }
 
     public void iniciar() {
         vistaMision.setVisible(true);
-        vistaTablero.setVisible(false);
-        vistaGameOver.setVisible(false);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (IVistaMision.INICIAR_MISION.equals(e.getActionCommand())) {
             transicionarAlTablero();
-        } else if (VistaGameOver.VOLVER_INICIO.equals(comando)) {
-            transicionarAlLogin();
         }
     }
 
     private void transicionarAlTablero() {
         String codigo = vistaMision.getCodigoMisionSeleccionada();
-
         try {
             Mision misionActual = MisionFactory.crearMision(codigo, asistente);
 
             // Se crea el Tablero recién ahora
             VistaPrincipal vistaTablero = new VistaPrincipal(asistente);
-
-            // Actualizamos el panel de "Misiones" en la VistaPrincipal
             vistaTablero.mostrarMisionActual(codigo);
-            this.controladorTablero = new ControladorTablero(vistaTablero);
-            this.controladorTablero.mostrar();
 
-            // Se hace visible el tablero y se destruye la ventana de selección de misión
-            vistaTablero.setVisible(true);
+            PlataformaDeCarga plataforma = new PlataformaDeCarga(3);
+            IVistaConcurrencia vistaConcurrencia = new VistaConcurrencia();
+
+            ControladorConcurrencia cConcurrencia = new ControladorConcurrencia(vistaConcurrencia, plataforma, vistaTablero);
+            ControladorTablero cTablero = new ControladorTablero(vistaTablero, vistaConcurrencia, cConcurrencia);
+
             ((JFrame) this.vistaMision).dispose();
-
-            // Se lanza el hilo de la misión
-            EjecutorMision ejecutor = new EjecutorMision(misionActual, this);
-            new Thread(ejecutor).start();
+            cTablero.iniciarMision(misionActual);
 
         } catch (Exception ex) {
             vistaMision.mostrarMensaje("Error al iniciar misión: " + ex.getMessage());
