@@ -1,5 +1,6 @@
 package misiones;
 import asistente.AsistenteComando;
+import elementos.EstacionesDeCarga;
 import excepciones.ExcesoDesgasteException;
 import excepciones.FaltaCombustibleException;
 import destinoytablero.*;
@@ -118,8 +119,10 @@ public abstract class Mision {
         if (siguienteElemento != null && getRuta().size() >= 2) {
             asistente.solicitarEjecucionSaltoWarp();
 
-            if(asistente.getTablero().getPosicionNave().equals(getRuta().get(1))){
+            if (asistente.getTablero().getPosicionNave().equals(getRuta().get(1))) {
                 getRuta().removeFirst();
+                getRuta().removeFirst();
+            } else if (asistente.getTablero().getPosicionNave().equals(getRuta().getFirst())) {
                 getRuta().removeFirst();
             }
         } else {
@@ -145,6 +148,13 @@ public abstract class Mision {
     }
 
     private boolean realizarViaje() {
+
+        if (this.obj == null) {
+            this.obj = asistente.getTablero().obtenerObjetivo();
+        }
+        if (getRuta() == null) {
+            initRuta(this.obj);
+        }
 
         boolean alcanzoDestino = alcanzoObjetivo();
 

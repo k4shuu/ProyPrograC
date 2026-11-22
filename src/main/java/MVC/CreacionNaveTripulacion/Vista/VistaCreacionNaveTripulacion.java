@@ -1,4 +1,4 @@
-package Vista;
+package MVC.CreacionNaveTripulacion.Vista;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +65,7 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panel.add(Box.createVerticalStrut(10));
 
         panel.add(new JLabel("Tipo de Nave:"));
-        comboTipoNave = new JComboBox<>(new String[]{"Exploradora", "Carguera", "Combate"});
+        comboTipoNave = new JComboBox<>(new String[]{"Exploradora", "Carguero", "Combate"});
         panel.add(comboTipoNave);
         panel.add(Box.createVerticalStrut(10));
 
@@ -169,7 +169,8 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         panelEstado.add(Box.createVerticalStrut(10));
 
         btnIrAlComando = new JButton("IR AL COMANDO");
-        btnIrAlComando.setActionCommand("IR-AL-COMANDO");
+        btnIrAlComando = new JButton("IR AL COMANDO");
+        btnIrAlComando.setActionCommand(IVistaCreacion.IRALCOMANDO);
         btnIrAlComando.setEnabled(false);
 
 
@@ -208,7 +209,10 @@ public class VistaCreacionNaveTripulacion extends JFrame implements IVistaCreaci
         lblTotalNomina.setText("Total Nómina: $ " + totalSalario);
     }
 
-
+    @Override
+    public void habilitarIrAlComando(boolean habilitar) {
+        this.btnIrAlComando.setEnabled(habilitar);
+    }
 
     public void setError(String mensaje) {
         lblMensajeError.setText(mensaje);

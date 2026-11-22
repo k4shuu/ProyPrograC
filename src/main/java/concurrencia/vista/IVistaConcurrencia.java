@@ -1,5 +1,5 @@
 package concurrencia.vista;
-import concurrencia.observer.Observador;
+import observer.Observador;
 
 import java.awt.event.ActionListener;
 

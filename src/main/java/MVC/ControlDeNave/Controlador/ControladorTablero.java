@@ -2,16 +2,16 @@ package MVC.ControlDeNave.Controlador;
 
 import MVC.ControlDeNave.Vista.IVista;
 import MVC.ControlDeNave.Vista.VistaPrincipal;
-import concurrencia.vista.IVistaPrincipal;
+import concurrencia.vista.IVistaConcurrencia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ControladorTablero implements ActionListener {
     private VistaPrincipal vista;
-    private IVistaPrincipal vistaConcurrencia;
+    private IVistaConcurrencia vistaConcurrencia;
 
-    public ControladorTablero(VistaPrincipal vista, IVistaPrincipal vistaConcurrencia) {
+    public ControladorTablero(VistaPrincipal vista, IVistaConcurrencia vistaConcurrencia) {
         this.vista = vista;
         this.vistaConcurrencia = vistaConcurrencia;
         this.vista.setControlador(this);
