@@ -6,6 +6,6 @@ import naves.Nave;
 public class EstacionesDeCarga implements ElementoDelUniverso {
     @Override
     public void interactuar(Nave nave) {
-        nave.ayudaEstacion(20); 
+        nave.cargarEnerg(20);
     }
 }

@@ -15,8 +15,7 @@ public class ControladorConcurrencia implements ActionListener {
     private PlataformaDeCarga plataforma;
     private VistaPrincipal vistaPrincipal;
     private ArrayList<Thread> hilos = new ArrayList<>();
-    private int numGenerador = 0;
-    private int numNave = 0;
+
 
     public ControladorConcurrencia(IVistaConcurrencia vista, PlataformaDeCarga plataforma, VistaPrincipal vistaPrincipal) {
         this.vista = vista;
@@ -24,6 +23,10 @@ public class ControladorConcurrencia implements ActionListener {
         this.vistaPrincipal = vistaPrincipal;
         this.vista.setActionListener(this);
         this.plataforma.agregarObservador(vista);
+    }
+
+    public void mostrar() {
+        this.vista.setVisible(true);
     }
 
     @Override
@@ -44,8 +47,8 @@ public class ControladorConcurrencia implements ActionListener {
     }
 
     public void crearNave() {
-        String nombre = "N" + (++this.numNave);
-        NaveConsumidora nave = new NaveConsumidora(nombre, plataforma);
+
+        NaveConsumidora nave = new NaveConsumidora( plataforma);
         this.vista.registrarEvento("¡Ingresó una nueva Nave: " + nave.getNombre() + " al universo paralelo!");
         Thread h = new Thread(nave);
         this.hilos.add(h);
@@ -53,8 +56,7 @@ public class ControladorConcurrencia implements ActionListener {
     }
 
     public void crearGenerador() {
-        String nombre = "G" + (++this.numGenerador);
-        GeneradoraDeEnergia generador = new GeneradoraDeEnergia(nombre, plataforma);
+        GeneradoraDeEnergia generador = new GeneradoraDeEnergia(plataforma);
         this.vista.registrarEvento("¡Ingresó un nuevo Generador: " + generador.getNombre() + " al universo paralelo!");
         Thread h = new Thread(generador);
         this.hilos.add(h);

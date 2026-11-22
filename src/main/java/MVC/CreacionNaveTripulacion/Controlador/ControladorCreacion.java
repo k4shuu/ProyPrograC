@@ -45,6 +45,18 @@ public class ControladorCreacion implements ActionListener {
 
     private void transicionarAlComando() {
         try {
+
+            if(!nave.tieneCapitan()){
+                this.vista.setError("La nave debe tener un capitan");
+                return;
+            }
+            if(nave.cantTripulantes()<4){
+                this.vista.setError("Debe haber como minimo 4 tripulantes");
+                return;
+            }
+
+
+            // 1. Se instancian los modelos del universo necesarios para las misiones
             ArrayList<ElementoDelUniverso> elementos = new ArrayList<>();
             for (int i = 0; i < 50; i++) elementos.add(new Asteroide());
             for (int i = 0; i < 5; i++) elementos.add(new EstacionesDeCarga());
@@ -153,6 +165,7 @@ public class ControladorCreacion implements ActionListener {
             return;
         }
 
+
         this.nave.agregarTripulante(tripulante);
         this.vista.agregarMensaje(tripulante.getInfo() + tripulante.getConceptoSueldo());
         this.vista.actualizarNomina(this.nave.calcularTotalHaberes());
@@ -161,6 +174,7 @@ public class ControladorCreacion implements ActionListener {
     }
     public void crearNave(){
         this.vista.clearError();
+        this.vista.limpiarListaTripulantes();
         String nombreNave=this.vista.getNombreNave();
         if(nombreNave==null || nombreNave.isEmpty()){
             this.vista.setError("Ingrese un nombre de nave valido");
@@ -171,6 +185,7 @@ public class ControladorCreacion implements ActionListener {
         this.nave=nave;
         this.vista.limpiarFormularioTripulante();
         this.vista.habilitarIrAlComando(false);
+        this.vista.mostrarNaveActual(nombreNave);
     }
 
 }

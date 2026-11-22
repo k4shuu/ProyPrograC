@@ -97,11 +97,8 @@ public class AsistenteComando { //INTERMEDIARIO ENTRE CAPITÁN Y NAVE
             if (nave.getDesgaste() == 100)
                 throw new NaveDestruidaException("Nave destruida por tener desgaste 100 al haber ejecutado con exito salto warp");
 
-            if (paso == 1) {
-                p = ruta.getFirst();
-            } else {
-                p = ruta.get(1);
-            }
+            p=ruta.get(paso-1);
+
             tablero.moverNave(p);
             bitacora.registrar("MOTOR", "[Nave: " + nave.getIdentidad() + "]: Ejecutó salto Warp con éxito.");
             return paso;
