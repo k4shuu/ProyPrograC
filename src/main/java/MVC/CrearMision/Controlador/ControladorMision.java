@@ -6,6 +6,7 @@ import MVC.CrearMision.Vista.VistaGameOver;
 import MVC.RegistroLogin.Controlador.ControladorLogin;
 import MVC.RegistroLogin.Vista.VistaLogin;
 import asistente.AsistenteComando;
+import misiones.InformeMision;
 import misiones.Mision;
 import misiones.MisionFactory;
 
@@ -26,7 +27,7 @@ public class ControladorMision implements ActionListener {
         this.asistente = asistente;
 
         this.vistaMision.setControlador(this);
-        this.vistaGameOver.setControlador(this); // Escucha el botón de Game Over
+        this.vistaGameOver.setControlador(this);
     }
 
     public void iniciar() {
@@ -40,39 +41,44 @@ public class ControladorMision implements ActionListener {
         String comando = e.getActionCommand();
 
         if (IVistaMision.INICIAR_MISION.equals(comando)) {
-            iniciarMisionLogica();
+            transicionarAlTablero();
         } else if (VistaGameOver.VOLVER_INICIO.equals(comando)) {
-            volverAlLogin();
+            transicionarAlLogin();
         }
     }
 
-    private void iniciarMisionLogica() {
+    private void transicionarAlTablero() {
         String codigo = vistaMision.getCodigoMisionSeleccionada();
 
         try {
             Mision misionActual = MisionFactory.crearMision(codigo, asistente);
-
-            // Actualizamos el panel de "Misiones" en la VistaPrincipal
             vistaTablero.mostrarMisionActual(codigo);
 
-            vistaMision.setVisible(false);
+            // Se hace visible el tablero y se destruye la ventana de selección de misión
             vistaTablero.setVisible(true);
+            ((JFrame) this.vistaMision).dispose();
 
-            EjecutorMision ejecutor = new EjecutorMision(misionActual, vistaTablero, vistaGameOver);
-            Thread hilo = new Thread(ejecutor);
-            hilo.start();
+            // Se lanza el hilo de la misión
+            EjecutorMision ejecutor = new EjecutorMision(misionActual, this);
+            new Thread(ejecutor).start();
 
         } catch (Exception ex) {
             vistaMision.mostrarMensaje("Error al iniciar misión: " + ex.getMessage());
         }
     }
 
-    private void volverAlLogin() {
-        vistaGameOver.dispose();
+    public void transicionarAGameOver(InformeMision informe) {
+        // Se carga el informe, se muestra Game Over y se destruye el tablero
+        vistaGameOver.mostrarInforme(informe);
+        vistaGameOver.setVisible(true);
         vistaTablero.dispose();
+    }
 
+    private void transicionarAlLogin() {
+        // Se instancia y muestra el Login, y se destruye Game Over
         VistaLogin vistaLogin = new VistaLogin();
         new ControladorLogin(vistaLogin);
         vistaLogin.setVisible(true);
+        vistaGameOver.dispose();
     }
 }
