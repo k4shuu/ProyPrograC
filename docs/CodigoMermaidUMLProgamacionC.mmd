@@ -1,0 +1,903 @@
+classDiagram
+direction TB
+
+namespace MVC {
+%% MVC.ControlDeNave.Controlador
+  class ControladorTablero {
+    -IVista vista
+    -IVistaConcurrencia vistaConcurrencia
+    +ControladorTablero(IVista, IVistaConcurrencia, ControladorConcurrencia)
+    +iniciarMision(Mision) void
+    +actionPerformed(ActionEvent) void
+    +transicionarAGameOver(InformeMision) void
+  }
+
+%% MVC.ControlDeNave.Modelo
+  class RecursosYBitacora {
+    -List~IObservador~ observadores
+    -Nave nave
+    -Bitacora bitacora
+    -String estadoTablero
+    +RecursosYBitacora(Nave, Bitacora)
+    +agregarObservador(IObservador) void
+    +notificarObservadores() void
+    +forzarActualizacionVista() void
+  }
+
+%% MVC.ControlDeNave.Vista
+  class IObservable {
+    <<interface>>
+    +agregarObservador(IObservador) void
+    +notificarObservadores() void
+  }
+  class IObservador {
+    <<interface>>
+    +actualizar() void
+  }
+  class IVista {
+    <<interface>>
+    +String IR_CONCURRENCIA$
+    +setVisible(boolean) void
+    +setControlador(ActionListener) void
+    +dispose() void
+  }
+  class VistaPrincipal {
+    -Tablero tablero
+    -Nave nave
+    -Bitacora bitacora
+    -AsistenteComando asistente
+    -VistaTablero vistaTablero
+    -JProgressBar barEnergia
+    -JProgressBar barDesgaste
+    -JProgressBar barCombustible
+    -JTextArea txtBitacora
+    -JTextArea txtMisiones
+    -JButton btnConcurrencia
+    +VistaPrincipal(AsistenteComando, Tablero, Nave, Bitacora)
+    -configurarVentana() void
+    +mostrarCamino(List~Posicion~) void
+    -inicializarComponentes() void
+    +actualizar() void
+    +mostrarMisionActual(String) void
+  }
+  class VistaTablero {
+    -Tablero tablero
+    -List~Posicion~ caminoNave
+    -Map~String, Image~ imagenes
+    +VistaTablero(Tablero)
+    -cargarImagenes() void
+    #paintComponent(Graphics) void
+    -dibujarElemento(Graphics2D, ElementoDelUniverso, int, int, int, int) void
+  }
+
+%% MVC.CreacionNaveTripulacion.Controlador
+  class ControladorCreacion {
+    -IVistaCreacion vista
+    -Nave nave
+    +ControladorCreacion(IVistaCreacion)
+    -transicionarAlComando() void
+    +actionPerformed(ActionEvent) void
+    +crearTripulante() void
+    +crearNave() void
+  }
+
+%% MVC.CreacionNaveTripulacion.Vista
+  class IVistaCreacion {
+    <<interface>>
+    +String CREARNAVE$
+    +String CREARTRIPULANTE$
+    +String IRALCOMANDO$
+    +clearError() void
+    +limpiarFormularioTripulante() void
+    +agregarMensaje(String) void
+    +actualizarNomina(double) void
+  }
+  class VistaCreacionNaveTripulacion {
+    -JTextField txtNombreNave
+    -JComboBox~String~ comboTipoNave
+    -JButton btnInstanciarNave
+    -JTextField txtNombreTripulante
+    -JComboBox~String~ comboOrigenTripulante
+    -JTextField txtAntiguedad
+    -JComboBox~String~ comboCargoTripulante
+    -JLabel lblCantConsejos
+    -JTextField txtCantConsejos
+    -JButton btnAgregarTripulante
+    -JTextArea txtAreaMensajes
+    -JLabel lblTotalNomina
+    -JLabel lblMensajeError
+    -JButton btnIrAlComando
+    +VistaCreacionNaveTripulacion()
+    -crearPanelIzquierdo() JPanel
+    -crearPanelDerecho() JPanel
+    +actualizarNomina(double) void
+    +clearError() void
+    +marcarComoConfirmado() void
+    +limpiarFormularioTripulante() void
+    +agregarMensaje(String) void
+  }
+
+%% MVC.CrearMision.Controlador
+  class ControladorMision {
+    -IVistaMision vistaMision
+    -AsistenteComando asistente
+    -ControladorTablero controladorTablero
+    +ControladorMision(IVistaMision, AsistenteComando)
+    +iniciar() void
+    +actionPerformed(ActionEvent) void
+    -transicionarAlTablero() void
+  }
+  class EjecutorMision {
+    -Mision mision
+    -ControladorTablero controlador
+    +EjecutorMision(Mision, ControladorTablero)
+    +run() void
+  }
+
+%% MVC.CrearMision.Vista
+  class IVistaMision {
+    <<interface>>
+    +String INICIAR_MISION$
+    +setVisible(boolean) void
+    +setControlador(ActionListener) void
+    +getCodigoMisionSeleccionada() String
+    +mostrarMensaje(String) void
+  }
+  class IVistaGameOver {
+    <<interface>>
+    +String VOLVER_INICIO$
+    +mostrarInforme(InformeMision) void
+    +setControlador(ActionListener) void
+    +setVisible(boolean) void
+    +dispose() void
+  }
+  class VistaGameOver {
+    -JLabel lblTitulo
+    -JTextArea txtInforme
+    -JButton btnVolverInicio
+    +VistaGameOver()
+    +mostrarInforme(InformeMision) void
+    +setControlador(ActionListener) void
+  }
+  class VistaMision {
+    -JComboBox~String~ comboMisiones
+    -JButton btnComenzar
+    +VistaMision()
+    +getCodigoMisionSeleccionada() String
+    +setControlador(ActionListener) void
+    +mostrarMensaje(String) void
+  }
+
+%% MVC.RegistroLogin.Controlador
+  class ControladorLogin {
+    -IVistaLogin vista
+    -UsuarioDAO usuarioDAO
+    +ControladorLogin(IVistaLogin)
+    -intentarLogin() void
+    -intentarRegistro() void
+  }
+
+%% MVC.RegistroLogin.Vista
+  class IVistaLogin {
+    <<interface>>
+    +mostrarMensaje(String) void
+    +limpiarCampos() void
+    +cerrarVentana() void
+  }
+  class VistaLogin {
+    -JTextField txtUsuario
+    -JPasswordField txtPassword
+    -JButton btnIniciarSesion
+    -JButton btnRegistrarse
+    +VistaLogin()
+    +mostrarMensaje(String) void
+    +limpiarCampos() void
+    +cerrarVentana() void
+  }
+
+}
+
+namespace asistente {
+  class AsistenteComando {
+    -Bitacora bitacora
+    -Nave nave
+    -Tablero tablero
+    -RadarLargoAlcance radarLA
+    -RadarCortoAlcance radarCA
+    -List~Posicion~ ruta
+    +AsistenteComando(Bitacora, Nave, Tablero)
+    +estaVivaNave() boolean
+    +escribirBitacora(String, String) void
+    +escribirBitacora(Entrada) void
+    +solicitarEjecucionSaltoComun() void
+    +solicitarEjecucionSaltoWarp() void
+    +mostrarLiquidacionHaberes() void
+    +calcRuta(Posicion) void
+  }
+  class RadarCortoAlcance {
+    -Tablero tablero
+    +RadarCortoAlcance(Tablero)
+    +analizarPasoSig(List~Posicion~) ElementoDelUniverso
+  }
+  class RadarLargoAlcance {
+    -Tablero tablero
+    +RadarLargoAlcance(Tablero)
+    +calcRuta(Posicion) List~Posicion~
+  }
+
+}
+
+namespace bitacora {
+  class Bitacora {
+    -List~Entrada~ entradas
+    +Bitacora()
+    +registrar(String, String) void
+    +registrar(Entrada) void
+    +mostrarBitacora() List~String~
+    +limpiar() void
+  }
+  class Entrada {
+    -LocalDateTime fechaHora
+    -String mensaje
+    -String origen
+    +Entrada(String, String)
+    +toString() String
+  }
+
+}
+
+namespace concurrencia {
+%% concurrencia.controlador
+  class ControladorConcurrencia {
+    -IVistaConcurrencia vista
+    -PlataformaDeCarga plataforma
+    -IVista vistaPrincipal
+    -ArrayList~Thread~ hilos
+    +ControladorConcurrencia(IVistaConcurrencia, PlataformaDeCarga, IVista)
+    +mostrar() void
+    +actionPerformed(ActionEvent) void
+    +crearNave() void
+    +crearGenerador() void
+    +cerrar() void
+  }
+
+%% concurrencia.modelo
+  class Bateria {
+    +Bateria()
+  }
+  class GeneradoraDeEnergia {
+    -String nombre
+    -PlataformaDeCarga plataforma
+    +GeneradoraDeEnergia(String, PlataformaDeCarga)
+    +crearBateria() Bateria
+    +run() void
+  }
+  class NaveConsumidora {
+    -String nombre
+    -PlataformaDeCarga plataforma
+    -ArrayList~Observador~ observadores
+    +NaveConsumidora(String, PlataformaDeCarga)
+    +run() void
+  }
+  class PlataformaDeCarga {
+    -ArrayList~Observador~ observadores
+    -ArrayList~Bateria~ baterias
+    -int limite
+    +PlataformaDeCarga(int)
+    +depositar(GeneradoraDeEnergia, Bateria) void
+    +consumir(NaveConsumidora) void
+    +agregarObservador(Observador) void
+    +quitarObservador(Observador) void
+    +notificarObservadores(String) void
+  }
+
+%% concurrencia.observer
+  class ObservableConcurrencia {
+    <<abstract>>
+    -ArrayList~Observador~ observadores
+    +agregarObservador(Observador) void
+    +quitarObservador(Observador) void
+    +notificarObservadores(String) void
+  }
+  class ObservadorConcurrencia {
+    <<interface>>
+    +actualizar(String) void
+  }
+
+%% concurrencia.vista
+  class IVistaConcurrencia {
+    <<interface>>
+    +String CREARNAVE$
+    +String CREARGENERADOR$
+    +String VOLVER$
+    +limpiarError() void
+    +registrarEvento(String) void
+  }
+  class VistaConcurrencia {
+    -JButton btnCrearNave
+    -JButton btnCrearGeneradora
+    -JTextArea txtConsola
+    -JLabel lblError
+    -JButton btnVolver
+    +VistaConcurrencia()
+    +registrarEvento(String) void
+    +limpiarError() void
+    +actualizar(String) void
+  }
+
+}
+
+namespace destinoytablero {
+  class Destino {
+    -Random azar
+    -Tablero tablero
+    -Destino instance$
+    +Destino(Tablero)
+    +init(Tablero)$ Destino
+    +turnoDestino() void
+  }
+  class ElementoDelUniverso {
+    <<interface>>
+    +interactuar(Nave) void
+  }
+  class ObservableTab {
+    <<abstract>>
+    -ArrayList~Observador~ observadores
+    +agregarObservador(Observador) void
+    +quitarObservador(Observador) void
+    +notificarObservadores() void
+  }
+  class ObservadorTab {
+    <<interface>>
+    +actualizar() void
+  }
+  class Posicion {
+    -int x
+    -int y
+    +Posicion(int, int)
+    +equals(Object) boolean
+    +hashCode() int
+  }
+  class Tablero {
+    -int x
+    -int y
+    -ArrayList~ElementoDelUniverso~ elementos
+    -HashMap~Posicion, ElementoDelUniverso~ ocupacion
+    -Random azar
+    -Posicion posicionNave
+    -Posicion objetivo
+    +Tablero(int, int, ArrayList~ElementoDelUniverso~, Posicion)
+    +Tablero(int, int, ArrayList~ElementoDelUniverso~)
+    -distribuirObjetos() void
+    -buscarLibre(Posicion) Posicion
+    -vecinasDe(Posicion) ArrayList~Posicion~
+    #estaDentro(Posicion) boolean
+    -estaLibre(Posicion) boolean
+    -casillasLibres() ArrayList~Posicion~
+    #obtenerElementos() HashMap~Posicion, ElementoDelUniverso~
+    +moverNave(Posicion) void
+    +inspeccionarPosicion() ElementoDelUniverso
+    +inspeccionarPosicion(Posicion) ElementoDelUniverso
+    +observarAlrededores() ElementoDelUniverso[][]
+    +obtenerObjetivo() Posicion
+    #moverElemento(Posicion, Posicion) void
+    #notificarActualizacion() void
+    +verTablero() ElementoDelUniverso[][]
+    +calcularRuta(Posicion, Posicion) List~Posicion~
+  }
+
+}
+
+namespace elementos {
+  class Asteroide {
+    +interactuar(Nave) void
+  }
+  class EstacionesDeCarga {
+    +interactuar(Nave) void
+  }
+
+}
+
+namespace excepciones {
+  class CantidadDeElementosSuperaCasillaException {
+    -long serialVersionUID$
+    -int cantidadMaxima
+    +CantidadDeElementosSuperaCasillaException(String, int)
+  }
+  class CredencialesInvalidasException {
+    +CredencialesInvalidasException(String)
+  }
+  class DimensionesDeTableroInconsistentesException {
+    -long serialVersionUID$
+    +DimensionesDeTableroInconsistentesException(String)
+  }
+  class ExcesoCombException {
+    -int combAct
+    -int combCargar
+    +ExcesoCombException(String, int, int)
+  }
+  class ExcesoDesgasteException {
+    -int desgasteExigido
+    -int desgasteActual
+    +ExcesoDesgasteException(String, int, int)
+  }
+  class FaltaCombustibleException {
+    -int combustibleRequerido
+    -int combustibleDisponible
+    +FaltaCombustibleException(String, int, int)
+  }
+  class FaltaEnergiaException {
+    -int energiaRequerida
+    -int energiaDisponible
+    +FaltaEnergiaException(String, int, int)
+  }
+  class NaveDestruidaException {
+    +NaveDestruidaException(String)
+  }
+  class TipoCargoInvalidoException {
+    -String tipo
+    +TipoCargoInvalidoException(String, String)
+  }
+  class TipoMisionInvalidaException {
+    -String tipo
+    +TipoMisionInvalidaException(String, String)
+  }
+  class TipoOrigenInvalidoException {
+    -String tipo
+    +TipoOrigenInvalidoException(String, String)
+  }
+  class TransicionMotorInvalidaException {
+    -String estadoOrigen
+    -String estadoDestino
+    +TransicionMotorInvalidaException(String, String, String)
+  }
+  class IllegalArgumentException {
+    <<external>>
+  }
+  class IllegalStateException {
+    <<external>>
+  }
+  class InterruptedException {
+    <<external>>
+  }
+
+}
+
+namespace misiones {
+  class Estado {
+    <<enumeration>>
+    CREADA
+    PREPARADA
+    EJECUTADA
+    EVALUADA
+    CERRADA
+  }
+  class InformeMision {
+    -LocalDateTime fechaHora
+    -String cod
+    -Resultado result
+    -Estado lastState
+    -int combustibleInicial
+    -int energiaInicial
+    -int desgasteInicial
+    -int gemasIniciales
+    -int balanceCombustible
+    -int balanceEnergia
+    -int balanceDesgaste
+    -int balanceGemas
+    +InformeMision(String, Nave)
+    +finalizar(Nave, Resultado, Estado) void
+    +toString() String
+    +actualizarBalances(Nave) void
+    -formatoBalance(int) String
+  }
+  class Mision {
+    <<abstract>>
+    #String cod
+    #AsistenteComando asistente
+    #int combConsumido
+    #int energCargada
+    #int desgaste
+    #Posicion obj
+    #Random azar
+    #InformeMision informe
+    #Estado estado
+    +Resultado result
+    +Mision(String, AsistenteComando)
+    +comenzar() InformeMision
+    #fallarMision(String) void
+    #completarMisionExitosamente() void
+    #cancelarMision(String) void
+    #alcanzoObjetivo() boolean
+    +preparar() void
+    +ejecutar() void
+    -realizarMovimiento() void
+    #cumpleCondicionFinal() boolean
+    -consumirRecursosIniciales() void
+    -realizarViaje() boolean
+    +evaluar() void
+    +cerrar() InformeMision
+    #aplicarResultadoExitoso()* void
+    +initRuta(Posicion) void
+  }
+  class MisionFactory {
+    +MisionFactory()
+    +crearMision(String, AsistenteComando)$ Mision
+  }
+  class MisionIntercep {
+    -int combustibleSolicitado
+    -int energiaSolicitada
+    +MisionIntercep(AsistenteComando)
+    #aplicarResultadoExitoso() void
+    #cumpleCondicionFinal() boolean
+  }
+  class MisionRecolec {
+    +MisionRecolec(AsistenteComando)
+    #aplicarResultadoExitoso() void
+  }
+  class MisionRetorno {
+    +MisionRetorno(AsistenteComando)
+    #aplicarResultadoExitoso() void
+  }
+  class ResultadoMisiones {
+    <<enumeration>>
+    EXITOSA
+    FALLIDA
+    CANCELADA
+  }
+
+}
+
+namespace naves {
+  class Nave {
+    <<abstract>>
+    #String identidad
+    #int combustible
+    #int energia
+    #int desgaste
+    #int gemas
+    #boolean destruida
+    #MotorWarp motorWarp
+    #ArrayList~Tripulante~ tripulacion
+    #ArrayList~Observer~ observadores
+    +estaViva() boolean
+    +ayudaEstacion(int) void
+    +usarEnergia(int) void
+    +atacadoPorExploradora()* Resultado
+    +atacadoPorCarguero()* Resultado
+    +atacadoPorCombate()* Resultado
+    +Nave(String, int, int, int)
+    +tieneCombustible(int) boolean
+    +sePuedeDesgastar(int) boolean
+    +puedeCargarEnergia(int) boolean
+    +reqMant() boolean
+    +cargarComb(int) void
+    +cargarEnerg(int) void
+    +mantenimiento() void
+    +usarCombustible(int) void
+    +realizarDesgaste(int) void
+    +agregarTripulante(Tripulante) void
+    +calcularTotalHaberes() double
+    +mostrarLiquidacionTripulacion() void
+    +addGemas(int) void
+    +toString() String
+  }
+  class NaveCarguero {
+    +interactuar(Nave) void
+    +atacadoPorExploradora() Resultado
+    +atacadoPorCarguero() Resultado
+    +atacadoPorCombate() Resultado
+    +NaveCarguero(String, int, int, int)
+    +toString() String
+  }
+  class NaveCombate {
+    +interactuar(Nave) void
+    +atacadoPorExploradora() Resultado
+    +atacadoPorCarguero() Resultado
+    +atacadoPorCombate() Resultado
+    +NaveCombate(String, int, int, int)
+    +toString() String
+  }
+  class NaveExploradora {
+    +interactuar(Nave) void
+    +atacadoPorExploradora() Resultado
+    +atacadoPorCarguero() Resultado
+    +atacadoPorCombate() Resultado
+    +NaveExploradora(String, int, int, int)
+    +toString() String
+  }
+  class NaveFactory {
+    +crearNave(String, String, int, int, int)$ Nave
+  }
+  class ResultadoNaves {
+    <<enumeration>>
+    PIERDE
+    GANA
+    PAZ
+  }
+
+}
+
+namespace persistencia {
+  class ConexionBD {
+    -String URL$
+    +conectar()$ Connection
+  }
+  class UsuarioDAO {
+    +UsuarioDAO()
+    -crearTablaSiNoExiste() void
+    +registrarUsuario(UsuarioDTO) boolean
+    +validarCredenciales(String, String) UsuarioDTO
+  }
+  class UsuarioDTO {
+    -String username
+    -String password
+    +UsuarioDTO()
+    +UsuarioDTO(String, String)
+  }
+
+}
+
+namespace tripulacion {
+  class Alferez {
+    -double sueldoBase$
+    -double multiplicador$
+    +Alferez(String, int)
+  }
+  class Capitan {
+    -double sueldoBase$
+    -double multiplicador$
+    +Capitan(String, int)
+  }
+  class Cargo {
+    <<abstract>>
+    +Cargo(String, int)
+  }
+  class CargoFactory {
+    +crear(String, String, int, int)$ Cargo
+  }
+  class Consejero {
+    -double sueldoBase$
+    -double multiplicador$
+    -double bonoConsejos$
+    -int cantConsejos
+    +Consejero(String, int, int)
+  }
+  class DecoratorOrigen {
+    <<abstract>>
+    #Tripulante tripulante
+    +DecoratorOrigen(Tripulante)
+  }
+  class Marciano {
+    -double subsidio$
+    +Marciano(Tripulante)
+  }
+  class OrigenFactory {
+    +crear(Tripulante, String)$ DecoratorOrigen
+  }
+  class Teniente {
+    -double sueldoBase$
+    -double multiplicador$
+    +Teniente(String, int)
+  }
+  class Terricola {
+    -double subsidio$
+    +Terricola(Tripulante)
+  }
+  class Tripulante {
+    <<abstract>>
+    #String identidad
+    #int antiguedad
+    +Tripulante(String, int)
+  }
+  class Vulcano {
+    -double subsidio$
+    +Vulcano(Tripulante)
+  }
+
+}
+
+namespace warp {
+  class EstadoDisponible {
+    -MotorWarp motor
+    +EstadoDisponible(MotorWarp)
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+  class EstadoEnWarp {
+    -MotorWarp motor
+    +EstadoEnWarp(MotorWarp)
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+  class EstadoEnfriamiento {
+    -MotorWarp motor
+    +EstadoEnfriamiento(MotorWarp)
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+  class EstadoPreparandoSalto {
+    -MotorWarp motor
+    +EstadoPreparandoSalto(MotorWarp)
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+  class EstadoWarp {
+    <<interface>>
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+  class MotorWarp {
+    ~int COMBUSTIBLE_NECESARIO_COMUN
+    ~int ENERGIA_NECESARIA_WARP
+    ~int DESGASTE_MECANICO_WARP
+    -EstadoWarp estadoActual
+    -Nave nave
+    +MotorWarp(Nave)
+    +ejecutarSaltoComun() void
+    +ejecutarSaltoWarp() void
+  }
+
+}
+
+%% Herencia e implementacion
+ElementoDelUniverso <|.. Nave
+Nave <|-- NaveExploradora
+Nave <|-- NaveCarguero
+Nave <|-- NaveCombate
+
+Tripulante <|-- Cargo
+Cargo <|-- Capitan
+Cargo <|-- Consejero
+Cargo <|-- Alferez
+Cargo <|-- Teniente
+Tripulante <|-- DecoratorOrigen
+DecoratorOrigen <|-- Vulcano
+DecoratorOrigen <|-- Terricola
+DecoratorOrigen <|-- Marciano
+
+Mision <|-- MisionIntercep
+Mision <|-- MisionRecolec
+Mision <|-- MisionRetorno
+
+EstadoWarp <|.. EstadoDisponible
+EstadoWarp <|.. EstadoPreparandoSalto
+EstadoWarp <|.. EstadoEnWarp
+EstadoWarp <|.. EstadoEnfriamiento
+
+ObservableTab <|-- Tablero
+ElementoDelUniverso <|.. Asteroide
+ElementoDelUniverso <|.. EstacionesDeCarga
+
+IVista <|.. VistaPrincipal
+ObservadorTab <|.. VistaPrincipal
+IObservable <|.. RecursosYBitacora
+IVistaMision <|.. VistaMision
+IVistaGameOver <|.. VistaGameOver
+IVistaLogin <|.. VistaLogin
+IVistaCreacion <|.. VistaCreacionNaveTripulacion
+
+ObservableConcurrencia <|-- PlataformaDeCarga
+ObservadorConcurrencia <|-- IVistaConcurrencia
+IVistaConcurrencia <|.. VistaConcurrencia
+
+%% Composicion y agregacion
+Nave "1" *-- "1" MotorWarp : motorWarp
+Nave "1" o-- "0..*" Tripulante : tripulacion
+DecoratorOrigen "1" o-- "1" Tripulante : tripulante
+Mision "1" *-- "0..1" InformeMision : informe
+Tablero "1" o-- "0..*" ElementoDelUniverso : elementos
+Tablero "1" *-- "1..2" Posicion : posiciones
+ObservableTab "1" o-- "0..*" ObservadorTab : observadores
+AsistenteComando "1" *-- "1" RadarCortoAlcance : radarCA
+AsistenteComando "1" *-- "1" RadarLargoAlcance : radarLA
+Bitacora "1" *-- "0..*" Entrada : entradas
+RecursosYBitacora "1" o-- "0..*" IObservador : observadores
+PlataformaDeCarga "1" o-- "0..*" Bateria : baterias
+ObservableConcurrencia "1" o-- "0..*" ObservadorConcurrencia : observadores
+
+%% Asociaciones estructurales
+MotorWarp --> EstadoWarp : estadoActual
+Mision --> AsistenteComando : asistente
+Mision --> Estado : estado
+Mision --> ResultadoMisiones : result
+Destino --> Tablero : tablero
+AsistenteComando --> Nave : nave
+AsistenteComando --> Tablero : tablero
+AsistenteComando --> Bitacora : bitacora
+RadarCortoAlcance --> Tablero : tablero
+RadarLargoAlcance --> Tablero : tablero
+
+VistaPrincipal --> Tablero : tablero
+VistaPrincipal --> Nave : nave
+VistaPrincipal --> Bitacora : bitacora
+VistaPrincipal --> AsistenteComando : asistente
+ControladorTablero --> IVista : vista
+ControladorTablero --> IVistaConcurrencia : vistaConcurrencia
+ControladorTablero --> ControladorConcurrencia : controladorConcurrencia
+RecursosYBitacora --> Nave : nave
+RecursosYBitacora --> Bitacora : bitacora
+ControladorMision --> IVistaMision : vistaMision
+ControladorMision --> AsistenteComando : asistente
+ControladorMision --> ControladorTablero : controladorTablero
+EjecutorMision --> Mision : mision
+EjecutorMision --> ControladorTablero : controlador
+ControladorLogin --> IVistaLogin : vista
+ControladorLogin --> UsuarioDAO : usuarioDAO
+ControladorCreacion --> IVistaCreacion : vista
+ControladorCreacion --> Nave : nave
+
+GeneradoraDeEnergia --> PlataformaDeCarga : plataforma
+NaveConsumidora --> PlataformaDeCarga : plataforma
+ControladorConcurrencia --> IVistaConcurrencia : vista
+ControladorConcurrencia --> IVista : vistaPrincipal
+ControladorConcurrencia --> PlataformaDeCarga : plataforma
+
+%% Dependencias de creacion y patrones Factory
+NaveFactory ..> Nave : crea
+CargoFactory ..> Cargo : crea
+OrigenFactory ..> DecoratorOrigen : crea
+MisionFactory ..> Mision : crea
+ControladorCreacion ..> ControladorMision : crea
+ControladorMision ..> ControladorTablero : crea
+ControladorMision ..> ControladorConcurrencia : crea
+ControladorTablero ..> EjecutorMision : crea
+ControladorTablero ..> VistaGameOver : crea
+ControladorTablero ..> ControladorLogin : crea
+ControladorLogin ..> VistaCreacionNaveTripulacion : crea
+ControladorConcurrencia ..> NaveConsumidora : crea
+ControladorConcurrencia ..> GeneradoraDeEnergia : crea
+
+%% Dependencias de uso sin relacion estructural equivalente
+UsuarioDAO ..> ConexionBD : usa
+UsuarioDAO ..> UsuarioDTO : mapea
+Nave ..> ResultadoNaves : retorna
+ControladorCreacion ..> NaveFactory : usa
+ControladorCreacion ..> CargoFactory : usa
+ControladorCreacion ..> OrigenFactory : usa
+ControladorMision ..> MisionFactory : usa
+
+%% Excepciones lanzadas por constructores y metodos
+AsistenteComando ..> NaveDestruidaException : throw
+
+PlataformaDeCarga ..> InterruptedException : throw
+
+Tablero ..> DimensionesDeTableroInconsistentesException : throw
+Tablero ..> CantidadDeElementosSuperaCasillaException : throw
+Tablero ..> IllegalStateException : throw
+ElementoDelUniverso ..> NaveDestruidaException : throw
+
+Asteroide ..> NaveDestruidaException : throw
+
+Mision ..> FaltaCombustibleException : throw
+Mision ..> ExcesoDesgasteException : throw
+Mision ..> NaveDestruidaException : throw
+MisionFactory ..> TipoMisionInvalidaException : throw
+
+Nave ..> FaltaEnergiaException : throw
+Nave ..> FaltaCombustibleException : throw
+Nave ..> ExcesoCombException : throw
+Nave ..> ExcesoDesgasteException : throw
+NaveExploradora ..> NaveDestruidaException : throw
+NaveCarguero ..> NaveDestruidaException : throw
+NaveCombate ..> NaveDestruidaException : throw
+NaveFactory ..> IllegalArgumentException : throw
+
+UsuarioDAO ..> CredencialesInvalidasException : throw
+
+CargoFactory ..> TipoCargoInvalidoException : throw
+OrigenFactory ..> TipoOrigenInvalidoException : throw
+
+EstadoWarp ..> FaltaCombustibleException : throw
+EstadoWarp ..> FaltaEnergiaException : throw
+EstadoWarp ..> ExcesoDesgasteException : throw
+EstadoDisponible ..> FaltaCombustibleException : throw
+EstadoPreparandoSalto ..> FaltaCombustibleException : throw
+EstadoEnWarp ..> FaltaCombustibleException : throw
+EstadoEnWarp ..> FaltaEnergiaException : throw
+EstadoEnWarp ..> ExcesoDesgasteException : throw
+EstadoEnfriamiento ..> FaltaCombustibleException : throw
+MotorWarp ..> FaltaCombustibleException : throw
+MotorWarp ..> FaltaEnergiaException : throw
+MotorWarp ..> ExcesoDesgasteException : throw
+MotorWarp ..> TransicionMotorInvalidaException : throw
