@@ -17,11 +17,11 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 
 public class ControladorTablero implements ActionListener {
-    private VistaPrincipal vista;
+    private IVista vista;
     private IVistaConcurrencia vistaConcurrencia;
     private ControladorConcurrencia controladorConcurrencia;
 
-    public ControladorTablero(VistaPrincipal vista, IVistaConcurrencia vistaConcurrencia, ControladorConcurrencia controladorConcurrencia) {
+    public ControladorTablero(IVista vista, IVistaConcurrencia vistaConcurrencia, ControladorConcurrencia controladorConcurrencia) {
         this.vista = vista;
         this.vistaConcurrencia = vistaConcurrencia;
         this.controladorConcurrencia = controladorConcurrencia;
