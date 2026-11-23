@@ -24,7 +24,7 @@ import java.nio.file.Path;
 public class ControladorMision implements ActionListener {
     private IVistaMision vistaMision;
     private AsistenteComando asistente;
-    private ControladorTablero controladorTablero; // Solo referencia al controlador, no a la vista
+
 
     public ControladorMision(IVistaMision vistaMision, AsistenteComando asistente) {
         this.vistaMision = vistaMision;

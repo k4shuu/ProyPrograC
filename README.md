@@ -13,32 +13,40 @@ Software Embarcado de una Nave Interestelar Tripulada (Entrega 1)
 3. Forma de iniciar el sistema
    El sistema se inicia ejecutando el archivo principal de demostración ubicado en la raíz del proyecto:
 
-Abrir el proyecto en IntelliJ IDEA.
-Navegar hasta la clase principal Main.java en la raíz.
-Hacer clic derecho sobre el archivo o el método main y seleccionar Run 'Main.main()'.
-4. Forma de ejecutar las verificaciones
-   Las evidencias funcionales y escenarios obligatorios se encuentran implementados mediante bloques en el archivo Main.java y se pueden verificar ejecutándolos o descomentándolos individualmente:
+Para ejecutar y recorrer el flujo completo de la aplicación, seguí estos pasos:
 
-Escenario A (Ejecución correcta de Misiones):
-Implementación: Requiere NaveFactory, AsistenteComando y MisionFactory.
-Ejecución: Se crean las naves, se asigna tripulación y se invoca el ciclo mediante mision.comenzar() para M-01, M-02 y M-03, imprimiendo el informe y la Bitacora.
+1. **Iniciar el programa:**  
+   Ejecutá la clase principal (`Main`) desde tu IDE o terminal para lanzar la aplicación.
 
-Escenario B (Recursos insuficientes / Errores controlados):
-Implementación: Utiliza Nave con recursos límite y excepciones específicas (FaltaCombustibleException, ExcesoDesgasteException, ExcesoEnergiaException).
-Ejecución: Al intentar ejecutar misiones sin recursos, se capturan las excepciones, se comprueba que el estado previo se conserva y se registra el motivo en la Bitacora.
+2. **Registro e inicio de sesión:**  
+   En la pantalla inicial, creá una nueva cuenta de usuario y luego ingresá con esas credenciales para acceder al simulador.
 
-Escenario C (Motor Warp - Patrón State):
-Implementación: Se apoya en la clase MotorWarp y sus clases de estado (EstadoDisponible, EstadoEnWarp, etc.) orquestadas desde AsistenteComando.
-Ejecución: Se prueba el camino feliz secuencial (solicitarPreparacionSalto(), solicitarEjecucionSalto(), etc.) y posteriormente se fuerzan transiciones inválidas para verificar su rechazo.
+3. **Creación de la nave y su tripulación:**
+   * Ingresá el nombre y tipo de nave, e instanciala.
+   * Agregá los tripulantes indicando nombre, origen, cargo y antigüedad (y cantidad de consejos si corresponde).
+   * **Requisito obligatorio:** Para poder avanzar al Centro de Comando, la nave debe contar **sí o sí con un Capitán** y un **mínimo de 4 tripulantes en total** (incluyendo al Capitán).
 
-Escenario D (Contratos y manejo de excepciones):
-Implementación: Métodos de validación interna de la clase Nave (cargarEnerg, usarCombustible, realizarDesgaste).
-Ejecución: Se ejecutan operaciones que exceden los límites (capacidades máximas o valores negativos) dentro de bloques try-catch, asegurando que no se produzcan cambios parciales en la nave.
-Liquidación de Haberes (Patrón Decorator):
-Ejecución: Se instancian tripulantes combinando clases abstractas de cargos y decoradores de origen/antigüedad, y se comprueba llamando al método getConceptoSueldo() o mediante asistente.mostrarLiquidacionHaberes().
+4. **Selección de misión:**  
+   Elegí una de las misiones disponibles (`M01 - Intercepción`, `M02 - Recolección` o `M03 - Retorno`) y presioná **Comenzar Misión**.
 
-5. Configuración local necesaria
+5. **Ejecución del juego y Módulo de Concurrencia:**
+   * Comienza la simulación en el **Tablero de Navegación**, donde podrás observar en tiempo real el radar espacial, la ruta trazada, las barras de recursos vitales (energía, desgaste y combustible) y la bitácora de sucesos.
+   * **Visor concurrente:** En cualquier momento durante la misión podés presionar el botón **Ir a Módulo de Concurrencia** para abrir el simulador paralelo de la plataforma de carga (generadores de energía y naves consumidoras). Si deseás regresar al tablero, podés hacerlo mediante el botón **Volver** sin interrumpir la simulación en curso.
+
+6. **Fin de la misión (Game Over):**  
+   Cuando la misión finaliza (ya sea con éxito o por fallo), se cierran el tablero y el módulo concurrente y se despliega automáticamente la pantalla de **Game Over / Fin de la Misión** con el informe detallado de balances y resultados. Desde allí podés presionar **Volver al Inicio** para regresar al Login.
+
+---
+
+## Arquitectura y Patrones Implementados
+
+* **MVC desacoplado por interfaces:** Cada pantalla define su propio contrato (`IVista`, `IVistaLogin`, `IVistaCreacion`, `IVistaMision`, `IVistaGameOver`, `IVistaConcurrencia`), evitando que los controladores dependan de componentes concretos de Swing.
+* **Patrón Observer unificado:** Centralizado en el paquete `observer` (`Observable` y `Observador`), utilizado para actualizar reactivamente tanto `VistaPrincipal` (a partir de `Tablero`) como `VistaConcurrencia` (a partir de `PlataformaDeCarga`).
+* **Concurrencia (Productor-Consumidor):** Sincronización de hilos (`GeneradoraDeEnergia` y `NaveConsumidora`) mediante monitores (`synchronized`, `wait()`, `notifyAll()`) sobre `PlataformaDeCarga`, con actualizaciones seguras en la interfaz mediante `SwingUtilities.invokeLater`.
+* **Otros patrones de diseño:** *Factory* (naves, cargos, orígenes y misiones), *Decorator* (orígenes de tripulantes), *State* (`MotorWarp`), *Singleton* (`Destino`) y *DAO/DTO* (persistencia de usuarios).
+
+1. Configuración local necesaria
    No se requieren bases de datos externas, archivos de configuración complejos ni dependencias adicionales, ya que todo opera en un entorno controlado en memoria para esta Entrega 1.
    
-6. Etiqueta correspondiente a la entrega
+2. Etiqueta correspondiente a la entrega
    Git Tag: entrega-e1
